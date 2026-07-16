@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">ANWELLUP brand mark</title>
+  <desc id="desc">A rising letter A with a green leaf crossbar.</desc>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M108 410 L256 82 L404 410" stroke="#102A43" stroke-width="68"/>
+  </g>
+  <path d="M154 322 C210 247 309 238 370 300 C303 299 227 332 154 322 Z" fill="#4E8F63"/>
+  <path d="M189 310 C242 287 294 279 340 285" fill="none" stroke="#F6F5EF" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+</svg>

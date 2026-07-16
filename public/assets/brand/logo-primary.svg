@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 400" role="img" aria-labelledby="title desc">
+  <title id="title">ANWELLUP primary logo</title>
+  <desc id="desc">ANWELLUP wordmark with a rising A and leaf symbol, plus Rise for the Future tagline.</desc>
+  <g transform="translate(52 28) scale(.66)">
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M108 410 L256 82 L404 410" stroke="#102A43" stroke-width="68"/>
+    </g>
+    <path d="M154 322 C210 247 309 238 370 300 C303 299 227 332 154 322 Z" fill="#4E8F63"/>
+    <path d="M189 310 C242 287 294 279 340 285" fill="none" stroke="#F6F5EF" stroke-width="12" stroke-linecap="round" opacity="0.9"/>
+  </g>
+  <text x="380" y="205" fill="#102A43" font-family="Aptos Display, Montserrat, Arial, sans-serif" font-size="154" font-weight="700" letter-spacing="8">ANWELL</text>
+  <text x="1118" y="205" fill="#4E8F63" font-family="Aptos Display, Montserrat, Arial, sans-serif" font-size="154" font-weight="700" letter-spacing="8">UP</text>
+  <line x1="386" y1="250" x2="1392" y2="250" stroke="#D6DED9" stroke-width="3"/>
+  <text x="389" y="316" fill="#536475" font-family="Aptos, Montserrat, Arial, sans-serif" font-size="42" font-weight="600" letter-spacing="12">RISE FOR THE FUTURE</text>
+</svg>

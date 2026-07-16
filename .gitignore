@@ -1,0 +1,10 @@
+node_modules/
+dist/
+output/
+design-qa.md
+public/assets/generated/**/*.png
+public/assets/products/
+public/assets/scenes/
+*.local
+*.log
+.DS_Store
