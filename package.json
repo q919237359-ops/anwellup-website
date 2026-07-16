@@ -15,7 +15,6 @@
     "@fontsource-variable/geist": "5.2.9",
     "@fontsource-variable/manrope": "^5.2.6",
     "@fontsource/ibm-plex-mono": "^5.2.6",
-    "@gsap/react": "2.1.2",
     "@phosphor-icons/react": "^2.1.10",
     "gsap": "3.15.0",
     "motion": "^12.23.12",

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowDownRight,
@@ -14,13 +14,8 @@ import {
   WhatsappLogo,
   X,
 } from "@phosphor-icons/react";
-import { useGSAP } from "@gsap/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { categories, products, type CategoryId, type Product } from "./data";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const WHATSAPP_NUMBER = "8618818283961";
 type ActiveCategory = "all" | CategoryId;
@@ -78,8 +73,11 @@ function ProductCard({
           className="product-image"
           src={product.image}
           alt={`${product.name}, ${product.sku}`}
+          width={900}
+          height={675}
           loading="lazy"
           decoding="async"
+          fetchPriority="low"
         />
       </div>
       <div className="product-card-body">
@@ -200,7 +198,7 @@ function InquiryDrawer({
                 <div className="drawer-list">
                   {selectedProducts.map((product) => (
                     <div className="drawer-item" key={product.sku}>
-                      <img src={product.image} alt="" />
+                      <img src={product.image} alt="" width={900} height={675} loading="lazy" decoding="async" />
                       <div>
                         <span>{product.sku}</span>
                         <strong>{product.name}</strong>
@@ -282,98 +280,123 @@ function App() {
     .map((sku) => products.find((product) => product.sku === sku))
     .filter((product): product is Product => Boolean(product));
 
-  useGSAP(
-    () => {
-      if (reduceMotion) return;
-      const mm = gsap.matchMedia();
+  useEffect(() => {
+    if (reduceMotion) return;
 
-      mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".hero-title-line > span", {
-          yPercent: 115,
-          opacity: 0,
-          duration: 1.25,
-          stagger: 0.12,
-          ease: "power4.out",
-        });
-        gsap.from(".hero-support, .hero-story-link", {
-          y: 28,
-          opacity: 0,
-          duration: 0.9,
-          stagger: 0.13,
-          delay: 0.35,
-          ease: "power3.out",
-        });
-        gsap.to(".hero-photo", {
-          scale: 1.08,
-          yPercent: 6,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".cinematic-hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        });
-        gsap.fromTo(
-          ".material-story-image",
-          { scale: 0.86, opacity: 0.72 },
-          {
-            scale: 1.04,
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".material-story",
-              start: "top 85%",
-              end: "bottom 25%",
-              scrub: 1.1,
-            },
-          },
-        );
-        gsap.to(".material-story-word", {
-          opacity: 1,
-          stagger: 0.05,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".material-story-copy",
-            start: "top 72%",
-            end: "bottom 42%",
-            scrub: 0.8,
-          },
-        });
+    let cancelled = false;
+    let disposeMotion = () => {};
 
-        const track = document.querySelector<HTMLElement>(".materials-track");
-        if (track) {
-          const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + 96);
-          gsap.to(track, {
-            x: () => -distance(),
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".materials-showcase",
-              start: "top top",
-              end: () => `+=${distance() + 420}`,
-              pin: true,
-              scrub: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-        }
+    // Keep first paint independent from GSAP parsing, then attach the complete
+    // motion system on the next frame without changing any animation behavior.
+    const frame = window.requestAnimationFrame(() => {
+      void Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(
+        ([{ default: gsap }, { ScrollTrigger }]) => {
+          if (cancelled) return;
 
-        gsap.utils.toArray<HTMLElement>(".process-item").forEach((item, index) => {
-          gsap.from(item, {
-            y: 70,
-            opacity: 0,
-            duration: 0.9,
-            delay: index * 0.03,
-            ease: "power3.out",
-            scrollTrigger: { trigger: item, start: "top 88%" },
-          });
-        });
-      });
+          gsap.registerPlugin(ScrollTrigger);
+          let revertMedia = () => {};
+          const context = gsap.context(() => {
+            const mm = gsap.matchMedia();
+            revertMedia = () => mm.revert();
 
-      return () => mm.revert();
-    },
-    { scope: rootRef, dependencies: [reduceMotion] },
-  );
+            mm.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
+              gsap.from(".hero-title-line > span", {
+                yPercent: 115,
+                opacity: 0,
+                duration: 1.25,
+                stagger: 0.12,
+                ease: "power4.out",
+              });
+              gsap.from(".hero-support, .hero-story-link", {
+                y: 28,
+                opacity: 0,
+                duration: 0.9,
+                stagger: 0.13,
+                delay: 0.35,
+                ease: "power3.out",
+              });
+              gsap.to(".hero-photo", {
+                scale: 1.08,
+                yPercent: 6,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: ".cinematic-hero",
+                  start: "top top",
+                  end: "bottom top",
+                  scrub: 1.2,
+                },
+              });
+              gsap.fromTo(
+                ".material-story-image",
+                { scale: 0.86, opacity: 0.72 },
+                {
+                  scale: 1.04,
+                  opacity: 1,
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: ".material-story",
+                    start: "top 85%",
+                    end: "bottom 25%",
+                    scrub: 1.1,
+                  },
+                },
+              );
+              gsap.to(".material-story-word", {
+                opacity: 1,
+                stagger: 0.05,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: ".material-story-copy",
+                  start: "top 72%",
+                  end: "bottom 42%",
+                  scrub: 0.8,
+                },
+              });
+
+              const track = document.querySelector<HTMLElement>(".materials-track");
+              if (track) {
+                const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + 96);
+                gsap.to(track, {
+                  x: () => -distance(),
+                  ease: "none",
+                  scrollTrigger: {
+                    trigger: ".materials-showcase",
+                    start: "top top",
+                    end: () => `+=${distance() + 420}`,
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                  },
+                });
+              }
+
+              gsap.utils.toArray<HTMLElement>(".process-item").forEach((item, index) => {
+                gsap.from(item, {
+                  y: 70,
+                  opacity: 0,
+                  duration: 0.9,
+                  delay: index * 0.03,
+                  ease: "power3.out",
+                  scrollTrigger: { trigger: item, start: "top 88%" },
+                });
+              });
+            });
+          }, rootRef);
+
+          disposeMotion = () => {
+            revertMedia();
+            context.revert();
+          };
+        },
+      );
+    });
+
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
+      disposeMotion();
+    };
+  }, [reduceMotion]);
 
   const toggleProduct = (sku: string) => {
     setSelectedSkus((current) =>
@@ -451,9 +474,12 @@ function App() {
         <section className="cinematic-hero" id="top">
           <img
             className="hero-photo"
-            src="/assets/generated/cinematic/hero-regenerative-cinema.jpg"
+            src="/assets/generated/cinematic/hero-regenerative-cinema.webp"
             alt="ANWELLUP sustainable food packaging on a sculptural material platform"
+            width={1672}
+            height={941}
             fetchPriority="high"
+            decoding="async"
           />
           <div className="hero-vignette" />
           <div className="hero-content">
@@ -474,9 +500,13 @@ function App() {
         <section className="material-story" id="material-story">
           <img
             className="material-story-image"
-            src="/assets/generated/cinematic/fiber-macro-regenerative.jpg"
+            src="/assets/generated/cinematic/fiber-macro-regenerative.webp"
             alt="Extreme close-up of molded plant-fiber packaging"
+            width={1672}
+            height={941}
             loading="lazy"
+            decoding="async"
+            fetchPriority="low"
           />
           <div className="material-story-shade" />
           <div className="material-story-copy">
@@ -506,7 +536,13 @@ function App() {
           <div className="materials-track">
             {categories.map((category) => (
               <article className="material-panel" key={category.id}>
-                <img src={category.image} alt={`${category.label} packaging`} loading="lazy" />
+                <img
+                  src={category.image}
+                  alt={`${category.label} packaging`}
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                />
                 <div className="material-panel-copy">
                   <span>{products.filter((product) => product.category === category.id).length} products</span>
                   <h3>{category.label}</h3>
@@ -602,7 +638,15 @@ function App() {
 
         <section className="customization-section" id="customization">
           <div className="customization-image">
-            <img src="/assets/generated/scenes/customization-oem.jpg" alt="OEM packaging customization samples" loading="lazy" />
+            <img
+              src="/assets/generated/scenes/customization-oem.webp"
+              alt="OEM packaging customization samples"
+              width={1003}
+              height={1568}
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
+            />
           </div>
           <Reveal className="customization-copy">
             <p>Make the range yours.</p>
@@ -635,7 +679,15 @@ function App() {
         </section>
 
         <section className="final-cta">
-          <img src="/assets/generated/scenes/quality-alignment.jpg" alt="Packaging quality inspection" loading="lazy" />
+          <img
+            src="/assets/generated/scenes/quality-alignment.webp"
+            alt="Packaging quality inspection"
+            width={1568}
+            height={1003}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+          />
           <div className="final-cta-shade" />
           <Reveal className="final-cta-copy">
             <h2>Bring the brief.<br />Leave with a clear next step.</h2>

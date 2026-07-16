@@ -20,8 +20,8 @@ export type Category = {
   image: string;
 };
 
-const productImage = (name: string) => `/assets/products/${name}`;
-const generatedProductImage = (sku: string) => `/assets/generated/products/${sku.toLowerCase()}.jpg`;
+const productImage = (name: string) => `/assets/products/${name.replace(/\.(?:png|jpe?g)$/i, ".webp")}`;
+const generatedProductImage = (sku: string) => `/assets/generated/products/${sku.toLowerCase()}.webp`;
 
 export const categories: Category[] = [
   {
@@ -29,35 +29,35 @@ export const categories: Category[] = [
     label: "Plant Fiber",
     shortLabel: "Plant Fiber",
     description: "Bagasse clamshells, bowls, plates and meal trays for hot and cold food programs.",
-    image: "/assets/generated/scenes/category-plant-fiber.jpg",
+    image: "/assets/generated/scenes/category-plant-fiber.webp",
   },
   {
     id: "paper",
     label: "Paper + Kraft",
     shortLabel: "Paper + Kraft",
     description: "Printable cups, bowls and takeaway formats with broad foodservice acceptance.",
-    image: "/assets/generated/scenes/category-paper-kraft.jpg",
+    image: "/assets/generated/scenes/category-paper-kraft.webp",
   },
   {
     id: "aluminium",
     label: "Aluminium",
     shortLabel: "Aluminium",
     description: "Barrier and heat performance across containers, rolls, sheets and baking paper.",
-    image: "/assets/generated/scenes/category-aluminium.jpg",
+    image: "/assets/generated/scenes/category-aluminium.webp",
   },
   {
     id: "clear",
     label: "Clear + Performance",
     shortLabel: "PET + PP",
     description: "High-clarity drinkware and prepared-food formats where visibility matters.",
-    image: "/assets/generated/scenes/category-clear-performance.jpg",
+    image: "/assets/generated/scenes/category-clear-performance.webp",
   },
   {
     id: "hygiene",
     label: "Hygiene Essentials",
     shortLabel: "Gloves",
     description: "Selected vinyl, nitrile and TPE handling gloves for operational use.",
-    image: "/assets/generated/scenes/category-hygiene.jpg",
+    image: "/assets/generated/scenes/category-hygiene.webp",
   },
 ];
 
