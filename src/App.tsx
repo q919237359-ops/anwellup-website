@@ -4,6 +4,7 @@ import {
   ArrowDownRight,
   ArrowRight,
   Check,
+  CopySimple,
   DownloadSimple,
   List,
   MagnifyingGlass,
@@ -11,13 +12,11 @@ import {
   Package,
   Plus,
   ShoppingCartSimple,
-  WhatsappLogo,
   X,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { categories, products, type CategoryId, type Product } from "./data";
 
-const WHATSAPP_NUMBER = "8618818283961";
 type ActiveCategory = "all" | CategoryId;
 
 const capabilities = [
@@ -134,6 +133,7 @@ function InquiryDrawer({
   onClear: () => void;
 }) {
   const reduceMotion = useReducedMotion();
+  const [copied, setCopied] = useState(false);
   const message = [
     "Hello ANWELLUP,",
     "",
@@ -142,7 +142,12 @@ function InquiryDrawer({
     "",
     "Please share availability and commercial terms. Thank you.",
   ].join("\n");
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+  const copyInquiry = async () => {
+    await navigator.clipboard.writeText(message);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
 
   return (
     <AnimatePresence>
@@ -181,7 +186,7 @@ function InquiryDrawer({
               <div className="drawer-empty">
                 <Package size={36} weight="light" />
                 <h3>No products selected</h3>
-                <p>Add products from the range, then send the complete list through WhatsApp.</p>
+                <p>Add products from the range, then copy the complete inquiry when it is ready.</p>
                 <button
                   className="drawer-text-link"
                   type="button"
@@ -215,10 +220,10 @@ function InquiryDrawer({
                     Each SKU and size is included. Specifications and commercial terms remain subject to written
                     confirmation.
                   </p>
-                  <a href={whatsappUrl} target="_blank" rel="noreferrer">
-                    <WhatsappLogo size={20} weight="fill" />
-                    Send via WhatsApp
-                  </a>
+                  <button className="copy-inquiry" type="button" onClick={() => void copyInquiry()}>
+                    {copied ? <Check size={20} weight="bold" /> : <CopySimple size={20} weight="bold" />}
+                    {copied ? "Inquiry copied" : "Copy inquiry details"}
+                  </button>
                   <button type="button" onClick={onClear}>Clear list</button>
                 </div>
               </>
@@ -562,7 +567,7 @@ function App() {
               <p>Build the list around the real application.</p>
               <h2>Find the format.<br />Start the conversation.</h2>
             </div>
-            <p>Search every SKU, combine materials and send one structured WhatsApp inquiry.</p>
+            <p>Search every SKU, combine materials and build one structured product inquiry.</p>
           </Reveal>
 
           <div className="product-tools">
@@ -706,10 +711,6 @@ function App() {
           <a href="#products">Products</a>
           <a href="#customization">Customization</a>
           <a href="#process">Process</a>
-        </div>
-        <div>
-          <span>WhatsApp</span>
-          <a href="https://wa.me/8618818283961" target="_blank" rel="noreferrer">+86 188 1828 3961</a>
         </div>
         <p>Product specifications, certifications and destination-market claims require written confirmation.</p>
       </footer>

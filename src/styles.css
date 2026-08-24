@@ -1168,7 +1168,7 @@ input:focus-visible {
 
 .site-footer {
   display: grid;
-  grid-template-columns: 1fr 0.75fr 0.75fr 1.35fr;
+  grid-template-columns: 1fr 0.75fr 1.35fr;
   gap: 50px;
   padding: 64px clamp(28px, 5.5vw, 92px) 115px;
   border-top: 1px solid var(--line);
@@ -1355,17 +1355,21 @@ input:focus-visible {
   line-height: 1.45;
 }
 
-.drawer-actions a {
+.drawer-actions > button.copy-inquiry {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 100%;
+  margin: 0;
+  border: 0;
   min-height: 56px;
   background: var(--yellow);
   color: #100d08;
   font-weight: 720;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .drawer-actions > button {
