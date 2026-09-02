@@ -8,7 +8,7 @@ ANWELLUP's English B2B product website for sustainable food-packaging buyers, di
 - 63 products across five material categories
 - SKU, material, product-name and size search
 - Persistent inquiry list across the full page
-- Structured quotation inquiry builder
+- Structured WhatsApp quotation handoff and inquiry builder
 - Downloadable English product catalogue
 - Responsive desktop and mobile layouts
 - Reduced-motion support for accessibility and performance

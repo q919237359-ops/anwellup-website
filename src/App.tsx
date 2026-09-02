@@ -12,12 +12,18 @@ import {
   Package,
   Plus,
   ShoppingCartSimple,
+  WhatsappLogo,
   X,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { categories, products, type CategoryId, type Product } from "./data";
 
 type ActiveCategory = "all" | CategoryId;
+const WHATSAPP_NUMBER = "8613202830014";
+const WHATSAPP_DISPLAY = "+86 132 0283 0014";
+const GENERAL_WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hello ANWELLUP, I would like to learn more about your food packaging products.",
+)}`;
 
 const capabilities = [
   ["Format development", "Existing formats or a new size aligned to the application."],
@@ -142,6 +148,7 @@ function InquiryDrawer({
     "",
     "Please share availability and commercial terms. Thank you.",
   ].join("\n");
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
   const copyInquiry = async () => {
     await navigator.clipboard.writeText(message);
@@ -220,6 +227,10 @@ function InquiryDrawer({
                     Each SKU and size is included. Specifications and commercial terms remain subject to written
                     confirmation.
                   </p>
+                  <a className="whatsapp-inquiry" href={whatsappUrl} target="_blank" rel="noreferrer">
+                    <WhatsappLogo size={21} weight="fill" />
+                    Send via WhatsApp
+                  </a>
                   <button className="copy-inquiry" type="button" onClick={() => void copyInquiry()}>
                     {copied ? <Check size={20} weight="bold" /> : <CopySimple size={20} weight="bold" />}
                     {copied ? "Inquiry copied" : "Copy inquiry details"}
@@ -712,8 +723,26 @@ function App() {
           <a href="#customization">Customization</a>
           <a href="#process">Process</a>
         </div>
+        <div>
+          <span>WhatsApp</span>
+          <a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noreferrer">{WHATSAPP_DISPLAY}</a>
+        </div>
         <p>Product specifications, certifications and destination-market claims require written confirmation.</p>
       </footer>
+
+      <motion.a
+        className="whatsapp-float"
+        href={GENERAL_WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`Chat with ANWELLUP on WhatsApp at ${WHATSAPP_DISPLAY}`}
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.88, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
+      >
+        <WhatsappLogo size={23} weight="fill" />
+        <span>WhatsApp</span>
+      </motion.a>
 
       <PersistentInquiry count={selectedSkus.length} onOpen={() => setDrawerOpen(true)} />
       <InquiryDrawer

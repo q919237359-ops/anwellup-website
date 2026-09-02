@@ -1168,7 +1168,7 @@ input:focus-visible {
 
 .site-footer {
   display: grid;
-  grid-template-columns: 1fr 0.75fr 1.35fr;
+  grid-template-columns: 1fr 0.75fr 0.75fr 1.35fr;
   gap: 50px;
   padding: 64px clamp(28px, 5.5vw, 92px) 115px;
   border-top: 1px solid var(--line);
@@ -1202,6 +1202,34 @@ input:focus-visible {
 
 .site-footer p {
   margin: 0;
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 72;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 19px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  background: #25d366;
+  color: #07180e;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.34), 0 0 0 0 rgba(37, 211, 102, 0.28);
+  font-size: 0.72rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.whatsapp-float:hover {
+  background: #31df72;
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.42), 0 0 0 8px rgba(37, 211, 102, 0.12);
+  transform: translateY(-3px) !important;
 }
 
 /* Inquiry drawer */
@@ -1355,19 +1383,40 @@ input:focus-visible {
   line-height: 1.45;
 }
 
+.drawer-actions > a.whatsapp-inquiry {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  background: #25d366;
+  color: #07180e;
+  font-weight: 720;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.drawer-actions > a.whatsapp-inquiry:hover {
+  background: #31df72;
+  color: #07180e;
+  transform: translateY(-2px);
+}
+
 .drawer-actions > button.copy-inquiry {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   width: 100%;
-  margin: 0;
-  border: 0;
-  min-height: 56px;
-  background: var(--yellow);
-  color: #100d08;
-  font-weight: 720;
-  letter-spacing: 0.06em;
+  min-height: 50px;
+  margin: 10px 0 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ivory);
+  font-weight: 650;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -1647,6 +1696,19 @@ input:focus-visible {
     width: calc(100vw - 20px);
     min-height: 68px;
     border-radius: 9px;
+  }
+
+  .whatsapp-float {
+    right: 14px;
+    bottom: 92px;
+    min-width: 52px;
+    min-height: 52px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .whatsapp-float span {
+    display: none;
   }
 
   .inquiry-console-main {
