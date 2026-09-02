@@ -437,7 +437,7 @@ function App() {
     <div className="site-shell" ref={rootRef}>
       <header className="cinematic-header">
         <a className="brand-link" href="#top" aria-label="ANWELLUP home" onClick={closeMobileMenu}>
-          <img src="/assets/brand/logo-reversed.svg" alt="ANWELLUP" />
+          <img src="/assets/brand/logo-primary.svg" alt="ANWELLUP" />
         </a>
         <nav className="desktop-nav" aria-label="Primary navigation">
           <a href="#materials">Materials</a>
@@ -716,7 +716,7 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <img src="/assets/brand/logo-reversed.svg" alt="ANWELLUP" />
+        <img src="/assets/brand/logo-primary.svg" alt="ANWELLUP" />
         <div>
           <a href="#materials">Materials</a>
           <a href="#products">Products</a>
