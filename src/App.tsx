@@ -16,6 +16,13 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  analyticsConfigured,
+  getAnalyticsConsent,
+  setAnalyticsConsent,
+  trackEvent,
+  type AnalyticsConsent,
+} from "./analytics";
 import { categories, products, type CategoryId, type Product } from "./data";
 
 type ActiveCategory = "all" | CategoryId;
@@ -24,6 +31,249 @@ const WHATSAPP_DISPLAY = "+86 132 0283 0014";
 const GENERAL_WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   "Hello ANWELLUP, I would like to learn more about your food packaging products.",
 )}`;
+
+type PageMeta = {
+  title: string;
+  description: string;
+  structuredData: Record<string, unknown>;
+};
+
+type InformationPage = {
+  eyebrow: string;
+  title: string;
+  introduction: string;
+  sections: Array<{ title: string; body: string }>;
+  note?: string;
+};
+
+const informationPages: Record<string, InformationPage> = {
+  "/about/": {
+    eyebrow: "About ANWELLUP",
+    title: "A clearer way to source food packaging.",
+    introduction:
+      "ANWELLUP organizes a broad food-packaging range around the details professional buyers need to compare: material, format, dimensions, case pack and intended application.",
+    sections: [
+      {
+        title: "Built around the buying brief",
+        body: "Start with the food application, destination market, channel and expected quantity. We use that context to narrow the range before commercial terms are discussed.",
+      },
+      {
+        title: "A multi-material view",
+        body: "Plant fiber, paper and kraft, aluminium, clear formats and selected handling essentials can be reviewed in one catalogue and combined in one inquiry.",
+      },
+      {
+        title: "Specific before persuasive",
+        body: "Product specifications and market claims are confirmed against the selected SKU. This keeps early conversations useful without presenting unverified statements as fact.",
+      },
+    ],
+    note: "Company registration details, facilities and verified certifications will be added only after the corresponding records are available for review.",
+  },
+  "/quality-compliance/": {
+    eyebrow: "Quality + compliance",
+    title: "The product, document and destination must align.",
+    introduction:
+      "Food-contact and sustainability requirements vary by material, product construction and destination market. ANWELLUP treats compliance as a SKU-level confirmation, not a blanket website claim.",
+    sections: [
+      {
+        title: "01 — Confirm the specification",
+        body: "We begin with the exact item, dimensions, material, case pack and intended food application shown in the inquiry.",
+      },
+      {
+        title: "02 — Review the destination",
+        body: "The destination market and buyer requirements determine which declarations, test reports or supporting documents should be checked.",
+      },
+      {
+        title: "03 — Match the available records",
+        body: "Applicable documents are reviewed against the requested SKU and current validity before any written claim is made.",
+      },
+      {
+        title: "04 — Confirm in writing",
+        body: "Specifications, availability and commercial terms remain subject to written confirmation for the final order configuration.",
+      },
+    ],
+    note: "Ask us which supporting documents are available for the exact products and destination in your brief.",
+  },
+  "/samples-ordering/": {
+    eyebrow: "Samples + ordering",
+    title: "Move from product list to an actionable brief.",
+    introduction:
+      "Use the catalogue and inquiry builder to send the products you are evaluating. Sample availability, minimum quantities, lead time and freight are confirmed for the selected range.",
+    sections: [
+      {
+        title: "01 — Share the application",
+        body: "Tell us the food use, destination market, sales channel and expected quantity so the request can be reviewed in context.",
+      },
+      {
+        title: "02 — Align the range",
+        body: "We compare the selected SKUs, materials, sizes and case packs and identify any information still needed.",
+      },
+      {
+        title: "03 — Confirm samples",
+        body: "Sample availability, quantities and freight arrangements are confirmed before dispatch. No universal sample promise is assumed across the catalogue.",
+      },
+      {
+        title: "04 — Confirm commercial terms",
+        body: "MOQ, quotation basis, lead time, artwork requirements and packing details are confirmed in writing for the agreed configuration.",
+      },
+    ],
+    note: "Adding SKU references to your message is the fastest way to begin a useful review.",
+  },
+  "/contact/": {
+    eyebrow: "Contact sales",
+    title: "Send a brief we can act on.",
+    introduction:
+      "For the quickest product review, include the SKU or format, destination market, application and estimated quantity in your WhatsApp message.",
+    sections: [
+      { title: "Product", body: "Add the relevant SKU, format, capacity or dimensions." },
+      { title: "Market", body: "Tell us the destination country or region and the intended sales channel." },
+      { title: "Quantity", body: "Share an estimated order or annual volume if it is already available." },
+      { title: "Timing", body: "Add the target delivery window or sample deadline where relevant." },
+    ],
+    note: "Email contact will be published after a domain-based mailbox has been configured and verified.",
+  },
+  "/privacy/": {
+    eyebrow: "Privacy",
+    title: "How this website handles information.",
+    introduction:
+      "This notice describes the current public website. It will be updated when new data collection or contact services are introduced.",
+    sections: [
+      {
+        title: "Inquiry selections",
+        body: "The products you add to the inquiry list are stored locally in your browser so the list can remain available. They are not sent to ANWELLUP until you choose to open WhatsApp or copy the message.",
+      },
+      {
+        title: "WhatsApp",
+        body: "When you follow a WhatsApp link, your interaction is handled by WhatsApp under its own terms and privacy practices. Review the message before sending it.",
+      },
+      {
+        title: "Optional analytics",
+        body: "If analytics services are configured, they load only after you accept optional analytics. The website does not intentionally send names, telephone numbers or inquiry-message content to analytics tools.",
+      },
+      {
+        title: "Hosting records",
+        body: "The hosting and network providers may process standard technical logs needed to deliver and secure the website.",
+      },
+    ],
+    note: "Last updated: 3 September 2026.",
+  },
+  "/terms/": {
+    eyebrow: "Website terms",
+    title: "Website information is a starting point, not a final specification.",
+    introduction:
+      "By using this website, you acknowledge that catalogue information supports initial product selection and does not replace a written quotation, approved sample or final specification.",
+    sections: [
+      {
+        title: "Product information",
+        body: "Dimensions, materials, case packs, images and availability may require confirmation for the exact SKU and order configuration.",
+      },
+      {
+        title: "Claims and suitability",
+        body: "Food-contact, sustainability and destination-market claims must be confirmed against the relevant product records and intended use.",
+      },
+      {
+        title: "Commercial terms",
+        body: "Pricing, minimum quantities, tooling, samples, lead time, payment and shipment terms apply only when provided in a current written quotation.",
+      },
+      {
+        title: "External services",
+        body: "Links to WhatsApp and other external services are provided for convenience and are governed by those services' own terms.",
+      },
+    ],
+    note: "Last updated: 3 September 2026.",
+  },
+};
+
+const pageDescriptions: Record<string, { title: string; description: string }> = {
+  "/": {
+    title: "ANWELLUP | Sustainable Food Packaging for B2B Buyers",
+    description:
+      "Explore 63 food-packaging products across plant fiber, paper, aluminium, clear formats and handling essentials. Build one structured B2B inquiry.",
+  },
+  "/about/": {
+    title: "About ANWELLUP | Food Packaging Sourcing",
+    description: "Learn how ANWELLUP structures multi-material food-packaging enquiries for professional buyers.",
+  },
+  "/quality-compliance/": {
+    title: "Quality & Compliance | ANWELLUP",
+    description: "See how product specifications, supporting documents and destination-market requirements are aligned before confirmation.",
+  },
+  "/samples-ordering/": {
+    title: "Samples & Ordering | ANWELLUP",
+    description: "Understand the ANWELLUP product review, sample, quotation and order-confirmation workflow.",
+  },
+  "/contact/": {
+    title: "Contact ANWELLUP | WhatsApp Product Enquiries",
+    description: `Contact ANWELLUP on WhatsApp at ${WHATSAPP_DISPLAY} with product SKUs, destination and estimated quantity.`,
+  },
+  "/privacy/": {
+    title: "Privacy | ANWELLUP",
+    description: "Read how the ANWELLUP website handles inquiry selections, optional analytics and external WhatsApp links.",
+  },
+  "/terms/": {
+    title: "Website Terms | ANWELLUP",
+    description: "Read the terms applying to ANWELLUP catalogue information, product claims and commercial enquiries.",
+  },
+  "/404/": {
+    title: "Page not found | ANWELLUP",
+    description: "The requested ANWELLUP page could not be found.",
+  },
+};
+
+function normalizePathname(pathname: string) {
+  if (pathname === "/" || pathname === "/404.html") return pathname === "/404.html" ? "/404/" : "/";
+  const clean = `/${pathname.split("?")[0].split("#")[0].replace(/^\/+|\/+$/g, "")}/`;
+  return pageDescriptions[clean] ? clean : "/404/";
+}
+
+export function getPageMeta(pathname: string): PageMeta {
+  const normalizedPath = normalizePathname(pathname);
+  const copy = pageDescriptions[normalizedPath] ?? pageDescriptions["/404/"];
+  const url = `https://anwellup.com${normalizedPath === "/404/" ? pathname : normalizedPath}`;
+  const graph: Record<string, unknown>[] = [
+    {
+      "@type": "Organization",
+      "@id": "https://anwellup.com/#organization",
+      name: "ANWELLUP",
+      url: "https://anwellup.com/",
+      logo: "https://anwellup.com/assets/brand/logo-primary.svg",
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: WHATSAPP_DISPLAY,
+        contactType: "sales",
+        availableLanguage: "English",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://anwellup.com/#website",
+      url: "https://anwellup.com/",
+      name: "ANWELLUP",
+      publisher: { "@id": "https://anwellup.com/#organization" },
+      inLanguage: "en",
+    },
+  ];
+
+  if (normalizedPath !== "/") {
+    graph.push({
+      "@type": "WebPage",
+      "@id": `${url}#webpage`,
+      url,
+      name: copy.title,
+      description: copy.description,
+      isPartOf: { "@id": "https://anwellup.com/#website" },
+      about: { "@id": "https://anwellup.com/#organization" },
+      inLanguage: "en",
+    });
+  }
+
+  return {
+    ...copy,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@graph": graph,
+    },
+  };
+}
 
 const capabilities = [
   ["Format development", "Existing formats or a new size aligned to the application."],
@@ -139,21 +389,51 @@ function InquiryDrawer({
   onClear: () => void;
 }) {
   const reduceMotion = useReducedMotion();
-  const [copied, setCopied] = useState(false);
-  const message = [
-    "Hello ANWELLUP,",
-    "",
-    "I would like to request a quotation for:",
-    ...selectedProducts.map((product) => `- ${product.sku} | ${product.name} | ${product.size}`),
-    "",
-    "Please share availability and commercial terms. Thank you.",
-  ].join("\n");
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle");
+  const [buyer, setBuyer] = useState({ name: "", company: "", market: "", quantity: "" });
+
+  const message = useMemo(
+    () =>
+      [
+        "Hello ANWELLUP,",
+        "",
+        "I would like to request a quotation for:",
+        ...selectedProducts.map((product) => `- ${product.sku} | ${product.name} | ${product.size}`),
+        "",
+        `Name: ${buyer.name || "Not provided"}`,
+        `Company: ${buyer.company || "Not provided"}`,
+        `Destination market: ${buyer.market || "Not provided"}`,
+        `Estimated quantity: ${buyer.quantity || "To be discussed"}`,
+        "",
+        "Please share availability and the commercial terms applicable to this request. Thank you.",
+      ].join("\n"),
+    [buyer, selectedProducts],
+  );
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [onClose, open]);
+
   const copyInquiry = async () => {
-    await navigator.clipboard.writeText(message);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
+    try {
+      await navigator.clipboard.writeText(message);
+      setCopyState("copied");
+      trackEvent("inquiry_copy", { item_count: selectedProducts.length });
+    } catch {
+      setCopyState("error");
+    }
+    window.setTimeout(() => setCopyState("idle"), 2200);
   };
 
   return (
@@ -222,21 +502,80 @@ function InquiryDrawer({
                     </div>
                   ))}
                 </div>
-                <div className="drawer-actions">
+                <form className="drawer-actions" onSubmit={(event) => event.preventDefault()}>
+                  <fieldset className="buyer-fields">
+                    <legend>Help us qualify the request</legend>
+                    <label>
+                      <span>Your name</span>
+                      <input
+                        name="name"
+                        value={buyer.name}
+                        onChange={(event) => setBuyer((current) => ({ ...current, name: event.target.value }))}
+                        autoComplete="name"
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>Company</span>
+                      <input
+                        name="company"
+                        value={buyer.company}
+                        onChange={(event) => setBuyer((current) => ({ ...current, company: event.target.value }))}
+                        autoComplete="organization"
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>Destination market</span>
+                      <input
+                        name="market"
+                        value={buyer.market}
+                        onChange={(event) => setBuyer((current) => ({ ...current, market: event.target.value }))}
+                        placeholder="Country or region"
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>Estimated quantity</span>
+                      <input
+                        name="quantity"
+                        value={buyer.quantity}
+                        onChange={(event) => setBuyer((current) => ({ ...current, quantity: event.target.value }))}
+                        placeholder="Optional"
+                      />
+                    </label>
+                  </fieldset>
                   <p>
                     Each SKU and size is included. Specifications and commercial terms remain subject to written
                     confirmation.
                   </p>
-                  <a className="whatsapp-inquiry" href={whatsappUrl} target="_blank" rel="noreferrer">
+                  <a
+                    className="whatsapp-inquiry"
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(event) => {
+                      const form = event.currentTarget.closest("form");
+                      if (form && !form.reportValidity()) {
+                        event.preventDefault();
+                        return;
+                      }
+                      trackEvent("inquiry_whatsapp_click", { item_count: selectedProducts.length });
+                    }}
+                  >
                     <WhatsappLogo size={21} weight="fill" />
                     Send via WhatsApp
                   </a>
                   <button className="copy-inquiry" type="button" onClick={() => void copyInquiry()}>
-                    {copied ? <Check size={20} weight="bold" /> : <CopySimple size={20} weight="bold" />}
-                    {copied ? "Inquiry copied" : "Copy inquiry details"}
+                    {copyState === "copied" ? <Check size={20} weight="bold" /> : <CopySimple size={20} weight="bold" />}
+                    {copyState === "copied"
+                      ? "Inquiry copied"
+                      : copyState === "error"
+                        ? "Copy failed — select WhatsApp"
+                        : "Copy inquiry details"}
                   </button>
                   <button type="button" onClick={onClear}>Clear list</button>
-                </div>
+                </form>
               </>
             )}
           </motion.aside>
@@ -266,8 +605,167 @@ function PersistentInquiry({ count, onOpen }: { count: number; onOpen: () => voi
   );
 }
 
-function App() {
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <a href="/" aria-label="ANWELLUP home">
+        <img src="/assets/brand/logo-primary.svg" alt="ANWELLUP" />
+      </a>
+      <div>
+        <span>Product range</span>
+        <a href="/#materials">Materials</a>
+        <a href="/#products">Products</a>
+        <a href="/#customization">Customization</a>
+      </div>
+      <div>
+        <span>Buyer information</span>
+        <a href="/about/">About</a>
+        <a href="/quality-compliance/">Quality + compliance</a>
+        <a href="/samples-ordering/">Samples + ordering</a>
+        <a href="/contact/">Contact</a>
+      </div>
+      <div>
+        <span>WhatsApp</span>
+        <a
+          href={GENERAL_WHATSAPP_URL}
+          target="_blank"
+          rel="noreferrer"
+          onClick={() => trackEvent("whatsapp_click", { placement: "footer" })}
+        >
+          {WHATSAPP_DISPLAY}
+        </a>
+        <nav className="legal-links" aria-label="Legal">
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+        </nav>
+      </div>
+      <p>Product specifications, certifications and destination-market claims require written confirmation.</p>
+    </footer>
+  );
+}
+
+function CookieConsent() {
+  const [choice, setChoice] = useState<AnalyticsConsent>(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setChoice(getAnalyticsConsent());
+    setReady(true);
+  }, []);
+
+  if (!analyticsConfigured || !ready || choice) return null;
+
+  const choose = (nextChoice: Exclude<AnalyticsConsent, null>) => {
+    setAnalyticsConsent(nextChoice);
+    setChoice(nextChoice);
+  };
+
+  return (
+    <aside className="consent-banner" aria-label="Analytics choice">
+      <p>
+        We use essential browser storage for your inquiry list. Optional analytics help us understand product interest.
+        <a href="/privacy/"> Read the privacy notice</a>.
+      </p>
+      <div>
+        <button type="button" onClick={() => choose("essential")}>Essential only</button>
+        <button type="button" onClick={() => choose("accepted")}>Accept analytics</button>
+      </div>
+    </aside>
+  );
+}
+
+function InformationHeader() {
+  return (
+    <header className="information-header">
+      <a className="brand-link" href="/" aria-label="ANWELLUP home">
+        <img src="/assets/brand/logo-primary.svg" alt="ANWELLUP" />
+      </a>
+      <nav aria-label="Information pages">
+        <a href="/#products">Products</a>
+        <a href="/quality-compliance/">Quality</a>
+        <a href="/samples-ordering/">Ordering</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+      <a
+        className="information-whatsapp"
+        href={GENERAL_WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        onClick={() => trackEvent("whatsapp_click", { placement: "information_header" })}
+      >
+        <WhatsappLogo size={18} weight="fill" /> WhatsApp
+      </a>
+    </header>
+  );
+}
+
+function InformationPage({ pathname }: { pathname: string }) {
+  const page = informationPages[pathname];
+  if (!page) return <NotFoundPage />;
+
+  const isContact = pathname === "/contact/";
+
+  return (
+    <div className="site-shell information-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <InformationHeader />
+      <main id="main-content" className="information-main">
+        <header className="information-hero">
+          <p>{page.eyebrow}</p>
+          <h1>{page.title}</h1>
+          <div>
+            <p>{page.introduction}</p>
+            <a href="/">Back to product range <ArrowRight size={18} /></a>
+          </div>
+        </header>
+        <section className="information-grid" aria-label={`${page.eyebrow} details`}>
+          {page.sections.map((section) => (
+            <article key={section.title}>
+              <h2>{section.title}</h2>
+              <p>{section.body}</p>
+            </article>
+          ))}
+        </section>
+        <section className="information-callout">
+          <p>{page.note}</p>
+          {isContact ? (
+            <a
+              href={GENERAL_WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackEvent("whatsapp_click", { placement: "contact_callout" })}
+            >
+              <WhatsappLogo size={20} weight="fill" /> Message {WHATSAPP_DISPLAY}
+            </a>
+          ) : (
+            <a href="/contact/">Continue to contact <ArrowRight size={18} /></a>
+          )}
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+
+function NotFoundPage() {
+  return (
+    <div className="site-shell information-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <InformationHeader />
+      <main id="main-content" className="not-found">
+        <p>404</p>
+        <h1>This page is not in the catalogue.</h1>
+        <p>The address may have changed, or the page may no longer be available.</p>
+        <a href="/">Return to the product range <ArrowRight size={18} /></a>
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+
+function HomePage() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const inquiryStorageReady = useRef(false);
   const reduceMotion = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState<ActiveCategory>("all");
   const [query, setQuery] = useState("");
@@ -295,6 +793,27 @@ function App() {
   const selectedProducts = selectedSkus
     .map((sku) => products.find((product) => product.sku === sku))
     .filter((product): product is Product => Boolean(product));
+
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem("anwellup_inquiry_skus");
+      if (stored) {
+        const parsed = JSON.parse(stored) as unknown;
+        if (Array.isArray(parsed)) {
+          setSelectedSkus(parsed.filter((sku): sku is string => typeof sku === "string" && products.some((product) => product.sku === sku)));
+        }
+      }
+    } catch {
+      window.localStorage.removeItem("anwellup_inquiry_skus");
+    } finally {
+      inquiryStorageReady.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!inquiryStorageReady.current) return;
+    window.localStorage.setItem("anwellup_inquiry_skus", JSON.stringify(selectedSkus));
+  }, [selectedSkus]);
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -415,15 +934,22 @@ function App() {
   }, [reduceMotion]);
 
   const toggleProduct = (sku: string) => {
-    setSelectedSkus((current) =>
-      current.includes(sku) ? current.filter((item) => item !== sku) : [...current, sku],
-    );
+    setSelectedSkus((current) => {
+      const selected = current.includes(sku);
+      const product = products.find((item) => item.sku === sku);
+      trackEvent(selected ? "remove_from_inquiry" : "add_to_inquiry", {
+        sku,
+        category: product?.category,
+      });
+      return selected ? current.filter((item) => item !== sku) : [...current, sku];
+    });
   };
 
   const selectCategory = (category: ActiveCategory) => {
     setActiveCategory(category);
     setQuery("");
     setShowAll(category !== "all");
+    trackEvent("category_filter", { category });
   };
 
   const browseCategory = (category: CategoryId) => {
@@ -432,9 +958,14 @@ function App() {
   };
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
+  const openInquiry = (placement: string) => {
+    trackEvent("inquiry_open", { placement, item_count: selectedSkus.length });
+    setDrawerOpen(true);
+  };
 
   return (
     <div className="site-shell" ref={rootRef}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="cinematic-header">
         <a className="brand-link" href="#top" aria-label="ANWELLUP home" onClick={closeMobileMenu}>
           <img src="/assets/brand/logo-primary.svg" alt="ANWELLUP" />
@@ -446,10 +977,15 @@ function App() {
           <a href="#process">Process</a>
         </nav>
         <div className="header-actions">
-          <a className="download-link" href="/downloads/ANWELLUP_Product_Catalogue_2026.pdf" download>
+          <a
+            className="download-link"
+            href="/downloads/ANWELLUP_Product_Catalogue_2026.pdf"
+            download
+            onClick={() => trackEvent("catalog_download", { placement: "header" })}
+          >
             <DownloadSimple size={17} /> Download catalogue
           </a>
-          <button className="header-inquiry" type="button" onClick={() => setDrawerOpen(true)}>
+          <button className="header-inquiry" type="button" onClick={() => openInquiry("header")}>
             <ShoppingCartSimple size={17} />
             Build inquiry
             {selectedSkus.length > 0 && <span>{selectedSkus.length}</span>}
@@ -479,14 +1015,21 @@ function App() {
             {["Materials", "Products", "Customization", "Process"].map((item) => (
               <a key={item} href={`#${item.toLowerCase()}`} onClick={closeMobileMenu}>{item}</a>
             ))}
-            <a href="/downloads/ANWELLUP_Product_Catalogue_2026.pdf" download onClick={closeMobileMenu}>
+            <a
+              href="/downloads/ANWELLUP_Product_Catalogue_2026.pdf"
+              download
+              onClick={() => {
+                closeMobileMenu();
+                trackEvent("catalog_download", { placement: "mobile_menu" });
+              }}
+            >
               Download catalogue
             </a>
           </motion.nav>
         )}
       </AnimatePresence>
 
-      <main>
+      <main id="main-content">
         <section className="cinematic-hero" id="top">
           <img
             className="hero-photo"
@@ -604,6 +1147,10 @@ function App() {
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
+                onBlur={() => {
+                  const searchTerm = query.trim();
+                  if (searchTerm) trackEvent("product_search", { query_length: searchTerm.length, result_count: filteredProducts.length });
+                }}
                 placeholder="Search SKU, format or size"
               />
               {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search"><X size={16} /></button>}
@@ -613,7 +1160,7 @@ function App() {
           <div className="results-meta">
             <span>Showing {visibleProducts.length} of {filteredProducts.length} matches</span>
             {selectedSkus.length > 0 && (
-              <button type="button" onClick={() => setDrawerOpen(true)}>
+              <button type="button" onClick={() => openInquiry("results_meta")}>
                 {selectedSkus.length} in inquiry <ArrowRight size={16} />
               </button>
             )}
@@ -650,6 +1197,28 @@ function App() {
               Show all 63 products <span><ArrowDown size={18} /></span>
             </button>
           )}
+        </section>
+
+        <section className="buyer-proof" aria-labelledby="buyer-proof-title">
+          <div className="buyer-proof-intro">
+            <p>Buyer-ready by design</p>
+            <h2 id="buyer-proof-title">Compare the range.<br />Verify the details.</h2>
+            <p>
+              The catalogue gives your team a practical starting point. Final specifications, documents and
+              commercial terms are aligned to the exact request before commitment.
+            </p>
+          </div>
+          <dl className="range-facts">
+            <div><dt>{products.length}</dt><dd>catalogued SKUs</dd></div>
+            <div><dt>{categories.length}</dt><dd>material families</dd></div>
+            <div><dt>01</dt><dd>consolidated inquiry</dd></div>
+          </dl>
+          <nav className="buyer-proof-links" aria-label="Buyer information">
+            <a href="/about/"><span>Company + approach</span><ArrowRight size={19} /></a>
+            <a href="/quality-compliance/"><span>Quality + compliance</span><ArrowRight size={19} /></a>
+            <a href="/samples-ordering/"><span>Samples + ordering</span><ArrowRight size={19} /></a>
+            <a href="/contact/"><span>Contact sales</span><ArrowRight size={19} /></a>
+          </nav>
         </section>
 
         <section className="customization-section" id="customization">
@@ -708,27 +1277,14 @@ function App() {
           <Reveal className="final-cta-copy">
             <h2>Bring the brief.<br />Leave with a clear next step.</h2>
             <p>Choose the formats you need and send the whole range as one structured inquiry.</p>
-            <button type="button" onClick={() => setDrawerOpen(true)}>
+            <button type="button" onClick={() => openInquiry("final_cta")}>
               Build your inquiry <span><ArrowRight size={19} /></span>
             </button>
           </Reveal>
         </section>
       </main>
 
-      <footer className="site-footer">
-        <img src="/assets/brand/logo-primary.svg" alt="ANWELLUP" />
-        <div>
-          <a href="#materials">Materials</a>
-          <a href="#products">Products</a>
-          <a href="#customization">Customization</a>
-          <a href="#process">Process</a>
-        </div>
-        <div>
-          <span>WhatsApp</span>
-          <a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noreferrer">{WHATSAPP_DISPLAY}</a>
-        </div>
-        <p>Product specifications, certifications and destination-market claims require written confirmation.</p>
-      </footer>
+      <SiteFooter />
 
       <motion.a
         className="whatsapp-float"
@@ -736,6 +1292,7 @@ function App() {
         target="_blank"
         rel="noreferrer"
         aria-label={`Chat with ANWELLUP on WhatsApp at ${WHATSAPP_DISPLAY}`}
+        onClick={() => trackEvent("whatsapp_click", { placement: "floating_button" })}
         initial={reduceMotion ? false : { opacity: 0, scale: 0.88, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ delay: 0.8, duration: 0.55, ease: [0.32, 0.72, 0, 1] }}
@@ -744,7 +1301,7 @@ function App() {
         <span>WhatsApp</span>
       </motion.a>
 
-      <PersistentInquiry count={selectedSkus.length} onOpen={() => setDrawerOpen(true)} />
+      <PersistentInquiry count={selectedSkus.length} onOpen={() => openInquiry("persistent_console")} />
       <InquiryDrawer
         open={drawerOpen}
         selectedProducts={selectedProducts}
@@ -753,6 +1310,16 @@ function App() {
         onClear={() => setSelectedSkus([])}
       />
     </div>
+  );
+}
+
+function App({ pathname = "/" }: { pathname?: string }) {
+  const normalizedPath = normalizePathname(pathname);
+  return (
+    <>
+      {normalizedPath === "/" ? <HomePage /> : <InformationPage pathname={normalizedPath} />}
+      <CookieConsent />
+    </>
   );
 }
 
