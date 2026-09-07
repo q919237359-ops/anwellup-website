@@ -512,6 +512,11 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .guide-body section > ul { margin: 23px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
 .guide-body section > ul li { padding: 13px 0 14px 25px; border-bottom: 1px solid var(--line); font-size: 12px; position: relative; }
 .guide-body section > ul li::before { content: ""; position: absolute; top: 20px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--sage); }
+.guide-inline-links { grid-column: 2; display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 21px; }
+.guide-inline-link { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--line-strong); color: var(--ink); font-size: 11px; transition: color .25s ease, border-color .25s ease; }
+.guide-inline-link svg { transition: transform .25s ease; }
+.guide-inline-link:hover { color: var(--orange-dark); border-color: var(--orange-dark); }
+.guide-inline-link:hover svg { transform: translate(2px,-2px); }
 .guide-body > .guide-questions { margin-bottom: 0; border-bottom: 0; }
 .guide-questions dl { margin: 8px 0 0; }
 .guide-questions dl > div { padding: 25px 0 28px; border-top: 1px solid var(--line-strong); }

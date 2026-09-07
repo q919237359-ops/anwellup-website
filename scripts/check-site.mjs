@@ -38,8 +38,17 @@ const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
-assert.equal(buyingGuides.length, 3);
+assert.equal(buyingGuides.length, 7);
 assert.equal(new Set(buyingGuides.map(guide => guide.slug)).size, buyingGuides.length);
+assert(buyingGuides.every(guide => guide.sections.length >= 6), "Every guide needs a substantial decision structure");
+assert(buyingGuides.every(guide => guide.questions.length >= 3), "Every guide needs visible buyer questions");
+assert(buyingGuides.every(guide => guide.related.length >= 3), "Every guide needs at least three related paths");
+for (const guide of buyingGuides) {
+  const imageMetadata = await sharp(path.join(root, "public", guide.image.replace(/^\//, ""))).metadata();
+  assert.equal(imageMetadata.format, "webp", `Guide image must be WebP: ${guide.slug}`);
+  assert.equal(imageMetadata.width, guide.imageWidth, `Guide image width mismatch: ${guide.slug}`);
+  assert.equal(imageMetadata.height, guide.imageHeight, `Guide image height mismatch: ${guide.slug}`);
+}
 const bagCategory = catalogCategories.find(category => category.id === "bags");
 assert.equal(bagCategory.image, "/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.webp");
 const bagMetadata = await sharp(path.join(root, "public", bagCategory.image)).metadata();
@@ -175,8 +184,13 @@ assert(guideIndex.includes('"@type":"CollectionPage"'), "Guide index must expose
 for (const guide of buyingGuides) {
   const html = readPage(`guides/${guide.slug}`);
   assert(html.includes('"@type":"Article"'), `Guide must expose Article structured data: ${guide.slug}`);
+  assert(html.includes('"@type":"FAQPage"'), `Guide must expose visible FAQ structured data: ${guide.slug}`);
   assert(html.includes(guide.title), `Guide title missing from output: ${guide.slug}`);
   assert(html.includes('href="/guides/food-packaging-rfq-checklist/"') || guide.slug === "food-packaging-rfq-checklist", `Guide must connect to the RFQ cluster: ${guide.slug}`);
+}
+for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide"]) {
+  const html = readPage(`guides/${slug}`);
+  assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Decision guide needs three or more contextual links: ${slug}`);
 }
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);

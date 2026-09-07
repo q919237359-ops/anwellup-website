@@ -60,9 +60,21 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         inLanguage: "en",
         author: { "@id": "https://anwellup.com/#organization" },
         publisher: { "@id": "https://anwellup.com/#organization" },
+        mainEntityOfPage: pageUrl,
         isPartOf: { "@id": "https://anwellup.com/#website" },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
-        about: ["Food packaging sourcing", "Wholesale packaging", "Request for quotation"],
+        about: [guide.shortTitle, "Food packaging sourcing", "Wholesale packaging", "Request for quotation"],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#questions`,
+        url: `${pageUrl}#questions`,
+        mainEntity: guide.questions.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
       },
     ]} />
     <nav className="breadcrumb" aria-label="Breadcrumb"><Link href="/guides/"><ArrowLeft size={16}/> Buying guides</Link><span aria-hidden="true">/</span><span aria-current="page">{guide.shortTitle}</span></nav>
@@ -71,7 +83,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <div><span className="eyebrow">Buyer&apos;s guide / {guide.updated}</span><h1>{guide.title}</h1></div>
         <p>{guide.lede}</p>
       </header>
-      <figure className="guide-lead-figure"><img src={guide.image} alt={guide.imageAlt} width={guide.imageWidth} height={guide.imageHeight}/><figcaption>ANWELLUP range illustration. Confirm the selected model and specification with your enquiry.</figcaption></figure>
+      <figure className="guide-lead-figure"><img src={guide.image} alt={guide.imageAlt} width={guide.imageWidth} height={guide.imageHeight}/><figcaption>Reference image for this buyer guide. Confirm the selected model, evidence and specification with your enquiry.</figcaption></figure>
       <div className="guide-layout">
         <aside aria-label="In this guide"><span className="eyebrow">In this guide</span><ol>{guide.sections.map((section, index) => <li key={section.heading}><a href={`#section-${index + 1}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.heading}</a></li>)}</ol></aside>
         <div className="guide-body">
@@ -79,8 +91,9 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             <span>{String(index + 1).padStart(2, "0")}</span><h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             {section.checklist && <ul>{section.checklist.map((item) => <li key={item}>{item}</li>)}</ul>}
+            {section.links && <div className="guide-inline-links">{section.links.map((item) => <Link className="guide-inline-link" href={item.href} key={item.href}>{item.label}<ArrowUpRight size={16}/></Link>)}</div>}
           </section>)}
-          <section className="guide-questions" aria-labelledby="guide-questions-title"><span>Q</span><h2 id="guide-questions-title">Common sourcing questions.</h2><dl>{guide.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>
+          <section id="questions" className="guide-questions" aria-labelledby="guide-questions-title"><span>Q</span><h2 id="guide-questions-title">Common sourcing questions.</h2><dl>{guide.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>
         </div>
       </div>
     </article>

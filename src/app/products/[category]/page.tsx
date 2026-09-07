@@ -36,11 +36,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const materials = allMaterials(families);
   const seo = categorySeoContent[category.id];
   const pageUrl = `https://anwellup.com/products/${category.slug}/`;
-  const focusedGuide = category.id === "cups"
-    ? { label: "Disposable cup sourcing guide", href: "/guides/disposable-cup-sourcing-guide/" }
-    : category.id === "boxes" || category.id === "tableware"
-      ? { label: "Takeaway container sourcing guide", href: "/guides/takeaway-container-sourcing-guide/" }
-      : null;
+  const focusedGuides = {
+    cups: { label: "Disposable cup sourcing guide", href: "/guides/disposable-cup-sourcing-guide/" },
+    boxes: { label: "Takeaway container sourcing guide", href: "/guides/takeaway-container-sourcing-guide/" },
+    tableware: { label: "Food packaging material comparison", href: "/guides/food-packaging-materials-comparison/" },
+    foil: { label: "Food packaging material comparison", href: "/guides/food-packaging-materials-comparison/" },
+    cutlery: { label: "Food packaging MOQ guide", href: "/guides/food-packaging-moq-guide/" },
+    bags: { label: "Custom packaging printing guide", href: "/guides/custom-food-packaging-printing-guide/" },
+    gloves: { label: "Food packaging MOQ guide", href: "/guides/food-packaging-moq-guide/" },
+  } as const;
+  const focusedGuide = focusedGuides[category.id];
   return <main id="main-content" className="page-main category-page">
     <JsonLd data={[
       {
@@ -100,7 +105,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         <h2>Questions to settle before quotation.</h2>
         <dl>{seo.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl>
       </div>
-      <div className="category-guide-links"><span className="eyebrow">Continue the brief</span><div>{focusedGuide && <Link href={focusedGuide.href}>{focusedGuide.label}<ArrowUpRight size={18}/></Link>}<Link href="/guides/food-packaging-rfq-checklist/">Food packaging RFQ checklist<ArrowUpRight size={18}/></Link></div></div>
+      <div className="category-guide-links"><span className="eyebrow">Continue the brief</span><div><Link href={focusedGuide.href}>{focusedGuide.label}<ArrowUpRight size={18}/></Link><Link href="/guides/food-packaging-rfq-checklist/">Food packaging RFQ checklist<ArrowUpRight size={18}/></Link></div></div>
     </section>
   </main>;
 }
