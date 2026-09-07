@@ -29,6 +29,7 @@ function load(relative) {
 }
 
 const { catalogCategories, productFamilies, equipmentFamilies } = load("src/catalog.ts");
+const { buyingGuides } = load("src/guides.ts");
 const { filterCatalog, matchingVariants, materialsForCategory, readCatalogFilters, writeCatalogFilters } = load("src/lib/catalog-search.ts");
 const { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GENERAL_WHATSAPP_URL, whatsappInquiryUrl } = load("src/lib/contact.ts");
 const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
@@ -37,6 +38,8 @@ const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
+assert.equal(buyingGuides.length, 3);
+assert.equal(new Set(buyingGuides.map(guide => guide.slug)).size, buyingGuides.length);
 const bagCategory = catalogCategories.find(category => category.id === "bags");
 assert.equal(bagCategory.image, "/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.webp");
 const bagMetadata = await sharp(path.join(root, "public", bagCategory.image)).metadata();
@@ -149,6 +152,7 @@ assert(home.includes("hero-regenerative-cinema.webp"));
 assert(home.includes("anwellup-logo-primary-orange-transparent.webp"));
 assert(home.includes("carry-shopping-bags-sage-composite-v2.webp"));
 assert(home.includes("Wholesale Food Packaging Supplier | ANWELLUP"), "Homepage must expose the search-led title");
+assert(home.includes('href="/guides/"'), "Homepage must link to the buying-guide hub");
 assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage must use the approved matching backdrop");
 assert(!home.includes("cinema-baseline"));
 assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
@@ -166,6 +170,14 @@ assert(readPage("products/cups-drinkware").includes('"@type":"CollectionPage"'),
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
+const guideIndex = readPage("guides");
+assert(guideIndex.includes('"@type":"CollectionPage"'), "Guide index must expose CollectionPage structured data");
+for (const guide of buyingGuides) {
+  const html = readPage(`guides/${guide.slug}`);
+  assert(html.includes('"@type":"Article"'), `Guide must expose Article structured data: ${guide.slug}`);
+  assert(html.includes(guide.title), `Guide title missing from output: ${guide.slug}`);
+  assert(html.includes('href="/guides/food-packaging-rfq-checklist/"') || guide.slug === "food-packaging-rfq-checklist", `Guide must connect to the RFQ cluster: ${guide.slug}`);
+}
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);

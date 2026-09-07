@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { allMaterials, catalogCategories, getCategory, getFamiliesByCategory } from "../../../catalog";
 import { CategoryFamilyBrowser } from "../../../components/CategoryFamilyBrowser";
 import { JsonLd } from "../../../components/JsonLd";
@@ -36,6 +36,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const materials = allMaterials(families);
   const seo = categorySeoContent[category.id];
   const pageUrl = `https://anwellup.com/products/${category.slug}/`;
+  const focusedGuide = category.id === "cups"
+    ? { label: "Disposable cup sourcing guide", href: "/guides/disposable-cup-sourcing-guide/" }
+    : category.id === "boxes" || category.id === "tableware"
+      ? { label: "Takeaway container sourcing guide", href: "/guides/takeaway-container-sourcing-guide/" }
+      : null;
   return <main id="main-content" className="page-main category-page">
     <JsonLd data={[
       {
@@ -95,6 +100,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         <h2>Questions to settle before quotation.</h2>
         <dl>{seo.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl>
       </div>
+      <div className="category-guide-links"><span className="eyebrow">Continue the brief</span><div>{focusedGuide && <Link href={focusedGuide.href}>{focusedGuide.label}<ArrowUpRight size={18}/></Link>}<Link href="/guides/food-packaging-rfq-checklist/">Food packaging RFQ checklist<ArrowUpRight size={18}/></Link></div></div>
     </section>
   </main>;
 }

@@ -12,6 +12,7 @@ const navigation = [
   ["Customization", "/capabilities/"],
   ["Manufacturing", "/manufacturing/"],
   ["Quality", "/quality-compliance/"],
+  ["Guides", "/guides/"],
   ["Contact", "/contact/"],
 ] as const;
 

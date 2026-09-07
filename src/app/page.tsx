@@ -4,6 +4,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/
 import { catalogCategories } from "../catalog";
 import { OpenInquiryButton } from "../components/InquiryProvider";
 import { ScrollMotion } from "../components/ScrollMotion";
+import { buyingGuides } from "../guides";
 
 export const metadata: Metadata = {
   title: { absolute: "Wholesale Food Packaging Supplier | ANWELLUP" },
@@ -57,6 +58,11 @@ export default function HomePage() {
       <figure><img src="/assets/manufacturing/2026-09-source/aluminium-factory-overview-source.webp" alt="Factory exterior from the Ningbo Times aluminium packaging catalogue" width={720} height={362} loading="lazy" /><figcaption>Source: Ningbo Times catalogue. Facility relationship confirmed per project.</figcaption></figure>
     </section>
     <section className="collaboration-section" aria-labelledby="collaboration-title"><header data-reveal><h2 id="collaboration-title">From selection<br/>to specification.</h2></header><ol>{steps.map(([title, body], index) => <li data-reveal key={title}><span>{String(index + 1).padStart(2,"0")}</span><h3>{title}</h3><p>{body}</p></li>)}</ol><div className="collaboration-links"><Link href="/quality-compliance/">Quality &amp; product documents <ArrowUpRight size={17}/></Link><a href="/downloads/ANWELLUP_Product_Catalogue_2026.pdf" download data-analytics-event="catalog_download" data-analytics-location="homepage">Download catalogue <ArrowDown size={17}/></a></div></section>
+    <section className="home-guides" aria-labelledby="home-guides-title">
+      <header data-reveal><span className="eyebrow">Buyer&apos;s reference</span><h2 id="home-guides-title">A clearer way<br/>to prepare the brief.</h2><p>Practical notes for comparing formats and giving a supplier the context needed for a useful quotation.</p></header>
+      <ol>{buyingGuides.map((guide, index) => <li data-reveal key={guide.slug}><span>{String(index + 1).padStart(2, "0")}</span><Link href={`/guides/${guide.slug}/`}><h3>{guide.shortTitle}</h3><ArrowUpRight size={20}/></Link><p>{guide.description}</p></li>)}</ol>
+      <Link className="editorial-link" href="/guides/">All buying guides <span><ArrowRight size={19}/></span></Link>
+    </section>
     <section className="editorial-closing" data-reveal><h2>Let’s talk packaging.</h2><OpenInquiryButton className="editorial-link">Enquire <span><ArrowUpRight size={23}/></span></OpenInquiryButton></section>
   </main></ScrollMotion>;
 }
