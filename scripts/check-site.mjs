@@ -117,6 +117,7 @@ let structuredDataBlocks = 0;
 const readPage = route => fs.readFileSync(path.join(out, route, "index.html"), "utf8");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
+  const isNotFoundPage = file.endsWith("404.html") || file.includes(`${path.sep}404${path.sep}`) || file.includes("_not-found");
   assert(!html.includes("\ufffd"), `Encoding replacement character in ${file}`);
   assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, `One H1 required: ${file}`);
   assert(!/8618818283961|188 1828 3961/.test(html), `Superseded phone number in ${file}`);
@@ -127,7 +128,7 @@ for (const file of htmlFiles) {
     JSON.parse(match[1]);
     structuredDataBlocks++;
   }
-  if (!file.endsWith("404.html") && !file.includes("_not-found")) {
+  if (!isNotFoundPage) {
     const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
     const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1];
     const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
@@ -139,7 +140,7 @@ for (const file of htmlFiles) {
   }
   for (const link of html.matchAll(/href="(https:\/\/wa\.me\/[^" ]*)"/g)) assert.equal(new URL(link[1].replaceAll("&amp;", "&")).pathname, `/${WHATSAPP_NUMBER}`);
   for (const match of html.matchAll(/(?:src|href)="(\/[^"#?]*)"/g)) if (!match[1].startsWith("//")) refs.add(match[1]);
-  if (!file.endsWith("404.html") && !file.includes("_not-found")) refs.add("/" + path.relative(out, file).replaceAll("\\", "/").replace(/index\.html$/, ""));
+  if (!isNotFoundPage) refs.add("/" + path.relative(out, file).replaceAll("\\", "/").replace(/index\.html$/, ""));
 }
 const home = readPage("");
 const robots = fs.readFileSync(path.join(out, "robots.txt"), "utf8");

@@ -6,7 +6,7 @@ import { OpenInquiryButton } from "../components/InquiryProvider";
 import { ScrollMotion } from "../components/ScrollMotion";
 
 export const metadata: Metadata = {
-  title: "Wholesale Food Packaging Supplier",
+  title: { absolute: "Wholesale Food Packaging Supplier | ANWELLUP" },
   description: "Explore ANWELLUP cups, takeaway containers, tableware, foil, cutlery, carry bags and gloves for wholesale and custom sourcing projects.",
   alternates: { canonical: "/" },
 };
