@@ -6,6 +6,7 @@ import { ArrowRight, MagnifyingGlass } from "@phosphor-icons/react";
 import type { CatalogCategory, ProductFamily } from "../catalog";
 import { filterCatalog, matchingVariants, materialsForCategory, readCatalogFilters, writeCatalogFilters } from "../lib/catalog-search";
 import { ProductDetailDrawer } from "./ProductDetailDrawer";
+import { trackEvent } from "../lib/analytics";
 
 export function CatalogExplorer({ categories, families }: { categories: CatalogCategory[]; families: ProductFamily[] }) {
   const [query, setQuery] = useState("");
@@ -41,15 +42,34 @@ export function CatalogExplorer({ categories, families }: { categories: CatalogC
   const availableMaterials = useMemo(() => materialsForCategory(families, category), [category, families]);
   const browsing = !query.trim() && category === "all" && material === "all";
   const filtered = useMemo(() => filterCatalog(families, category, query, material), [category, families, material, query]);
+  useEffect(() => {
+    const normalized = query.trim();
+    if (normalized.length < 2) return;
+    const timer = window.setTimeout(() => trackEvent("product_search", { query_length: normalized.length, result_count: filtered.length }), 800);
+    return () => window.clearTimeout(timer);
+  }, [filtered.length, query]);
+
+  const selectCategory = (nextCategory: typeof category) => {
+    trackEvent("category_filter", { filter_type: "category", filter_value: nextCategory });
+    updateFilters(nextCategory, query);
+  };
+  const selectMaterial = (nextMaterial: string) => {
+    trackEvent("category_filter", { filter_type: "material", filter_value: nextMaterial });
+    updateFilters(category, query, nextMaterial);
+  };
+  const previewFamily = (family: ProductFamily) => {
+    trackEvent("product_preview", { family: family.id, category: family.category });
+    setSelected(family);
+  };
 
   return <section className="catalog-explorer" aria-labelledby="catalog-results-title">
     <div className="catalog-controls">
       <div className="catalog-filter-stack">
         <div className="category-filter" role="group" aria-label="Filter by category">
-          <button className={category === "all" ? "active" : ""} type="button" aria-pressed={category === "all"} onClick={() => updateFilters("all", query)}>All</button>
-          {categories.map((item) => <button className={category === item.id ? "active" : ""} type="button" aria-pressed={category === item.id} onClick={() => updateFilters(item.id, query)} key={item.id}>{item.shortLabel}</button>)}
+          <button className={category === "all" ? "active" : ""} type="button" aria-pressed={category === "all"} onClick={() => selectCategory("all")}>All</button>
+          {categories.map((item) => <button className={category === item.id ? "active" : ""} type="button" aria-pressed={category === item.id} onClick={() => selectCategory(item.id)} key={item.id}>{item.shortLabel}</button>)}
         </div>
-        <div className="material-filter" role="group" aria-label="Filter by material"><span>Material</span><div><button className={material === "all" ? "active" : ""} type="button" aria-pressed={material === "all"} onClick={() => updateFilters(category, query, "all")}>All</button>{availableMaterials.map(item => <button className={material === item ? "active" : ""} type="button" aria-pressed={material === item} onClick={() => updateFilters(category, query, item)} key={item}>{item}</button>)}</div></div>
+        <div className="material-filter" role="group" aria-label="Filter by material"><span>Material</span><div><button className={material === "all" ? "active" : ""} type="button" aria-pressed={material === "all"} onClick={() => selectMaterial("all")}>All</button>{availableMaterials.map(item => <button className={material === item ? "active" : ""} type="button" aria-pressed={material === item} onClick={() => selectMaterial(item)} key={item}>{item}</button>)}</div></div>
       </div>
       <label className="catalog-search"><MagnifyingGlass size={19} /><span className="sr-only">Search products, materials, sizes and ANWELLUP SKUs</span><input type="search" value={query} onChange={(event) => updateFilters(category, event.target.value)} placeholder="Product, size or AW SKU" /></label>
     </div>
@@ -60,11 +80,11 @@ export function CatalogExplorer({ categories, families }: { categories: CatalogC
         const matches = matchingVariants(family.variants, query);
         const familyHref = `/products/${categoryRecord.slug}/${family.id}/`;
         return <article className="family-row" key={family.id}>
-          <div className="family-copy"><span>{categoryRecord.label}</span><h3><button className="family-preview-title" type="button" onClick={() => setSelected(family)} aria-haspopup="dialog">{family.name}</button></h3><p>{family.summary}</p><div className="tag-row">{family.materials.map((item) => <button className={material === item ? "active" : ""} type="button" onClick={() => updateFilters(category, query, item)} key={item}>{item}</button>)}</div>
+          <div className="family-copy"><span>{categoryRecord.label}</span><h3><button className="family-preview-title" type="button" onClick={() => previewFamily(family)} aria-haspopup="dialog">{family.name}</button></h3><p>{family.summary}</p><div className="tag-row">{family.materials.map((item) => <button className={material === item ? "active" : ""} type="button" onClick={() => selectMaterial(item)} key={item}>{item}</button>)}</div>
             {matches.length > 0 && <div className="model-matches"><span>{matches.length} matching {matches.length === 1 ? "model" : "models"}</span><ul>{matches.slice(0, 3).map(variant => <li key={variant.sku}><Link href={`${familyHref}#model-${variant.sku}`}><code>{variant.sku}</code><span>{variant.label}</span><ArrowRight size={16} aria-hidden="true" /></Link></li>)}</ul>{matches.length > 3 && <Link className="more-models" href={`${familyHref}#spec-title`}>View all specifications <ArrowRight size={16} aria-hidden="true" /></Link>}</div>}
           </div>
           <div className="family-meta"><span>{family.variants.length} {family.variants.length === 1 ? "variant" : "variants"}</span><code>{family.sku}</code></div>
-          <button className="family-link" type="button" onClick={() => setSelected(family)} aria-haspopup="dialog" aria-label={`Quick view ${family.name}`}><ArrowRight size={22} /></button>
+          <button className="family-link" type="button" onClick={() => previewFamily(family)} aria-haspopup="dialog" aria-label={`Quick view ${family.name}`}><ArrowRight size={22} /></button>
         </article>;
       })}
     </div> : <div className="empty-state"><h3>No matching family.</h3><p>Try another material, size or ANWELLUP SKU.</p>{category !== "all" && <button type="button" onClick={() => updateFilters("all", query)}>Search all collections</button>}</div>}

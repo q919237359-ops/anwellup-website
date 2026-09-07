@@ -7,10 +7,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/build-image-sitemap.mjs",
     "preview": "node scripts/serve-static.mjs",
     "start": "next start",
     "check": "tsc --noEmit",
-    "test:site": "node scripts/check-site.mjs"
+    "test:site": "node scripts/check-site.mjs",
+    "audit:images": "node scripts/audit-images.mjs",
+    "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.6",

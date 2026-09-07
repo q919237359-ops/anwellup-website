@@ -16,7 +16,7 @@ const navigation = [
 ] as const;
 
 function Wordmark() {
-  return <span className="brand-wordmark" aria-hidden="true"><img src="/assets/brand/anwellup-logo-primary-orange-transparent.png" alt="" /></span>;
+  return <span className="brand-wordmark" aria-hidden="true"><img src="/assets/brand/anwellup-logo-primary-orange-transparent.webp" alt="" /></span>;
 }
 
 function Header() {
@@ -135,7 +135,7 @@ function InquiryDrawer() {
             <label><span>Notes</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Use, timing, artwork or packing context" rows={3} /></label>
           </div>
           <p className="drawer-disclaimer">Submitting an enquiry does not confirm specifications, availability, claims or commercial terms.</p>
-          <a className="whatsapp-button" href={whatsappInquiryUrl(message)} target="_blank" rel="noopener noreferrer"><WhatsappLogo size={21} weight="fill" /> Continue in WhatsApp <ArrowRight size={18} /></a>
+          <a className="whatsapp-button" href={whatsappInquiryUrl(message)} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="rfq_drawer"><WhatsappLogo size={21} weight="fill" /> Continue in WhatsApp <ArrowRight size={18} /></a>
       </div>
     </aside>
   </div>;
@@ -149,7 +149,7 @@ function Footer() {
         <span className="eyebrow">Navigate</span>
         {navigation.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
       </div>
-      <div className="footer-note"><span className="eyebrow">Let’s talk packaging</span><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer">{WHATSAPP_DISPLAY}</a><p>Share a product, an idea or your next project.</p></div>
+      <div className="footer-note"><span className="eyebrow">Let’s talk packaging</span><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="footer">{WHATSAPP_DISPLAY}</a><p>Share a product, an idea or your next project.</p></div>
     </div>
     <div className="footer-legal"><span>© 2026 ANWELLUP</span><div><Link href="/privacy/">Privacy</Link><Link href="/terms/">Terms</Link></div></div>
   </footer>;
@@ -158,7 +158,7 @@ function Footer() {
 function WhatsAppShortcut() {
   const { isOpen } = useInquiry();
   if (isOpen) return null;
-  return <a className="whatsapp-float" href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label={`Chat with ANWELLUP on WhatsApp at ${WHATSAPP_DISPLAY}; opens in a new tab`}><WhatsappLogo size={25} weight="fill" aria-hidden="true" /><span>WhatsApp</span><ArrowRight size={17} aria-hidden="true" /></a>;
+  return <a className="whatsapp-float" href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="floating_button" aria-label={`Chat with ANWELLUP on WhatsApp at ${WHATSAPP_DISPLAY}; opens in a new tab`}><WhatsappLogo size={25} weight="fill" aria-hidden="true" /><span>WhatsApp</span><ArrowRight size={17} aria-hidden="true" /></a>;
 }
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {

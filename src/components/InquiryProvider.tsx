@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { trackEvent } from "../lib/analytics";
 
 export type InquiryItem = {
   sku: string;
@@ -58,12 +59,25 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
     items,
     isOpen,
     addItem: (item) => {
-      setItems((current) => current.some((entry) => entry.sku === item.sku) ? current : [...current, item]);
+      setItems((current) => {
+        if (current.some((entry) => entry.sku === item.sku)) return current;
+        trackEvent("add_to_inquiry", { sku: item.sku, category: item.category });
+        return [...current, item];
+      });
       setIsOpen(true);
     },
-    removeItem: (sku) => setItems((current) => current.filter((item) => item.sku !== sku)),
-    clearItems: () => setItems([]),
-    openInquiry: () => setIsOpen(true),
+    removeItem: (sku) => setItems((current) => {
+      trackEvent("remove_from_inquiry", { sku });
+      return current.filter((item) => item.sku !== sku);
+    }),
+    clearItems: () => {
+      trackEvent("inquiry_clear", { item_count: items.length });
+      setItems([]);
+    },
+    openInquiry: () => {
+      trackEvent("inquiry_open", { item_count: items.length });
+      setIsOpen(true);
+    },
     closeInquiry: () => setIsOpen(false),
   }), [items, isOpen]);
 

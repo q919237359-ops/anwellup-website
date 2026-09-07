@@ -25,7 +25,8 @@ Ask permission for deterministic local background extraction/compositing, preser
 
 User approved the proposed local extraction/compositing method. Implemented with Pillow and NumPy in `scripts/compose-bag-background.py`, not generative editing.
 
-- New website asset: `public/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.png`, 640 × 480.
+- Source composite: `public/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.png`, 640 × 480.
+- Website delivery asset: `public/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.webp`, lossless and pixel-identical to the PNG.
 - The original 550 × 398 photograph is not resized; its product pixels are placed at (45, 41).
 - Only border-connected near-white background is removed. A one-pixel contour band is decontaminated to remove white matte; no whole-product filtering or sharpening.
 - 82,408 opaque product pixels and all 19,474 detected red-print pixels are exactly identical to the source in the saved PNG. 1,850 contour pixels receive edge matting.

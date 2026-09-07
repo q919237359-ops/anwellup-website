@@ -2,7 +2,7 @@
 
 The manufacturing page uses images extracted from supplied PDF catalogues. No AI retouching, machine reconstruction or resolution enhancement was performed. Original catalogue images are low resolution; replace them with original photography when supplied.
 
-All output files are in `public/assets/manufacturing/2026-09-source/`.
+Original PNG extractions and pixel-identical lossless WebP delivery copies are in `public/assets/manufacturing/2026-09-source/`. The website serves the WebP copies; the PNG files remain as source evidence.
 
 | Output filename | Source | PDF page (one-based) | Embedded image |
 | --- | --- | --- | --- |
@@ -13,6 +13,8 @@ All output files are in `public/assets/manufacturing/2026-09-source/`.
 | coated-paper-floor-philadelphia-source.png | 04_Source_CNYU_PACK_2026.pdf | 3 | Im6.jpg, 185 x 155 |
 | injection-moulding-cangzhou-source.png | 04_Source_CNYU_PACK_2026.pdf | 3 | Im7.jpg, 175 x 125 |
 | bag-production-chuzhou-source.png | 04_Source_CNYU_PACK_2026.pdf | 3 | Im8.jpg, 211 x 126 |
+
+On 2026-09-07, each PNG was converted to lossless WebP and decoded back to RGBA for a byte-for-byte pixel comparison. All seven delivery copies passed. No crop, redraw, retouching or resolution change was applied.
 
 Source root: `C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/07_Source_PDFs/`.
 

@@ -3,10 +3,14 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { createHash } from "node:crypto";
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const projectRequire = createRequire(import.meta.url);
+const nextRequire = createRequire(projectRequire.resolve("next/package.json"));
+const sharp = nextRequire("sharp");
 const modules = new Map();
 // Test pure TypeScript modules without adding a test runtime or browser dependency.
 function load(relative) {
@@ -34,10 +38,10 @@ assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
 const bagCategory = catalogCategories.find(category => category.id === "bags");
-assert.equal(bagCategory.image, "/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.png");
-const bagAsset = fs.readFileSync(path.join(root, "public", bagCategory.image));
-assert.equal(bagAsset.readUInt32BE(16), 640, "Bag composite width");
-assert.equal(bagAsset.readUInt32BE(20), 480, "Bag composite height");
+assert.equal(bagCategory.image, "/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.webp");
+const bagMetadata = await sharp(path.join(root, "public", bagCategory.image)).metadata();
+assert.equal(bagMetadata.width, 640, "Bag composite width");
+assert.equal(bagMetadata.height, 480, "Bag composite height");
 assert.equal(createHash("sha256").update(fs.readFileSync(path.join(root, "public/assets/catalog/2026-09-r1/carry-shopping-bags-source-master-v1.png"))).digest("hex"), "1f2b5e31ef493e08bc2a80e0018c806b9b1c4616899cea588ba431bb2db07384", "Original bag photograph must remain intact");
 assert.equal(new Set(productFamilies.map(f => f.id)).size, productFamilies.length);
 assert.deepEqual(filterCatalog(productFamilies, "all", " "), productFamilies);
@@ -122,11 +126,20 @@ for (const file of htmlFiles) {
   if (!file.endsWith("404.html") && !file.includes("_not-found")) refs.add("/" + path.relative(out, file).replaceAll("\\", "/").replace(/index\.html$/, ""));
 }
 const home = readPage("");
+const robots = fs.readFileSync(path.join(out, "robots.txt"), "utf8");
+const imageSitemap = fs.readFileSync(path.join(out, "image-sitemap.xml"), "utf8");
 assert(home.includes("hero-regenerative-cinema.webp"));
-assert(home.includes("anwellup-logo-primary-orange-transparent.png"));
-assert(home.includes("carry-shopping-bags-sage-composite-v2.png"));
+assert(home.includes("anwellup-logo-primary-orange-transparent.webp"));
+assert(home.includes("carry-shopping-bags-sage-composite-v2.webp"));
 assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage must use the approved matching backdrop");
 assert(!home.includes("cinema-baseline"));
+assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
+assert(imageSitemap.includes("<image:image>"), "Image sitemap must include discoverable images");
+assert(fs.existsSync(path.join(out, "a680f67e82022c38117b9661810d86dfdd6d8a4549fbbda6.txt")), "IndexNow verification file must be exported");
+refs.add("/robots.txt");
+refs.add("/sitemap.xml");
+refs.add("/image-sitemap.xml");
+refs.add("/a680f67e82022c38117b9661810d86dfdd6d8a4549fbbda6.txt");
 assert.equal((home.match(/class="collection-panel/g) || []).length, 7);
 assert.equal((readPage("products").match(/class="range-entry /g) || []).length, 7);
 assert(readPage("products/carry-shopping-bags").includes("format-list"));
@@ -158,4 +171,4 @@ for (let i = 0; i < references.length; i += 12) {
 const response = await fetch(base + "/");
 assert.equal(response.headers.get("content-type"), "text/html; charset=utf-8");
 assert.equal(await response.text(), home, "Preview must serve the latest export");
-console.log(JSON.stringify({ status: "passed", categories: catalogCategories.length, families: productFamilies.length, variantsChecked, htmlFiles: htmlFiles.length, httpReferences: refs.size, contrastChecks, browserVisualReview: "not performed; permission restricted" }, null, 2));
+console.log(JSON.stringify({ status: "passed", categories: catalogCategories.length, families: productFamilies.length, variantsChecked, htmlFiles: htmlFiles.length, httpReferences: refs.size, contrastChecks, browserVisualReview: "not part of the automated suite" }, null, 2));
