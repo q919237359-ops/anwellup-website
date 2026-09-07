@@ -37,9 +37,6 @@ jobs:
 
       - name: Build production site
         run: pnpm build
-        env:
-          VITE_GTM_ID: ${{ vars.VITE_GTM_ID }}
-          VITE_CLARITY_ID: ${{ vars.VITE_CLARITY_ID }}
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
@@ -47,7 +44,7 @@ jobs:
       - name: Upload production artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
-          path: ./dist
+          path: ./out
 
   deploy:
     environment:

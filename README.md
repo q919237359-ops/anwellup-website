@@ -1,30 +1,23 @@
-# ANWELLUP Product Website
+# ANWELLUP B2B product website
 
-ANWELLUP's English B2B product website for sustainable food-packaging buyers, distributors, foodservice groups, retailers, airline caterers and food manufacturers.
+ANWELLUP's English multi-material food-packaging website for distributors, foodservice programs, retailers and professional sourcing teams.
 
-## Features
+## Current implementation
 
-- Cinematic single-page product and material story
-- 63 products across five material categories
-- SKU, material, product-name and size search
-- Persistent inquiry list across the full page
-- Structured WhatsApp quotation handoff and inquiry builder
-- Downloadable English product catalogue
-- Responsive desktop and mobile layouts
-- Reduced-motion support for accessibility and performance
-- Build-time prerendering for crawlable initial HTML
-- Dedicated buyer-information, quality, ordering, contact, privacy and terms pages
-- Robots, sitemap, canonical, social metadata and structured data
-- Consent-aware GTM and Microsoft Clarity hooks (disabled until IDs are configured)
-
-## Tech stack
-
-- React 19
-- TypeScript
-- Vite
-- GSAP + ScrollTrigger
-- Motion
-- Phosphor Icons
+- Next.js 16 App Router with static export
+- Seven category entry pages and model-level product-family routes
+- Unified public `AW-*` SKUs; supplier references are excluded from the public repository and export
+- Category-aware material filters plus family, size and `AW-*` SKU search
+- Persistent browser-local RFQ list with a structured WhatsApp handoff
+- Customization page and equipment enquiries without factory-ownership claims
+- Dedicated `/manufacturing/` page with attributed source-catalogue factory and equipment images
+- Approved orange wordmark in navigation and footer; original PNG pixels are preserved
+- GSAP scroll reveals, hero parallax and desktop pinned category browsing, with reduced-motion fallback
+- Cinematic homepage with original still-life, material macro and OEM imagery
+- Model-specific quality and documentation enquiry guidance
+- Responsive layout, keyboard focus styles, reduced-motion support and custom 404
+- Per-route metadata, canonical URLs, Open Graph data, robots and sitemap
+- Traceable category visuals with Product Truth, brand rules and image manifest
 
 ## Local development
 
@@ -35,40 +28,45 @@ pnpm install
 pnpm dev
 ```
 
-Production build:
+Open `http://localhost:3000`.
+
+## Production build
 
 ```bash
+pnpm check
 pnpm build
 ```
 
-The production build creates static HTML for the homepage and information routes,
-then removes the temporary server-rendering bundle. Verify the generated files in
-`dist/` before deployment.
+`next build` creates a static export in `out/` because `next.config.ts` uses `output: "export"`.
 
-Preview the production build:
+To review that output locally:
 
 ```bash
 pnpm preview
 ```
 
+Then open `http://127.0.0.1:4173/`.
+
+With the preview running, validate catalogue logic and exported references:
+
+```bash
+pnpm test:site
+```
+
+This checks search, specification fields, export structure, token contrast and HTTP resources. It does not replace browser visual and interaction review.
+
 ## Content maintenance
 
-- Product data: `src/data.ts`
-- Page structure and English copy: `src/App.tsx`
-- Visual system and responsive styles: `src/styles.css`
-- Brand and product imagery: `public/assets/`
-- Product catalogue: `public/downloads/`
+- Existing model records: `src/data.ts`
+- Category and product-family taxonomy: `src/catalog.ts`
+- Pages and metadata: `src/app/`
+- Shared RFQ and site chrome: `src/components/`
+- Visual system: `src/app/globals.css` and `src/app/editorial.css`
+- Approved category assets: `public/assets/catalog/2026-09-r1/`
+- Visual provenance and QA records: `docs/visual-trace/`
 
-## Optional analytics configuration
+## Publication boundary
 
-Copy `.env.example` to `.env.local` for local testing, or add the following GitHub
-Actions repository variables for production builds:
+Category images support navigation and do not prove the specification or suitability of an exact SKU. Product specifications, certification or test status, destination-market suitability, availability, MOQ, price and lead time require written confirmation for the selected model and order configuration.
 
-- `VITE_GTM_ID`
-- `VITE_CLARITY_ID`
-
-When neither value is present, no third-party analytics script is loaded and the
-analytics consent banner remains hidden. Inquiry messages and personal details are
-never added to analytics events.
-
-Product specifications, certifications, availability and commercial terms require written confirmation for each order and destination market.
+The Carry + Shopping Bags category uses the supplied source master without redrawing its printing. Generated bag alternatives rejected during visual QA are not part of the website.

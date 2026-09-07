@@ -1,0 +1,102 @@
+{
+  "artifact_type": "category-level product truth",
+  "trust_hierarchy": [
+    "supplied source PDFs and handoff product images",
+    "supplied real source master",
+    "approved generated category composition"
+  ],
+  "shared_unknowns": [
+    "SKU-level certification status",
+    "destination-market suitability",
+    "commercial availability",
+    "MOQ, price and lead time",
+    "factory ownership or facility attribution"
+  ],
+  "categories": [
+    {
+      "sku": "AW-CAT-CUPS",
+      "product_name": "Cups + Drinkware category asset",
+      "category": "cups-drinkware",
+      "references": [
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/05_Product_Images_Final/paper_cup_1.png", "role": "product-family source", "priority": 1},
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/05_Product_Images_Final/pet_cup_1.png", "role": "product-family source", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/cups-drinkware-v1.png", "role": "approved category composition", "priority": 2}
+      ],
+      "identity": {"silhouette": "mixed paper and clear drink cups", "colors": ["kraft brown", "white", "clear"], "materials": ["paper", "transparent plastic appearance"], "logo_label": null, "component_counts": {"visible_cups": 5}, "ports_controls_fasteners": [], "scale_cues": ["multiple relative cup sizes"]},
+      "forbidden_changes": ["no product branding", "no dense in-image text", "no certification marks", "do not use the category image as proof of an exact SKU"],
+      "unknowns": ["exact polymers", "coatings", "capacities", "lid compatibility"]
+    },
+    {
+      "sku": "AW-CAT-BOXES",
+      "product_name": "Takeaway Boxes + Containers category asset",
+      "category": "takeaway-boxes-containers",
+      "references": [
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/05_Product_Images_Final", "role": "approved family image set", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/takeaway-boxes-containers-v1.png", "role": "approved category composition", "priority": 2}
+      ],
+      "identity": {"silhouette": "rectangular hinged, paperboard and aluminium food-container formats", "colors": ["clear", "kraft brown", "aluminium"], "materials": ["transparent plastic appearance", "paper appearance", "aluminium appearance"], "logo_label": null, "component_counts": {"visible_container_formats": 3}, "ports_controls_fasteners": [], "scale_cues": ["coordinated tabletop arrangement"]},
+      "forbidden_changes": ["no product branding", "no food-contact or safety claims", "no certification marks", "no invented closures or compartments"],
+      "unknowns": ["exact polymer", "capacity", "temperature limits", "lid compatibility"]
+    },
+    {
+      "sku": "AW-CAT-TABLEWARE",
+      "product_name": "Plates, Bowls + Trays category asset",
+      "category": "plates-bowls-trays",
+      "references": [
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/07_Source_PDFs/02_Source_Bagasse_Tableware.pdf", "role": "supplier source document", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/plates-bowls-trays-v1.png", "role": "approved category composition", "priority": 2}
+      ],
+      "identity": {"silhouette": "white plate, bowl and hinged compartment container", "colors": ["warm white"], "materials": ["molded-fiber appearance"], "logo_label": null, "component_counts": {"visible_formats": 3}, "ports_controls_fasteners": [], "scale_cues": ["relative plate, bowl and container sizes"]},
+      "forbidden_changes": ["no product branding", "no compostability claim", "no certification marks", "do not infer fiber composition from appearance alone"],
+      "unknowns": ["fiber formulation", "coatings", "temperature limits", "certification status"]
+    },
+    {
+      "sku": "AW-CAT-FOIL",
+      "product_name": "Foil, Wraps + Baking category asset",
+      "category": "foil-wraps-baking",
+      "references": [
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/07_Source_PDFs/03_Source_Aluminium_Foil.pdf", "role": "supplier source document", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/foil-wraps-baking-v1.png", "role": "approved category composition", "priority": 2}
+      ],
+      "identity": {"silhouette": "foil roll, baking-paper roll, pop-up sheets and plain cartons", "colors": ["aluminium", "white", "kraft brown"], "materials": ["aluminium appearance", "paper appearance", "paperboard appearance"], "logo_label": null, "component_counts": {"visible_rolls": 2, "visible_sheet_stack": 1, "visible_cartons": 2}, "ports_controls_fasteners": [], "scale_cues": ["standard roll cores and cartons"]},
+      "forbidden_changes": ["no product branding", "no unverified gauge or barrier claim", "no certification marks", "no invented carton copy"],
+      "unknowns": ["foil gauge", "paper weight", "coating", "roll length"]
+    },
+    {
+      "sku": "AW-CAT-CUTLERY",
+      "product_name": "Cutlery + Meal Kits category asset",
+      "category": "cutlery-meal-kits",
+      "references": [
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/07_Source_PDFs/04_Source_CNYU_PACK_2026.pdf", "role": "supplier source document", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/cutlery-meal-kits-v1.png", "role": "approved category composition", "priority": 2}
+      ],
+      "identity": {"silhouette": "white and black cutlery with napkins, wrapped sets and small condiment packets", "colors": ["white", "black", "clear wrapper", "small blue print"], "materials": ["plastic appearance", "paper napkin", "clear film appearance"], "logo_label": null, "component_counts": {"visible_color_programs": 2}, "ports_controls_fasteners": [], "scale_cues": ["fork, knife, spoon and napkin proportions"]},
+      "forbidden_changes": ["no ANWELLUP packaging logo", "no claim based on tiny generated packet text", "no certification marks", "no invented kit composition"],
+      "unknowns": ["exact resin", "piece weights", "wrapper material", "packet contents"]
+    },
+    {
+      "sku": "AW-CAT-BAGS",
+      "product_name": "Carry + Shopping Bags category asset",
+      "category": "carry-shopping-bags",
+      "references": [
+        {"file": "C:/Users/Administrator/xwechat_files/wxid_waarpat1open42_db3a/temp/RWTemp/2026-09/123319dc562be7ceaeb5de61fdb91a28/59943551a4725e6a53140a0d0e0e6bb3.png", "role": "supplied real source master", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/carry-shopping-bags-source-master-v1.png", "role": "immutable website copy", "priority": 1}
+      ],
+      "identity": {"silhouette": "three white vest-handle carry bags", "colors": ["translucent white", "red print"], "materials": ["thin plastic-film appearance"], "logo_label": "original red THANK YOU print; preserve exactly as supplied", "component_counts": {"visible_bags": 3}, "ports_controls_fasteners": [], "scale_cues": ["overlapping retail carry bags"]},
+      "forbidden_changes": ["do not redraw or retouch red printing", "do not replace the source master with a generated bag image", "no ANWELLUP logo on the bags", "no material, recycled-content or gauge claim"],
+      "unknowns": ["polymer", "gauge", "dimensions", "load rating"]
+    },
+    {
+      "sku": "AW-CAT-GLOVES",
+      "product_name": "Gloves + Protective Supplies category asset",
+      "category": "gloves-protective-supplies",
+      "references": [
+        {"file": "C:/Users/Administrator/Desktop/garden-skills-main/tmp/pdfs/ANWELLUP_Project_Handoff_2026/07_Source_PDFs/01_Source_Gloves_Catalogue.pdf", "role": "supplier source document", "priority": 1},
+        {"file": "public/assets/catalog/2026-09-r1/gloves-protective-supplies-v1.png", "role": "approved category composition", "priority": 2}
+      ],
+      "identity": {"silhouette": "three glove color/material programs draped over plain dispenser boxes", "colors": ["blue", "aqua", "clear", "white cartons"], "materials": ["flexible glove material appearance", "paperboard appearance"], "logo_label": null, "component_counts": {"visible_glove_programs": 3, "visible_boxes": 3}, "ports_controls_fasteners": [], "scale_cues": ["standard hand-glove proportions"]},
+      "forbidden_changes": ["no medical-grade claim", "no food-grade claim", "no certification marks", "no invented dispenser text", "no ANWELLUP logo on cartons"],
+      "unknowns": ["exact material per color", "thickness", "intended-use classification", "certification status"]
+    }
+  ]
+}

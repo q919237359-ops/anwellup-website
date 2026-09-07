@@ -1,0 +1,19 @@
+/* Keep native overflow as the default, including without JS and on touch screens. */
+.collection-track { display: block; }
+.collection-rail { position: relative; display: flex; width: max-content; gap: inherit; }
+.collection-rail > .collection-panel { flex: 0 0 auto; width: min(48vw,660px); }
+.collection-progress { display: none; }
+
+/* Only the moving rail is composited; the pin's ancestors stay untransformed. */
+.is-pinned .collection-track { overflow: clip; }
+.is-pinned .collection-rail { will-change: transform; }
+.is-pinned .collection-rail > .collection-panel { width: clamp(300px,48dvh,600px); }
+.is-pinned .collection-progress { display: block; width: var(--container); height: 3px; margin: 8px auto 0; background: var(--line); }
+.collection-progress > span { display: block; width: 100%; height: 100%; background: #87977d; transform: scaleX(0); transform-origin: left; }
+
+/* These surfaces are already nearly opaque; blur repaints add no useful detail. */
+.site-header, .catalog-controls { backdrop-filter: none; }
+
+@media (max-width:820px) {
+  .collection-rail > .collection-panel { width: 80vw; }
+}

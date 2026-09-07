@@ -1,6 +1,10 @@
 node_modules/
+.next/
+out/
+*.tsbuildinfo
 dist/
 output/
+.private/
 design-qa.md
 public/assets/generated/**/*.png
 public/assets/products/

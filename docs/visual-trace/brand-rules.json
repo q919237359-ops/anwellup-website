@@ -1,0 +1,24 @@
+{
+  "brand": "ANWELLUP",
+  "scope": "website brand layer only",
+  "approved_logo_files": [
+    "/assets/brand/anwellup-logo-primary-orange-transparent.png",
+    "/assets/brand/anwellup-logo-deep-cocoa-transparent.png",
+    "/assets/brand/anwellup-logo-white-transparent.png"
+  ],
+  "verified_tagline": "RISE FOR THE FUTURE",
+  "visual_direction": {
+    "plan": "Plan A",
+    "tone": ["clean", "premium", "calm", "commercial", "editorial"],
+    "base_surfaces": ["porcelain #FBFAF7", "mineral #F1F0EA", "soft sage #E4EADF"],
+    "accent": "sage #58715A / deep olive #364837 for interactions; supplied orange logo unchanged",
+    "photography": "restrained studio light, believable contact shadows, natural material texture"
+  },
+  "hard_rules": [
+    "Do not add an ANWELLUP logo to product packaging or the physical product.",
+    "Do not recolor, redraw or replace visible product labels to match the website palette.",
+    "Do not invent slogans, certification marks, technical claims or factory attribution.",
+    "Website branding must remain visually separate from product-image fidelity.",
+    "The supplied bag master must retain its original red printing without redraw or enhancement."
+  ]
+}
