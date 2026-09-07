@@ -4,10 +4,21 @@ ANWELLUP presents a multi-material food-packaging range for professional sourcin
 
 Canonical website: https://anwellup.com/
 Product range: https://anwellup.com/products/
+
+Product categories:
+- Cups and drinkware: https://anwellup.com/products/cups-drinkware/
+- Takeaway boxes and containers: https://anwellup.com/products/takeaway-boxes-containers/
+- Plates, bowls and trays: https://anwellup.com/products/plates-bowls-trays/
+- Foil, wraps and baking paper: https://anwellup.com/products/foil-wraps-baking/
+- Cutlery and meal kits: https://anwellup.com/products/cutlery-meal-kits/
+- Carry and shopping bags: https://anwellup.com/products/carry-shopping-bags/
+- Gloves and protective supplies: https://anwellup.com/products/gloves-protective-supplies/
+
 Customization: https://anwellup.com/capabilities/
 Manufacturing and equipment: https://anwellup.com/manufacturing/
 Quality and product documents: https://anwellup.com/quality-compliance/
 Contact: https://anwellup.com/contact/
 
+Use the canonical category and product-family pages for public names, AW SKUs, materials, applications and listed catalogue specifications.
 Commercial specifications, availability, intended-use claims, compliance documents, MOQ, price and lead time must be confirmed in writing for the selected product and destination market.
 WhatsApp: +86 132 0283 0014

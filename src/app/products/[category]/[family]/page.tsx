@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { catalogCategories, productFamilies } from "../../../../catalog";
 import { AddToInquiryButton, OpenInquiryButton } from "../../../../components/InquiryProvider";
+import { JsonLd } from "../../../../components/JsonLd";
 import { getSpecificationColumns } from "../../../../lib/specification-columns";
 
 export function generateStaticParams() {
@@ -15,7 +16,20 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const family = productFamilies.find((item) => item.id === id);
   const category = catalogCategories.find((item) => item.slug === slug && item.id === family?.category);
   if (!family || !category) return {};
-  return { title: family.name, description: `${family.summary} Review available ANWELLUP SKUs and specification fields.`, alternates: { canonical: `/products/${category.slug}/${family.id}/` } };
+  const description = `Compare ${family.variants.length} listed ${family.name} ${family.variants.length === 1 ? "model" : "models"}, materials and catalogue specifications for a wholesale food-packaging enquiry.`;
+  return {
+    title: `${family.name} Wholesale`,
+    description,
+    alternates: { canonical: `/products/${category.slug}/${family.id}/` },
+    openGraph: {
+      title: `${family.name} Wholesale | ANWELLUP`,
+      description,
+      url: `/products/${category.slug}/${family.id}/`,
+      type: "website",
+      images: [{ url: family.image, width: category.id === "bags" ? 640 : 1448, height: category.id === "bags" ? 480 : 1086, alt: `${family.name} product range` }],
+    },
+    twitter: { card: "summary_large_image", title: `${family.name} Wholesale | ANWELLUP`, description, images: [family.image] },
+  };
 }
 
 export default async function FamilyPage({ params }: { params: Promise<{ category: string; family: string }> }) {
@@ -24,8 +38,53 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
   const category = catalogCategories.find((item) => item.slug === slug && item.id === family?.category);
   if (!family || !category) notFound();
   const columns = getSpecificationColumns(family.variants);
+  const pageUrl = `https://anwellup.com/products/${category.slug}/${family.id}/`;
   return <main id="main-content" className="page-main product-detail-page">
-    <div className="breadcrumb"><Link href={`/products/${category.slug}/`}><ArrowLeft size={16}/> {category.label}</Link><span>/</span><span>{family.name}</span></div>
+    <JsonLd data={[
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Product range", item: "https://anwellup.com/products/" },
+          { "@type": "ListItem", position: 2, name: category.label, item: `https://anwellup.com/products/${category.slug}/` },
+          { "@type": "ListItem", position: 3, name: family.name, item: pageUrl },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ProductGroup",
+        "@id": `${pageUrl}#product-group`,
+        url: pageUrl,
+        name: family.name,
+        description: family.summary,
+        productGroupID: family.sku,
+        sku: family.sku,
+        category: category.label,
+        material: family.materials,
+        image: `https://anwellup.com${family.image}`,
+        brand: { "@type": "Brand", name: "ANWELLUP" },
+        audience: { "@type": "BusinessAudience", audienceType: "Distributors, foodservice buyers and professional sourcing teams" },
+        breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+        hasVariant: family.variants.map((variant) => ({
+          "@type": "Product",
+          "@id": `${pageUrl}#model-${variant.sku}`,
+          url: `${pageUrl}#model-${variant.sku}`,
+          name: `${family.name} — ${variant.label}`,
+          sku: variant.sku,
+          size: variant.label,
+          material: family.materials,
+          image: `https://anwellup.com${family.image}`,
+          brand: { "@type": "Brand", name: "ANWELLUP" },
+          additionalProperty: [
+            variant.dimensions ? { "@type": "PropertyValue", name: "Dimensions", value: variant.dimensions } : null,
+            variant.weight ? { "@type": "PropertyValue", name: "Weight or construction", value: variant.weight } : null,
+            variant.pack ? { "@type": "PropertyValue", name: "Case pack", value: variant.pack } : null,
+          ].filter(Boolean),
+        })),
+      },
+    ]} />
+    <nav className="breadcrumb" aria-label="Breadcrumb"><Link href={`/products/${category.slug}/`}><ArrowLeft size={16}/> {category.label}</Link><span aria-hidden="true">/</span><span aria-current="page">{family.name}</span></nav>
     <header className="family-hero">
       <figure className={category.id === "bags" ? "category-source-master" : undefined}><div className="family-image-stage"><img src={family.image} alt={category.id === "bags" ? "Supplied PE carry-bag range; representative image only" : `${family.name} range illustration`} width={category.id === "bags" ? 640 : 1448} height={category.id === "bags" ? 480 : 1086} fetchPriority="high"/></div><figcaption>{category.id === "bags" ? "PE carry bags shown. This is not a photograph of every model in the range." : "Range illustration. Confirm the selected model with your enquiry."}</figcaption></figure>
       <div className="family-hero-copy"><h1>{family.name}</h1><code className="display-sku">{family.sku}</code><p>{family.summary}</p><div className="family-attributes"><div><span>Materials</span><strong>{family.materials.join(", ")}</strong></div><div><span>Applications</span><strong>{family.applications.join(", ")}</strong></div><div><span>Specification</span><strong>{family.specificationStatus === "pending" ? "Awaiting documentation" : "Confirm with enquiry"}</strong></div></div><AddToInquiryButton item={{ sku: family.sku, name: family.name, category: category.label }}/></div>

@@ -8,7 +8,8 @@ import "./plan-a.css";
 import "./motion.css";
 import { SiteChrome } from "../components/SiteChrome";
 import { TrafficAnalytics } from "../components/TrafficAnalytics";
-import { WHATSAPP_DISPLAY } from "../lib/contact";
+import { JsonLd } from "../components/JsonLd";
+import { GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY } from "../lib/contact";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -22,6 +23,7 @@ const structuredData = {
       contactPoint: {
         "@type": "ContactPoint",
         telephone: WHATSAPP_DISPLAY,
+        url: GENERAL_WHATSAPP_URL,
         contactType: "sales",
         availableLanguage: "English",
       },
@@ -39,16 +41,20 @@ const structuredData = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://anwellup.com"),
-  title: { default: "ANWELLUP | Food packaging for professional buyers", template: "%s | ANWELLUP" },
-  description: "Explore a multi-material food-packaging range organized for distributors, foodservice programs and professional sourcing teams.",
+  title: { default: "Wholesale Food Packaging Supplier | ANWELLUP", template: "%s | ANWELLUP" },
+  description: "Source cups, takeaway containers, tableware, foil, cutlery, carry bags and gloves for wholesale, foodservice and custom packaging projects.",
   applicationName: "ANWELLUP",
-  keywords: ["food packaging supplier", "B2B packaging", "takeaway containers", "foodservice packaging"],
-  openGraph: { title: "ANWELLUP", description: "A clearer way to compare and enquire about multi-material food packaging.", url: "/", siteName: "ANWELLUP", images: [{ url: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp", width: 1448, height: 1086, alt: "ANWELLUP cups and drinkware category" }], type: "website" },
-  twitter: { card: "summary_large_image", title: "ANWELLUP", description: "Multi-material food packaging for professional sourcing briefs.", images: ["/assets/catalog/2026-09-r1/cups-drinkware-v1.webp"] },
+  authors: [{ name: "ANWELLUP", url: "https://anwellup.com/" }],
+  creator: "ANWELLUP",
+  publisher: "ANWELLUP",
+  keywords: ["wholesale food packaging", "food packaging supplier", "custom food packaging", "takeaway containers", "foodservice packaging"],
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  openGraph: { title: "Wholesale Food Packaging Supplier | ANWELLUP", description: "Compare multi-material food packaging and prepare a clear wholesale or custom sourcing brief.", url: "/", siteName: "ANWELLUP", locale: "en_US", images: [{ url: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp", width: 1448, height: 1086, alt: "ANWELLUP cups and drinkware range" }], type: "website" },
+  twitter: { card: "summary_large_image", title: "Wholesale Food Packaging Supplier | ANWELLUP", description: "Compare multi-material food packaging for wholesale, foodservice and custom sourcing projects.", images: ["/assets/catalog/2026-09-r1/cups-drinkware-v1.webp"] },
   icons: { icon: "/assets/brand/anwellup-logo-primary-orange-transparent.png" },
   alternates: { canonical: "/" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><head><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replaceAll("<", "\\u003c") }} /></head><body><TrafficAnalytics /><a className="skip-link" href="#main-content">Skip to content</a><SiteChrome>{children}</SiteChrome></body></html>;
+  return <html lang="en"><head><JsonLd data={structuredData} /></head><body><TrafficAnalytics /><a className="skip-link" href="#main-content">Skip to content</a><SiteChrome>{children}</SiteChrome></body></html>;
 }

@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { catalogCategories } from "../catalog";
 import { OpenInquiryButton } from "../components/InquiryProvider";
 import { ScrollMotion } from "../components/ScrollMotion";
+
+export const metadata: Metadata = {
+  title: "Wholesale Food Packaging Supplier",
+  description: "Explore ANWELLUP cups, takeaway containers, tableware, foil, cutlery, carry bags and gloves for wholesale and custom sourcing projects.",
+  alternates: { canonical: "/" },
+};
 
 const story = "The curve of a bowl. The texture of a tray. The way a lid meets its base. Every detail shapes the experience of a meal.";
 const steps = [

@@ -112,6 +112,8 @@ const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry =
 const files = walk(out);
 const htmlFiles = files.filter(file => file.endsWith(".html"));
 const refs = new Set(["/"]);
+const pageTitles = new Map();
+let structuredDataBlocks = 0;
 const readPage = route => fs.readFileSync(path.join(out, route, "index.html"), "utf8");
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
@@ -121,6 +123,20 @@ for (const file of htmlFiles) {
   assert(!/Reference model|original reference model|referenceModel/i.test(html), `Private supplier-reference label in ${file}`);
   assert(html.includes(WHATSAPP_DISPLAY), `Missing confirmed phone in ${file}`);
   assert(html.includes('class="whatsapp-float"'), `Missing contact shortcut in ${file}`);
+  for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    JSON.parse(match[1]);
+    structuredDataBlocks++;
+  }
+  if (!file.endsWith("404.html") && !file.includes("_not-found")) {
+    const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+    const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+    assert(title, `Missing page title: ${file}`);
+    assert(description && description.length >= 70, `Missing or thin meta description: ${file}`);
+    assert(canonical?.startsWith("https://anwellup.com/"), `Missing absolute canonical: ${file}`);
+    assert(!pageTitles.has(title), `Duplicate page title: ${title}`);
+    pageTitles.set(title, file);
+  }
   for (const link of html.matchAll(/href="(https:\/\/wa\.me\/[^" ]*)"/g)) assert.equal(new URL(link[1].replaceAll("&amp;", "&")).pathname, `/${WHATSAPP_NUMBER}`);
   for (const match of html.matchAll(/(?:src|href)="(\/[^"#?]*)"/g)) if (!match[1].startsWith("//")) refs.add(match[1]);
   if (!file.endsWith("404.html") && !file.includes("_not-found")) refs.add("/" + path.relative(out, file).replaceAll("\\", "/").replace(/index\.html$/, ""));
@@ -131,6 +147,7 @@ const imageSitemap = fs.readFileSync(path.join(out, "image-sitemap.xml"), "utf8"
 assert(home.includes("hero-regenerative-cinema.webp"));
 assert(home.includes("anwellup-logo-primary-orange-transparent.webp"));
 assert(home.includes("carry-shopping-bags-sage-composite-v2.webp"));
+assert(home.includes("Wholesale Food Packaging Supplier | ANWELLUP"), "Homepage must expose the search-led title");
 assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage must use the approved matching backdrop");
 assert(!home.includes("cinema-baseline"));
 assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
@@ -143,8 +160,11 @@ refs.add("/a680f67e82022c38117b9661810d86dfdd6d8a4549fbbda6.txt");
 assert.equal((home.match(/class="collection-panel/g) || []).length, 7);
 assert.equal((readPage("products").match(/class="range-entry /g) || []).length, 7);
 assert(readPage("products/carry-shopping-bags").includes("format-list"));
+assert(readPage("products/carry-shopping-bags").includes("Buyer&apos;s guide") || readPage("products/carry-shopping-bags").includes("Buyer&#x27;s guide"), "Category page must include the sourcing guide");
+assert(readPage("products/cups-drinkware").includes('"@type":"CollectionPage"'), "Category page must expose CollectionPage structured data");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
+assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);
@@ -171,4 +191,4 @@ for (let i = 0; i < references.length; i += 12) {
 const response = await fetch(base + "/");
 assert.equal(response.headers.get("content-type"), "text/html; charset=utf-8");
 assert.equal(await response.text(), home, "Preview must serve the latest export");
-console.log(JSON.stringify({ status: "passed", categories: catalogCategories.length, families: productFamilies.length, variantsChecked, htmlFiles: htmlFiles.length, httpReferences: refs.size, contrastChecks, browserVisualReview: "not part of the automated suite" }, null, 2));
+console.log(JSON.stringify({ status: "passed", categories: catalogCategories.length, families: productFamilies.length, variantsChecked, htmlFiles: htmlFiles.length, uniquePageTitles: pageTitles.size, structuredDataBlocks, httpReferences: refs.size, contrastChecks, browserVisualReview: "not part of the automated suite" }, null, 2));
