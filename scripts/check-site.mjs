@@ -105,6 +105,11 @@ const luminance = hex => {
 };
 const contrast = (a, b) => { const values = [luminance(a), luminance(b)].sort((a, b) => b - a); return (values[0] + .05) / (values[1] + .05); };
 const theme = fs.readFileSync(path.join(root, "src/app/plan-a.css"), "utf8");
+const analyticsSource = fs.readFileSync(path.join(root, "src/lib/analytics.ts"), "utf8");
+const trackingSource = fs.readFileSync(path.join(root, "src/components/TrafficAnalytics.tsx"), "utf8");
+assert(analyticsSource.includes('window.gtag?.("event", event, parameters)'), "Tracked actions must be forwarded to GA4");
+assert(trackingSource.includes("NEXT_PUBLIC_GA4_ID"), "GA4 must be configurable at deploy time");
+assert(trackingSource.includes("googletagmanager.com/gtag/js"), "GA4 loader must be present");
 const token = name => { const match = theme.match(new RegExp(`--${name}:\\s*(#[a-f0-9]{6})`, "i")); assert(match, `Missing Plan A token ${name}`); return match[1]; };
 assert.equal(token("sage"), "#58715a");
 assert.equal(token("paper-deep"), "#e4eadf");
