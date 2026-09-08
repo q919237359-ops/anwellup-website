@@ -152,7 +152,7 @@ function Footer() {
       </div>
       <div className="footer-note"><span className="eyebrow">Let’s talk packaging</span><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="footer">{WHATSAPP_DISPLAY}</a><p>Share a product, an idea or your next project.</p></div>
     </div>
-    <div className="footer-legal"><span>© 2026 ANWELLUP</span><div><Link href="/privacy/">Privacy</Link><Link href="/terms/">Terms</Link></div></div>
+    <div className="footer-legal"><span>© 2026 ANWELLUP</span><div><Link href="/about/">About</Link><Link href="/privacy/">Privacy</Link><Link href="/terms/">Terms</Link></div></div>
   </footer>;
 }
 

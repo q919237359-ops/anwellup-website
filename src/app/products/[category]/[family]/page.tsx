@@ -60,6 +60,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
         description: family.summary,
         productGroupID: family.sku,
         sku: family.sku,
+        variesBy: ["https://schema.org/size"],
         category: category.label,
         material: family.materials,
         image: `https://anwellup.com${family.image}`,
@@ -76,6 +77,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
           material: family.materials,
           image: `https://anwellup.com${family.image}`,
           brand: { "@type": "Brand", name: "ANWELLUP" },
+          isVariantOf: { "@id": `${pageUrl}#product-group` },
           additionalProperty: [
             variant.dimensions ? { "@type": "PropertyValue", name: "Dimensions", value: variant.dimensions } : null,
             variant.weight ? { "@type": "PropertyValue", name: "Weight or construction", value: variant.weight } : null,

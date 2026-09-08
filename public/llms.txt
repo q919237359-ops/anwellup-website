@@ -27,6 +27,7 @@ Customization: https://anwellup.com/capabilities/
 Manufacturing and equipment: https://anwellup.com/manufacturing/
 Quality and product documents: https://anwellup.com/quality-compliance/
 Contact: https://anwellup.com/contact/
+About ANWELLUP and content method: https://anwellup.com/about/
 
 Use the canonical category and product-family pages for public names, AW SKUs, materials, applications and listed catalogue specifications.
 Commercial specifications, availability, intended-use claims, compliance documents, MOQ, price and lead time must be confirmed in writing for the selected product and destination market.

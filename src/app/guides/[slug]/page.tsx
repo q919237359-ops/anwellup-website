@@ -58,7 +58,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         datePublished: guide.published,
         dateModified: guide.updated,
         inLanguage: "en",
-        author: { "@id": "https://anwellup.com/#organization" },
+        author: { "@id": "https://anwellup.com/#organization", name: "ANWELLUP", url: "https://anwellup.com/about/" },
         publisher: { "@id": "https://anwellup.com/#organization" },
         mainEntityOfPage: pageUrl,
         isPartOf: { "@id": "https://anwellup.com/#website" },
@@ -81,7 +81,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     <article>
       <header className="guide-hero">
         <div><span className="eyebrow">Buyer&apos;s guide / {guide.updated}</span><h1>{guide.title}</h1></div>
-        <p>{guide.lede}</p>
+        <div className="guide-hero-summary"><p>{guide.lede}</p><p className="guide-byline">Prepared by ANWELLUP · <Link href="/about/#content-method">How this content is prepared</Link></p></div>
       </header>
       <figure className="guide-lead-figure"><img src={guide.image} alt={guide.imageAlt} width={guide.imageWidth} height={guide.imageHeight}/><figcaption>Reference image for this buyer guide. Confirm the selected model, evidence and specification with your enquiry.</figcaption></figure>
       <div className="guide-layout">

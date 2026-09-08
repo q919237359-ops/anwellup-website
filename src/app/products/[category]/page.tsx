@@ -85,6 +85,17 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
           })),
         },
       },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#questions`,
+        url: `${pageUrl}#questions`,
+        mainEntity: seo.questions.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
+      },
     ]} />
     <nav className="breadcrumb" aria-label="Breadcrumb"><Link href="/products/"><ArrowLeft size={16}/> Product range</Link><span aria-hidden="true">/</span><span aria-current="page">{category.label}</span></nav>
     <header className="category-hero">

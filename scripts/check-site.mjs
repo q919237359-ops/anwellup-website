@@ -167,6 +167,8 @@ assert(home.includes("anwellup-logo-primary-orange-transparent.webp"));
 assert(home.includes("carry-shopping-bags-sage-composite-v2.webp"));
 assert(home.includes("Wholesale Food Packaging Supplier | ANWELLUP"), "Homepage must expose the search-led title");
 assert(home.includes('href="/guides/"'), "Homepage must link to the buying-guide hub");
+assert(readPage("about").includes('"@type":"AboutPage"'), "About page must expose AboutPage structured data");
+assert(readPage("about").includes("Content method"), "About page must explain the content method");
 assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage must use the approved matching backdrop");
 assert(!home.includes("cinema-baseline"));
 assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
@@ -181,9 +183,12 @@ assert.equal((readPage("products").match(/class="range-entry /g) || []).length, 
 assert(readPage("products/carry-shopping-bags").includes("format-list"));
 assert(readPage("products/carry-shopping-bags").includes("Buyer&apos;s guide") || readPage("products/carry-shopping-bags").includes("Buyer&#x27;s guide"), "Category page must include the sourcing guide");
 assert(readPage("products/cups-drinkware").includes('"@type":"CollectionPage"'), "Category page must expose CollectionPage structured data");
+assert(readPage("products/cups-drinkware").includes('"@type":"FAQPage"'), "Category questions must expose FAQPage structured data");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
+assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"variesBy":["https://schema.org/size"]'), "Product groups must describe their variant axis");
+assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"isVariantOf"'), "Product variants must link back to their group");
 const guideIndex = readPage("guides");
 assert(guideIndex.includes('"@type":"CollectionPage"'), "Guide index must expose CollectionPage structured data");
 for (const guide of buyingGuides) {
