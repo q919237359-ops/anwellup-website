@@ -173,6 +173,8 @@ assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage mus
 assert(!home.includes("cinema-baseline"));
 assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
 assert(imageSitemap.includes("<image:image>"), "Image sitemap must include discoverable images");
+const imageSitemapLocs = [...imageSitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
+assert.equal(imageSitemapLocs.length, new Set(imageSitemapLocs).size, "Image sitemap page URLs must be unique");
 assert(fs.existsSync(path.join(out, "a680f67e82022c38117b9661810d86dfdd6d8a4549fbbda6.txt")), "IndexNow verification file must be exported");
 refs.add("/robots.txt");
 refs.add("/sitemap.xml");

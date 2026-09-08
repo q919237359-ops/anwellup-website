@@ -15,7 +15,7 @@ const walk = directory => {
 walk(root);
 
 const escapeXml = value => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-const pages = [];
+const imagesByPage = new Map();
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   const canonical = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]
@@ -25,8 +25,16 @@ for (const file of htmlFiles) {
     .map(match => new URL(match[1], canonical).href)
     .filter(url => url.startsWith("https://anwellup.com/"));
   const uniqueImages = [...new Set(images)];
-  if (uniqueImages.length) pages.push({ canonical, images: uniqueImages });
+  if (!uniqueImages.length) continue;
+  const pageImages = imagesByPage.get(canonical) ?? new Set();
+  for (const image of uniqueImages) pageImages.add(image);
+  imagesByPage.set(canonical, pageImages);
 }
+
+const pages = [...imagesByPage.entries()].map(([canonical, images]) => ({
+  canonical,
+  images: [...images],
+}));
 
 const body = pages.sort((a, b) => a.canonical.localeCompare(b.canonical)).map(page => [
   "  <url>",
