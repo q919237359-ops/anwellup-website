@@ -92,6 +92,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             <span>{String(index + 1).padStart(2, "0")}</span><h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             {section.checklist && <ul>{section.checklist.map((item) => <li key={item}>{item}</li>)}</ul>}
+            {section.evidence && <dl className="guide-evidence">{section.evidence.map((item) => <div key={item.label}><dt>{item.label}</dt><dd>{item.href ? <Link href={item.href}>{item.value}<ArrowUpRight size={15}/></Link> : item.value}</dd></div>)}</dl>}
             {section.links && <div className="guide-inline-links">{section.links.map((item) => <Link className="guide-inline-link" href={item.href} key={item.href}>{item.label}<ArrowUpRight size={16}/></Link>)}</div>}
           </section>)}
           <section id="questions" className="guide-questions" aria-labelledby="guide-questions-title"><span>Q</span><h2 id="guide-questions-title">Common sourcing questions.</h2><dl>{guide.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>

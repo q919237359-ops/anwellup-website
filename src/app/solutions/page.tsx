@@ -6,7 +6,7 @@ import { sourcingSolutions } from "../../solutions";
 
 export const metadata: Metadata = {
   title: "Food Packaging Sourcing Solutions",
-  description: "Scenario-led food-packaging sourcing plans for custom takeaway containers, restaurant chains and prepared-food retail programs.",
+  description: "Scenario-led food-packaging sourcing plans for custom cups, cold drinks, takeaway containers, restaurant chains and prepared-food retail programs.",
   alternates: { canonical: "/solutions/" },
   openGraph: {
     title: "Food Packaging Sourcing Solutions | ANWELLUP",
@@ -64,6 +64,6 @@ export default function SolutionsPage() {
         <Link className="guide-row-link" href={`/solutions/${solution.slug}/`} aria-label={`Open ${solution.title}`}><ArrowUpRight size={22}/></Link>
       </li>)}</ol>
     </section>
-    <section className="guides-index-closing"><div><span className="eyebrow">Compare the range</span><h2>Ready to shortlist formats?</h2></div><Link className="editorial-link" href="/products/takeaway-boxes-containers/">Browse containers <span><ArrowRight size={20}/></span></Link></section>
+    <section className="guides-index-closing"><div><span className="eyebrow">Compare the range</span><h2>Ready to shortlist formats?</h2></div><Link className="editorial-link" href="/products/">Browse products <span><ArrowRight size={20}/></span></Link></section>
   </main>;
 }

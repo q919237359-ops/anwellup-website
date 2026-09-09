@@ -39,7 +39,7 @@ const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
-assert.equal(buyingGuides.length, 13);
+assert.equal(buyingGuides.length, 19);
 assert.equal(new Set(buyingGuides.map(guide => guide.slug)).size, buyingGuides.length);
 assert(buyingGuides.every(guide => guide.sections.length >= 6), "Every guide needs a substantial decision structure");
 assert(buyingGuides.every(guide => guide.questions.length >= 3), "Every guide needs visible buyer questions");
@@ -50,7 +50,7 @@ for (const guide of buyingGuides) {
   assert.equal(imageMetadata.width, guide.imageWidth, `Guide image width mismatch: ${guide.slug}`);
   assert.equal(imageMetadata.height, guide.imageHeight, `Guide image height mismatch: ${guide.slug}`);
 }
-assert.equal(sourcingSolutions.length, 3);
+assert.equal(sourcingSolutions.length, 5);
 assert.equal(new Set(sourcingSolutions.map(solution => solution.slug)).size, sourcingSolutions.length);
 assert(sourcingSolutions.every(solution => solution.sections.length >= 6), "Every sourcing solution needs a complete planning sequence");
 assert(sourcingSolutions.every(solution => solution.questions.length >= 3), "Every sourcing solution needs buyer questions");
@@ -203,6 +203,11 @@ assert(containerCategory.includes("Eight inputs for a comparable quotation"), "C
 assert(containerCategory.includes('href="/solutions/custom-takeaway-containers/"'), "Container pillar must link to the transaction page");
 assert(containerCategory.includes('href="/guides/takeaway-container-moq/"'), "Container pillar must link to the MOQ decision page");
 assert(containerCategory.includes('data-analytics-location="category_boxes"'), "Container pillar must expose a tracked WhatsApp action");
+const cupCategory = readPage("products/cups-drinkware");
+assert(cupCategory.includes("Eight inputs for a comparable quotation"), "Cup pillar must expose the complete procurement brief");
+assert(cupCategory.includes('href="/solutions/custom-printed-coffee-cups/"'), "Cup pillar must link to the custom-print solution");
+assert(cupCategory.includes('href="/guides/disposable-cup-lid-compatibility/"'), "Cup pillar must link to the compatibility guide");
+assert(cupCategory.includes('data-analytics-location="category_cups"'), "Cup pillar must expose a tracked WhatsApp action");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
@@ -217,10 +222,12 @@ for (const guide of buyingGuides) {
   assert(html.includes(guide.title), `Guide title missing from output: ${guide.slug}`);
   assert(html.includes('href="/guides/food-packaging-rfq-checklist/"') || guide.slug === "food-packaging-rfq-checklist", `Guide must connect to the RFQ cluster: ${guide.slug}`);
 }
-for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide", "hinged-vs-folded-takeaway-containers", "how-to-choose-takeaway-packaging", "takeaway-container-moq", "takeaway-container-samples-prototyping", "takeaway-container-lead-time-packing", "how-to-verify-food-packaging-supplier"]) {
+for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide", "paper-vs-plastic-disposable-cups", "disposable-cup-lid-compatibility", "disposable-cup-moq", "disposable-cup-printing-samples", "disposable-cup-lead-time-packing", "how-to-evaluate-plastic-cup-manufacturer", "hinged-vs-folded-takeaway-containers", "how-to-choose-takeaway-packaging", "takeaway-container-moq", "takeaway-container-samples-prototyping", "takeaway-container-lead-time-packing", "how-to-verify-food-packaging-supplier"]) {
   const html = readPage(`guides/${slug}`);
   assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Decision guide needs three or more contextual links: ${slug}`);
 }
+assert(readPage("guides/paper-vs-plastic-disposable-cups").includes("guide-evidence"), "Cup comparison must expose visible first-party evidence");
+assert(readPage("guides/how-to-evaluate-plastic-cup-manufacturer").includes("AW SKU"), "Supplier evaluation must anchor review to public product identity");
 const solutionIndex = readPage("solutions");
 assert(solutionIndex.includes('"@type":"CollectionPage"'), "Solution index must expose CollectionPage structured data");
 for (const solution of sourcingSolutions) {

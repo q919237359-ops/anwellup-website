@@ -123,7 +123,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         <ol>{seo.procurement.map((item) => <li key={item.label}><span>{item.label}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
       </section>}
       {seo.clusterLinks && <section className="category-cluster" aria-labelledby="cluster-title">
-        <header><span className="eyebrow">Takeaway container knowledge base</span><h2 id="cluster-title">Continue by purchasing decision.</h2></header>
+        <header><span className="eyebrow">{category.id === "boxes" ? "Takeaway container knowledge base" : category.id === "cups" ? "Cup and drinkware knowledge base" : "Buyer knowledge base"}</span><h2 id="cluster-title">Continue by purchasing decision.</h2></header>
         <ol>{seo.clusterLinks.map((item, index) => <li key={item.href}><span>{String(index + 1).padStart(2, "0")}</span><div><small>{item.intent}</small><Link href={item.href}>{item.label}</Link></div><ArrowUpRight size={18}/></li>)}</ol>
       </section>}
       <div className="category-guide-links"><span className="eyebrow">Continue the brief</span><div><Link href={focusedGuide.href}>{focusedGuide.label}<ArrowUpRight size={18}/></Link><Link href="/guides/food-packaging-rfq-checklist/">Food packaging RFQ checklist<ArrowUpRight size={18}/></Link></div></div>

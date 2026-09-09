@@ -1,4 +1,5 @@
 import { containerClusterGuides } from "./container-guides";
+import { cupClusterGuides } from "./cup-guides";
 
 export type BuyingGuide = {
   slug: string;
@@ -17,6 +18,7 @@ export type BuyingGuide = {
     heading: string;
     paragraphs: string[];
     checklist?: string[];
+    evidence?: Array<{ label: string; value: string; href?: string }>;
     links?: Array<{ label: string; href: string }>;
   }>;
   questions: Array<{ question: string; answer: string }>;
@@ -525,6 +527,7 @@ export const buyingGuides: BuyingGuide[] = [
       { label: "Build a complete packaging RFQ", href: "/guides/food-packaging-rfq-checklist/" },
     ],
   },
+  ...cupClusterGuides,
   ...containerClusterGuides,
 ];
 

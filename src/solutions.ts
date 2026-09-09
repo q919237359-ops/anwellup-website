@@ -249,6 +249,156 @@ export const sourcingSolutions: SourcingSolution[] = [
       { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" },
     ],
   },
+  {
+    slug: "custom-printed-coffee-cups",
+    title: "Custom printed coffee cups for wholesale brand programs",
+    seoTitle: "Custom Printed Coffee Cups Wholesale",
+    shortTitle: "Custom printed coffee cups",
+    description: "Plan custom printed coffee cups by cup construction, size, lid pairing, artwork, proofs, MOQ, case packing and model-specific document requirements.",
+    lede: "A printed coffee cup is a controlled product-and-artwork system. Choose the exact single-wall or double-wall cup and matching lid first, then define print coverage, colour references, approval samples, packing and commercial terms.",
+    image: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp",
+    imageAlt: "Single-wall and double-wall paper cups arranged for a custom printed coffee-cup program",
+    imageWidth: 1448,
+    imageHeight: 1086,
+    updated: "2026-09-09",
+    audience: "Coffee brands, café groups, distributors, events and private-label beverage programs",
+    sections: [
+      {
+        heading: "Define the coffee and service journey.",
+        paragraphs: [
+          "Describe the drink types, serving condition, cup sizes, hold interval, takeaway or delivery routine and any sleeve requirement. State whether the same artwork will serve every size or whether the program has multiple versions.",
+          "Suitability remains model-specific. Ask for the intended beverage and service conditions to be reviewed against the selected cup-and-lid system.",
+        ],
+        checklist: ["Drink and serving condition", "Cup sizes", "Counter or delivery service", "Sleeve requirement", "Destination market"],
+        links: [{ label: "Compare paper cup models", href: "/products/cups-drinkware/" }],
+      },
+      {
+        heading: "Choose the exact paper-cup construction.",
+        paragraphs: [
+          "Shortlist the family, AW SKU, capacity, dimensions and single-wall or double-wall construction before preparing final artwork. The current range contains separate single-wall and double-wall references with model-level size and pack fields.",
+          "Do not transfer a dieline or print expectation from a similar cup. Ask for the printable area and decoration route associated with the selected construction.",
+        ],
+        links: [{ label: "Review single-wall paper cups", href: "/products/cups-drinkware/paper-cups-single-wall/" }, { label: "Review double-wall paper cups", href: "/products/cups-drinkware/paper-cups-double-wall/" }],
+      },
+      {
+        heading: "Pair the cup and lid by model.",
+        paragraphs: [
+          "Record the lid reference, material, colour, opening style and pack quantity beside every cup size. If the program expects a common lid, request a written compatibility matrix.",
+          "Test the actual cup and lid with the intended fill level, closing routine, carrying and drinking experience before final approval.",
+        ],
+        links: [{ label: "Build the cup-and-lid matrix", href: "/guides/disposable-cup-lid-compatibility/" }],
+      },
+      {
+        heading: "Control artwork, colour and proof scope.",
+        paragraphs: [
+          "List artwork filenames and versions, print colours, coverage, orientation, barcodes and market text. Provide a named colour reference when consistency matters and identify one authorized approver.",
+          "State whether each proof or sample is for layout, colour expectation, construction or production-representative review. Keep unresolved differences visible.",
+        ],
+        links: [{ label: "Plan cup printing samples", href: "/guides/disposable-cup-printing-samples/" }, { label: "Review the broader print brief", href: "/guides/custom-food-packaging-printing-guide/" }],
+      },
+      {
+        heading: "Quote sizes and artwork versions separately.",
+        paragraphs: [
+          "Provide quantity by cup model, lid, colour and artwork version. Ask whether MOQ applies per model or design, then compare setup items, unit price and order quantities on the same specification.",
+          "Convert cups and lids into complete case quantities and usable sets. Include storage, replenishment and artwork-change risk in the buying decision.",
+        ],
+        links: [{ label: "Review disposable cup MOQ", href: "/guides/disposable-cup-moq/" }],
+      },
+      {
+        heading: "Confirm production and delivery milestones.",
+        paragraphs: [
+          "Ask what event starts lead time and separate artwork review, sample approval, production, inspection and shipment readiness. Request case quantities, carton dimensions and gross weights for the final model mix.",
+          "Before order release, confirm the cup-and-lid specification, final artwork, approval record, quantities, packing, available documents, timing and delivery term in writing.",
+        ],
+        links: [{ label: "Plan cup packing and timing", href: "/guides/disposable-cup-lead-time-packing/" }, { label: "Build the complete RFQ", href: "/guides/food-packaging-rfq-checklist/" }],
+      },
+    ],
+    questions: [
+      { question: "What should I send for a custom printed coffee-cup quote?", answer: "Send the cup sizes and construction, matching lid needs, quantity by size, artwork status, colours, coverage, packing, destination and sample or document requirements." },
+      { question: "Can one artwork file be used for every cup size?", answer: "Do not assume so. Each selected model may have a different print area or dieline; identify and approve the artwork version for every required size." },
+      { question: "What is the MOQ for printed coffee cups?", answer: "MOQ is confirmed for the exact cup construction, size, artwork version, packing and destination. Request the unit and basis in the written quotation." },
+    ],
+    related: [
+      { label: "Disposable cups and drinkware", href: "/products/cups-drinkware/" },
+      { label: "Disposable cup printing and samples", href: "/guides/disposable-cup-printing-samples/" },
+      { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" },
+    ],
+  },
+  {
+    slug: "cold-drink-cup-programs",
+    title: "PET and PP cold drink cups for beverage programs",
+    seoTitle: "Plastic Cups Wholesale for Cold Drinks",
+    shortTitle: "Cold drink cup programs",
+    description: "Plan a wholesale PET or PP cold-drink cup program by beverage, size, clarity, rim and lid, sealing, artwork, case packs and destination evidence.",
+    lede: "A cold-drink cup program should connect the beverage and operating routine to an exact PET or PP cup, compatible lid or sealing route, presentation requirement, size matrix, case pack and written evidence scope.",
+    image: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp",
+    imageAlt: "PET and PP cups arranged for cold beverage and milk-tea sourcing",
+    imageWidth: 1448,
+    imageHeight: 1086,
+    updated: "2026-09-09",
+    audience: "Beverage brands, bubble-tea groups, distributors, events and prepared retail programs",
+    sections: [
+      {
+        heading: "Map the beverage and operating routine.",
+        paragraphs: [
+          "State the drink, portion, fill condition, ice or inclusions, hold interval, delivery orientation and consumer opening. Add any sealing, dome-lid, straw or tamper-evidence requirement that needs review.",
+          "Use the real beverage and service journey to shortlist models. A general PET or PP label should not be treated as a complete intended-use specification.",
+        ],
+        checklist: ["Beverage and inclusions", "Fill and hold conditions", "Cup capacity", "Delivery orientation", "Opening and accessory needs"],
+        links: [{ label: "Compare PET and PP cup families", href: "/products/cups-drinkware/" }],
+      },
+      {
+        heading: "Choose PET or PP in the context of the model.",
+        paragraphs: [
+          "The current catalogue separates clear PET cold-cup entries, a broad PP disposable-cup range and tall 500 ml and 700 ml PP milk-tea formats. Compare the exact dimensions, weight where listed, visual requirement and specification status.",
+          "Do not make environmental, temperature or performance claims from the resin name alone. Request model-specific suitability and available evidence for the destination.",
+        ],
+        links: [{ label: "Review PET cold cups", href: "/products/cups-drinkware/cups-pet-cold-cups/" }, { label: "Review PP disposable cups", href: "/products/cups-drinkware/pp-disposable-cups/" }, { label: "Review PP milk-tea cups", href: "/products/cups-drinkware/pp-milk-tea-cups/" }],
+      },
+      {
+        heading: "Build the cup, lid and sealing matrix.",
+        paragraphs: [
+          "Record every cup model with its proposed lid or sealing component, dimensions, opening style and pack quantity. Identify confirmed shared-lid relationships and keep alternatives separate.",
+          "Test closure, stacking, carrying, drinking and any film-seal or delivery routine with the exact filled system.",
+        ],
+        links: [{ label: "Use the cup-and-lid guide", href: "/guides/disposable-cup-lid-compatibility/" }],
+      },
+      {
+        heading: "Define presentation and branding requirements.",
+        paragraphs: [
+          "State whether drink visibility, cup clarity, product colour, label space or direct decoration is part of the selling experience. Map logos and information against grip areas, curves, lids and stacking.",
+          "Ask which decoration or label route can be reviewed for the exact construction. Keep artwork versions and approval responsibilities controlled.",
+        ],
+        links: [{ label: "Prepare the print and artwork brief", href: "/guides/custom-food-packaging-printing-guide/" }],
+      },
+      {
+        heading: "Plan the size mix and commercial order.",
+        paragraphs: [
+          "Break forecasts and committed quantities down by cup, lid, size, colour and artwork. Request MOQ, price and packing for each real order line and convert components into complete usable sets.",
+          "For multi-site or seasonal programs, keep rollout quantities separate from the annual estimate and record case rounding and storage needs.",
+        ],
+        links: [{ label: "Review disposable cup MOQ", href: "/guides/disposable-cup-moq/" }],
+      },
+      {
+        heading: "Verify packing, evidence and shipment readiness.",
+        paragraphs: [
+          "Request cup and lid case quantities, carton dimensions, gross weights and the approval milestones that lead to shipment readiness. Use confirmed data for loading rather than a generic piece-count assumption.",
+          "Name the destination and intended beverage conditions when requesting specifications or food-contact records. Confirm the final models, documents and commercial terms in writing.",
+        ],
+        links: [{ label: "Plan cup packing and lead time", href: "/guides/disposable-cup-lead-time-packing/" }, { label: "Evaluate a plastic cup supplier", href: "/guides/how-to-evaluate-plastic-cup-manufacturer/" }, { label: "Build the complete RFQ", href: "/guides/food-packaging-rfq-checklist/" }],
+      },
+    ],
+    questions: [
+      { question: "Which is better for cold drinks, PET or PP cups?", answer: "There is no universal answer. Compare the exact model against beverage, fill, presentation, closure, delivery and destination requirements and review model-specific evidence." },
+      { question: "Can milk-tea cups use the same lids as other 90 mm cups?", answer: "Do not assume so from the stated diameter. Request exact cup-and-lid compatibility and test the selected components in the intended service routine." },
+      { question: "What should a wholesale plastic-cup quotation include?", answer: "It should identify cup and lid models, sizes, quantities, material and colour, artwork, packing, MOQ basis, price, sample status, document scope, timing and delivery basis." },
+    ],
+    related: [
+      { label: "PET and PP cups", href: "/products/cups-drinkware/" },
+      { label: "Paper vs plastic disposable cups", href: "/guides/paper-vs-plastic-disposable-cups/" },
+      { label: "Evaluate a plastic cup manufacturer or supplier", href: "/guides/how-to-evaluate-plastic-cup-manufacturer/" },
+    ],
+  },
 ];
 
 export const getSourcingSolution = (slug: string) => sourcingSolutions.find((solution) => solution.slug === slug);

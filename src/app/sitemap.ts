@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const solutionRoutes = sourcingSolutions.map((solution) => `/solutions/${solution.slug}`);
   return [...staticRoutes, ...categoryRoutes, ...familyRoutes, ...guideRoutes, ...solutionRoutes].map((route) => ({
     url: `${base}${route}/`.replace(`${base}//`, `${base}/`),
-    lastModified: new Date("2026-09-08"),
+    lastModified: new Date("2026-09-09"),
     changeFrequency: route === "" ? "weekly" : route.includes("/products") || route.includes("/guides") || route.includes("/solutions") ? "monthly" : "yearly",
     priority: route === "" ? 1 : route.split("/").length > 3 ? 0.6 : 0.8,
   }));

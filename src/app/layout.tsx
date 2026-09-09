@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   openGraph: { title: "Wholesale Food Packaging Supplier | ANWELLUP", description: "Compare multi-material food packaging and prepare a clear wholesale or custom sourcing brief.", url: "/", siteName: "ANWELLUP", locale: "en_US", images: [{ url: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp", width: 1448, height: 1086, alt: "ANWELLUP cups and drinkware range" }], type: "website" },
   twitter: { card: "summary_large_image", title: "Wholesale Food Packaging Supplier | ANWELLUP", description: "Compare multi-material food packaging for wholesale, foodservice and custom sourcing projects.", images: ["/assets/catalog/2026-09-r1/cups-drinkware-v1.webp"] },
-  icons: { icon: "/assets/brand/anwellup-logo-primary-orange-transparent.png" },
+  icons: { icon: "/assets/brand/logo-mark.svg" },
   alternates: { canonical: "/" },
 };
 
