@@ -30,6 +30,7 @@ function load(relative) {
 
 const { catalogCategories, productFamilies, equipmentFamilies } = load("src/catalog.ts");
 const { buyingGuides } = load("src/guides.ts");
+const { sourcingSolutions } = load("src/solutions.ts");
 const { filterCatalog, matchingVariants, materialsForCategory, readCatalogFilters, writeCatalogFilters } = load("src/lib/catalog-search.ts");
 const { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GENERAL_WHATSAPP_URL, whatsappInquiryUrl } = load("src/lib/contact.ts");
 const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
@@ -38,7 +39,7 @@ const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
-assert.equal(buyingGuides.length, 7);
+assert.equal(buyingGuides.length, 13);
 assert.equal(new Set(buyingGuides.map(guide => guide.slug)).size, buyingGuides.length);
 assert(buyingGuides.every(guide => guide.sections.length >= 6), "Every guide needs a substantial decision structure");
 assert(buyingGuides.every(guide => guide.questions.length >= 3), "Every guide needs visible buyer questions");
@@ -48,6 +49,17 @@ for (const guide of buyingGuides) {
   assert.equal(imageMetadata.format, "webp", `Guide image must be WebP: ${guide.slug}`);
   assert.equal(imageMetadata.width, guide.imageWidth, `Guide image width mismatch: ${guide.slug}`);
   assert.equal(imageMetadata.height, guide.imageHeight, `Guide image height mismatch: ${guide.slug}`);
+}
+assert.equal(sourcingSolutions.length, 3);
+assert.equal(new Set(sourcingSolutions.map(solution => solution.slug)).size, sourcingSolutions.length);
+assert(sourcingSolutions.every(solution => solution.sections.length >= 6), "Every sourcing solution needs a complete planning sequence");
+assert(sourcingSolutions.every(solution => solution.questions.length >= 3), "Every sourcing solution needs buyer questions");
+assert(sourcingSolutions.every(solution => solution.related.length >= 3), "Every sourcing solution needs related paths");
+for (const solution of sourcingSolutions) {
+  const imageMetadata = await sharp(path.join(root, "public", solution.image.replace(/^\//, ""))).metadata();
+  assert.equal(imageMetadata.format, "webp", `Solution image must be WebP: ${solution.slug}`);
+  assert.equal(imageMetadata.width, solution.imageWidth, `Solution image width mismatch: ${solution.slug}`);
+  assert.equal(imageMetadata.height, solution.imageHeight, `Solution image height mismatch: ${solution.slug}`);
 }
 const bagCategory = catalogCategories.find(category => category.id === "bags");
 assert.equal(bagCategory.image, "/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.webp");
@@ -186,6 +198,11 @@ assert(readPage("products/carry-shopping-bags").includes("format-list"));
 assert(readPage("products/carry-shopping-bags").includes("Buyer&apos;s guide") || readPage("products/carry-shopping-bags").includes("Buyer&#x27;s guide"), "Category page must include the sourcing guide");
 assert(readPage("products/cups-drinkware").includes('"@type":"CollectionPage"'), "Category page must expose CollectionPage structured data");
 assert(readPage("products/cups-drinkware").includes('"@type":"FAQPage"'), "Category questions must expose FAQPage structured data");
+const containerCategory = readPage("products/takeaway-boxes-containers");
+assert(containerCategory.includes("Eight inputs for a comparable quotation"), "Container pillar must expose the complete procurement brief");
+assert(containerCategory.includes('href="/solutions/custom-takeaway-containers/"'), "Container pillar must link to the transaction page");
+assert(containerCategory.includes('href="/guides/takeaway-container-moq/"'), "Container pillar must link to the MOQ decision page");
+assert(containerCategory.includes('data-analytics-location="category_boxes"'), "Container pillar must expose a tracked WhatsApp action");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
@@ -200,9 +217,19 @@ for (const guide of buyingGuides) {
   assert(html.includes(guide.title), `Guide title missing from output: ${guide.slug}`);
   assert(html.includes('href="/guides/food-packaging-rfq-checklist/"') || guide.slug === "food-packaging-rfq-checklist", `Guide must connect to the RFQ cluster: ${guide.slug}`);
 }
-for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide"]) {
+for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide", "hinged-vs-folded-takeaway-containers", "how-to-choose-takeaway-packaging", "takeaway-container-moq", "takeaway-container-samples-prototyping", "takeaway-container-lead-time-packing", "how-to-verify-food-packaging-supplier"]) {
   const html = readPage(`guides/${slug}`);
   assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Decision guide needs three or more contextual links: ${slug}`);
+}
+const solutionIndex = readPage("solutions");
+assert(solutionIndex.includes('"@type":"CollectionPage"'), "Solution index must expose CollectionPage structured data");
+for (const solution of sourcingSolutions) {
+  const html = readPage(`solutions/${solution.slug}`);
+  assert(html.includes('"@type":"WebPage"'), `Solution must expose WebPage structured data: ${solution.slug}`);
+  assert(html.includes('"@type":"FAQPage"'), `Solution must expose visible FAQ structured data: ${solution.slug}`);
+  assert(html.includes(solution.title), `Solution title missing from output: ${solution.slug}`);
+  assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Solution needs three or more contextual links: ${solution.slug}`);
+  assert(html.includes(`data-analytics-location="solution_${solution.slug}"`), `Solution must expose a tracked WhatsApp action: ${solution.slug}`);
 }
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);

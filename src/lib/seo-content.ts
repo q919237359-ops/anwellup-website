@@ -11,6 +11,18 @@ type BuyerQuestion = {
   answer: string;
 };
 
+type ProcurementField = {
+  label: string;
+  title: string;
+  body: string;
+};
+
+type ClusterLink = {
+  label: string;
+  href: string;
+  intent: string;
+};
+
 export type CategorySeoContent = {
   title: string;
   description: string;
@@ -18,6 +30,8 @@ export type CategorySeoContent = {
   introduction: string;
   notes: SourcingNote[];
   questions: BuyerQuestion[];
+  procurement?: ProcurementField[];
+  clusterLinks?: ClusterLink[];
 };
 
 export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
@@ -49,6 +63,31 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
     questions: [
       { question: "Which details should be confirmed before quotation?", answer: "Include the food application, target capacity or dimensions, material preference, lid or closure, quantity and destination market." },
       { question: "Are all containers suitable for every temperature?", answer: "No. Suitability depends on the exact material, model and intended use, so temperature and service conditions should be confirmed in writing." },
+      { question: "What is the MOQ for takeaway food containers?", answer: "MOQ is not one category-wide number. It is quoted for the selected model, material, colour, printing, packing and order destination." },
+      { question: "Can buyers request samples before a bulk order?", answer: "A sample route can be reviewed after the format and application are defined. Confirm whether the sample is a catalogue reference, custom prototype or production-representative sample, together with any cost and timing." },
+      { question: "How is production lead time confirmed?", answer: "Lead time is confirmed after the specification, quantity, artwork, sample status and packing are agreed. Ask for the starting point and shipment-ready milestone to be stated in the quotation." },
+      { question: "Which documents should be requested?", answer: "Name the destination market and intended food-contact conditions, then request documents that identify the exact product or material, scope, issuer and validity period. Availability is confirmed per model." },
+    ],
+    procurement: [
+      { label: "01 / Application", title: "Food, portion and service journey", body: "Record the food type, portion geometry, filling condition, holding interval, transport orientation and whether reheating, chilling or display is part of the intended use." },
+      { label: "02 / Specification", title: "Material, size and closure", body: "Shortlist the model by usable dimensions or capacity, material, compartment layout, closure and any matched lid. Final suitability is confirmed for the exact model." },
+      { label: "03 / Commercial", title: "MOQ and quotation basis", body: "State quantity per model and whether it means pieces, packs or cases. MOQ, price and availability are quoted against the selected construction and project scope." },
+      { label: "04 / Identity", title: "Printing and customization", body: "Separate the base container from artwork, colour, print coverage, label, sleeve, embossing, inner pack and carton-mark requirements so each approval point is visible." },
+      { label: "05 / Approval", title: "Samples and prototyping", body: "Define what the sample must prove: portion fit, closure, stacking, artwork layout or production finish. Record the approved model and version before order release." },
+      { label: "06 / Timing", title: "Lead time and milestones", body: "Request the timing basis for samples, artwork approval, production and shipment readiness. Timing remains provisional until the specification and quantity are confirmed." },
+      { label: "07 / Logistics", title: "Packing and container loading", body: "Ask for pieces per pack, packs per case, carton dimensions and gross weight by model. Loading estimates should use confirmed case data and the agreed assortment." },
+      { label: "08 / Evidence", title: "Certificates and test records", body: "Specify the destination and intended use, then review available declarations or reports for the exact product or material. Do not infer coverage from a related item." },
+    ],
+    clusterLinks: [
+      { label: "Custom takeaway containers", href: "/solutions/custom-takeaway-containers/", intent: "Customization & supplier brief" },
+      { label: "Hinged vs folded containers", href: "/guides/hinged-vs-folded-takeaway-containers/", intent: "Format comparison" },
+      { label: "How to choose takeaway packaging", href: "/guides/how-to-choose-takeaway-packaging/", intent: "Selection guide" },
+      { label: "Takeaway container MOQ", href: "/guides/takeaway-container-moq/", intent: "Commercial planning" },
+      { label: "Samples and prototyping", href: "/guides/takeaway-container-samples-prototyping/", intent: "Approval process" },
+      { label: "Lead time, packing and loading", href: "/guides/takeaway-container-lead-time-packing/", intent: "Delivery planning" },
+      { label: "Restaurant chain packaging", href: "/solutions/restaurant-chain-takeaway-packaging/", intent: "Multi-site scenario" },
+      { label: "Prepared-food retail packaging", href: "/solutions/prepared-food-retail-packaging/", intent: "Retail scenario" },
+      { label: "Verify a packaging supplier", href: "/guides/how-to-verify-food-packaging-supplier/", intent: "Supplier due diligence" },
     ],
   },
   tableware: {

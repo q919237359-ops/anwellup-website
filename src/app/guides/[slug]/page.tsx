@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, ArrowRight, ArrowUpRight, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../../components/JsonLd";
 import { buyingGuides, getBuyingGuide } from "../../../guides";
 import { OpenInquiryButton } from "../../../components/InquiryProvider";
+import { GENERAL_WHATSAPP_URL } from "../../../lib/contact";
 
 export function generateStaticParams() {
   return buyingGuides.map((guide) => ({ slug: guide.slug }));
@@ -98,6 +99,6 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       </div>
     </article>
     <section className="guide-related" aria-labelledby="related-title"><div><span className="eyebrow">Continue the brief</span><h2 id="related-title">Related product and sourcing pages.</h2></div><div>{guide.related.map((item) => <Link href={item.href} key={item.href}>{item.label}<ArrowUpRight size={19}/></Link>)}</div></section>
-    <section className="family-next-step"><div><h2>Turn the brief into an enquiry.</h2><p>Share the product, application, quantity and destination. Final specifications and commercial terms are confirmed for the selected model.</p></div><OpenInquiryButton className="button button-orange">Enquire <ArrowRight size={18}/></OpenInquiryButton></section>
+    <section className="family-next-step"><div><h2>Turn the brief into an enquiry.</h2><p>Share the product, application, quantity and destination. Final specifications and commercial terms are confirmed for the selected model.</p></div><div className="category-next-actions"><OpenInquiryButton className="button button-orange">Build an RFQ <ArrowRight size={18}/></OpenInquiryButton><a className="button button-outline" href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location={`guide_${guide.slug}`}><WhatsappLogo size={19} weight="fill"/> WhatsApp</a></div></section>
   </main>;
 }

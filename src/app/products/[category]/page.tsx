@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, ArrowRight, ArrowUpRight, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { allMaterials, catalogCategories, getCategory, getFamiliesByCategory } from "../../../catalog";
 import { CategoryFamilyBrowser } from "../../../components/CategoryFamilyBrowser";
 import { JsonLd } from "../../../components/JsonLd";
 import { categorySeoContent } from "../../../lib/seo-content";
+import { GENERAL_WHATSAPP_URL } from "../../../lib/contact";
+import { OpenInquiryButton } from "../../../components/InquiryProvider";
 
 export function generateStaticParams() { return catalogCategories.map((category) => ({ category: category.slug })); }
 
@@ -116,7 +118,16 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         <h2>Questions to settle before quotation.</h2>
         <dl>{seo.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl>
       </div>
+      {seo.procurement && <section className="category-procurement" aria-labelledby="procurement-title">
+        <header><span className="eyebrow">Procurement brief</span><h2 id="procurement-title">Eight inputs for a comparable quotation.</h2><p>Use these fields as a working brief. Model-specific figures and documents are confirmed in writing rather than assumed from the category.</p></header>
+        <ol>{seo.procurement.map((item) => <li key={item.label}><span>{item.label}</span><h3>{item.title}</h3><p>{item.body}</p></li>)}</ol>
+      </section>}
+      {seo.clusterLinks && <section className="category-cluster" aria-labelledby="cluster-title">
+        <header><span className="eyebrow">Takeaway container knowledge base</span><h2 id="cluster-title">Continue by purchasing decision.</h2></header>
+        <ol>{seo.clusterLinks.map((item, index) => <li key={item.href}><span>{String(index + 1).padStart(2, "0")}</span><div><small>{item.intent}</small><Link href={item.href}>{item.label}</Link></div><ArrowUpRight size={18}/></li>)}</ol>
+      </section>}
       <div className="category-guide-links"><span className="eyebrow">Continue the brief</span><div><Link href={focusedGuide.href}>{focusedGuide.label}<ArrowUpRight size={18}/></Link><Link href="/guides/food-packaging-rfq-checklist/">Food packaging RFQ checklist<ArrowUpRight size={18}/></Link></div></div>
     </section>
+    <section className="family-next-step category-next-step"><div><span className="eyebrow">Model-specific quotation</span><h2>Bring the food, format and destination.</h2><p>Share the application, dimensions or capacity, material, quantity, customization and delivery destination. We will return the questions that still need confirmation.</p></div><div className="category-next-actions"><OpenInquiryButton className="button button-orange">Build an RFQ <ArrowRight size={18}/></OpenInquiryButton><a className="button button-outline" href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location={`category_${category.id}`}><WhatsappLogo size={19} weight="fill"/> WhatsApp</a></div></section>
   </main>;
 }

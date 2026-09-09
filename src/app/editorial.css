@@ -393,6 +393,29 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .category-buyer-questions dl > div { padding: 0 0 27px; margin-bottom: 27px; border-bottom: 1px solid var(--line); }
 .category-buyer-questions dt { font-family: var(--serif); font-size: 22px; line-height: 1.25; }
 .category-buyer-questions dd { max-width: 58ch; margin: 12px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.75; }
+.category-procurement { margin-top: 118px; padding-top: 34px; border-top: 1px solid var(--line-strong); }
+.category-procurement > header { display: grid; grid-template-columns: minmax(250px,.8fr) minmax(420px,1.2fr); gap: 20px clamp(50px,8vw,130px); align-items: end; }
+.category-procurement > header .eyebrow { grid-column: 1 / -1; }
+.category-procurement > header h2 { max-width: 12ch; margin: 22px 0 0; font-size: clamp(34px,3.7vw,54px); font-weight: 450; line-height: 1.07; letter-spacing: -.035em; }
+.category-procurement > header p { max-width: 56ch; margin: 0 0 6px; color: var(--ink-soft); font-size: 13px; line-height: 1.75; }
+.category-procurement > ol { margin: 76px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; list-style: none; border-top: 1px solid var(--line-strong); }
+.category-procurement li { min-height: 225px; padding: 28px 32px 34px 0; border-bottom: 1px solid var(--line); }
+.category-procurement li:nth-child(even) { padding-left: 32px; border-left: 1px solid var(--line); }
+.category-procurement li > span { color: var(--ink-soft); font-family: var(--mono); font-size: 8px; }
+.category-procurement h3 { margin: 36px 0 11px; font-size: 24px; font-weight: 470; letter-spacing: -.025em; }
+.category-procurement li p { max-width: 53ch; margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.75; }
+.category-cluster { margin-top: 118px; padding-top: 34px; display: grid; grid-template-columns: minmax(250px,.8fr) minmax(420px,1.2fr); gap: clamp(50px,8vw,130px); border-top: 1px solid var(--line-strong); }
+.category-cluster header h2 { max-width: 11ch; margin: 22px 0 0; font-size: clamp(34px,3.7vw,54px); font-weight: 450; line-height: 1.07; letter-spacing: -.035em; }
+.category-cluster ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+.category-cluster li { display: grid; grid-template-columns: 32px minmax(0,1fr) auto; gap: 18px; align-items: center; padding: 19px 0 21px; border-bottom: 1px solid var(--line); }
+.category-cluster li > span, .category-cluster small { color: var(--ink-soft); font-family: var(--mono); font-size: 8px; }
+.category-cluster li div { display: flex; flex-direction: column; gap: 6px; }
+.category-cluster li a { font-family: var(--serif); font-size: 21px; line-height: 1.2; }
+.category-cluster li svg { transition: transform .25s ease; }
+.category-cluster li:hover svg { transform: translate(3px,-3px); }
+.category-next-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
+.button-outline { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); }
+.button-outline:hover { border-color: var(--ink); background: var(--ink); color: var(--white); }
 .catalog-controls { min-width: 0; grid-template-columns: minmax(0,1fr) minmax(250px,330px); margin-bottom: 46px; background: rgba(246,240,231,.97); }
 .category-filter { min-width: 0; scrollbar-width: thin; scrollbar-color: #b2a18f transparent; }
 .category-filter button { padding: 10px 12px; border-bottom: 1px solid transparent; font-size: 12px; }
@@ -494,6 +517,7 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .guide-hero h1 { max-width: 15ch; margin: 25px 0 0; font-size: clamp(56px,6.5vw,98px); font-weight: 450; line-height: 1; letter-spacing: -.045em; text-wrap: balance; }
 .guide-hero-summary { max-width: 46ch; margin: 0 0 10px; }
 .guide-hero-summary > p:first-child { margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.85; }
+.solution-audience { margin: 20px 0 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink); font-size: 12px; line-height: 1.65; }
 .guide-byline { margin: 22px 0 0; color: var(--ink-soft); font-family: var(--mono); font-size: 8px; line-height: 1.6; letter-spacing: .02em; text-transform: uppercase; }
 .guide-byline a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .guide-lead-figure { width: var(--container); margin: 0 auto; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
@@ -568,9 +592,10 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .family-link { grid-column: 2; grid-row: 1 / 3; }
   .family-next-step { grid-template-columns: 1fr; gap: 25px; }
   .family-next-step .button { justify-self: start; }
-  .category-sourcing-intro, .category-buyer-questions { grid-template-columns: 1fr; gap: 30px; }
+  .category-sourcing-intro, .category-buyer-questions, .category-procurement > header, .category-cluster { grid-template-columns: 1fr; gap: 30px; }
   .category-sourcing-intro h2 { max-width: 14ch; }
   .category-sourcing-notes { width: 100%; margin-top: 68px; }
+  .category-procurement > ol { margin-top: 55px; }
   .category-buyer-questions { margin-top: 82px; }
   .home-guides, .guides-index-hero, .guide-hero, .guide-layout, .guide-related, .category-guide-links { grid-template-columns: 1fr; }
   .home-guides { gap: 55px; }
@@ -620,6 +645,11 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .category-sourcing-notes li { grid-template-columns: 34px 1fr; gap: 14px; }
   .category-sourcing-notes li > div { grid-column: 2; }
   .category-sourcing-notes h3 { font-size: 23px; }
+  .category-procurement > ol { grid-template-columns: 1fr; }
+  .category-procurement li, .category-procurement li:nth-child(even) { min-height: 0; padding: 25px 0 29px; border-left: 0; }
+  .category-procurement h3 { margin-top: 24px; }
+  .category-cluster li a { font-size: 19px; }
+  .category-next-actions { justify-content: flex-start; }
   .category-buyer-questions { margin-top: 68px; padding-top: 28px; }
   .home-guides { padding: 82px 0 92px; }
   .home-guides > header h2 { font-size: clamp(42px,12vw,60px); }

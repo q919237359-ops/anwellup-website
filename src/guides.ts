@@ -1,3 +1,5 @@
+import { containerClusterGuides } from "./container-guides";
+
 export type BuyingGuide = {
   slug: string;
   title: string;
@@ -523,6 +525,7 @@ export const buyingGuides: BuyingGuide[] = [
       { label: "Build a complete packaging RFQ", href: "/guides/food-packaging-rfq-checklist/" },
     ],
   },
+  ...containerClusterGuides,
 ];
 
 export const getBuyingGuide = (slug: string) => buyingGuides.find((guide) => guide.slug === slug);

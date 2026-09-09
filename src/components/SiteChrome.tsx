@@ -16,6 +16,8 @@ const navigation = [
   ["Contact", "/contact/"],
 ] as const;
 
+const footerNavigation = [navigation[0], ["Solutions", "/solutions/"] as const, ...navigation.slice(1)];
+
 function Wordmark() {
   return <span className="brand-wordmark" aria-hidden="true"><img src="/assets/brand/anwellup-logo-primary-orange-transparent.webp" alt="" /></span>;
 }
@@ -148,7 +150,7 @@ function Footer() {
       <Link className="footer-brand" href="/" aria-label="ANWELLUP home"><Wordmark /><span>Food packaging for the way we serve, share and carry.</span></Link>
       <div className="footer-index">
         <span className="eyebrow">Navigate</span>
-        {navigation.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
+        {footerNavigation.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
       </div>
       <div className="footer-note"><span className="eyebrow">Let’s talk packaging</span><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="footer">{WHATSAPP_DISPLAY}</a><p>Share a product, an idea or your next project.</p></div>
     </div>
