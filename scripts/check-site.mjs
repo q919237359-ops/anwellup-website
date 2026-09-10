@@ -184,8 +184,10 @@ assert(readPage("about").includes("Content method"), "About page must explain th
 const manufacturingPage = readPage("manufacturing");
 assert(manufacturingPage.includes('class="manufacturing-page"'), "Manufacturing page must use the evidence-led layout");
 assert(manufacturingPage.includes('"@type":"WebPage"'), "Manufacturing page must expose WebPage structured data");
-assert(manufacturingPage.includes("Six views."), "Manufacturing page must expose attributed production evidence");
-assert.equal((manufacturingPage.match(/class="evidence-card"/g) || []).length, 6, "Manufacturing page must show six sourced facility views");
+assert(manufacturingPage.includes("Facilities,"), "Manufacturing page must expose real production evidence");
+assert.equal((manufacturingPage.match(/class="evidence-card"/g) || []).length, 5, "Manufacturing page must show five sourced facility views");
+for (const image of ["foshan-factory-exterior.webp", "hubei-production-floor-restored.webp", "sichuan-production-floor-restored.webp", "mould-storage-room.webp", "aluminium-line-workshop.webp", "wb45t-production-line.webp", "aluminium-container-moulds.webp", "automatic-collection-equipment.webp"]) assert(manufacturingPage.includes(image), `Manufacturing page must expose approved real evidence: ${image}`);
+assert(!manufacturingPage.includes("plastic-blister-injection-malaysia-source.webp"), "Manufacturing page must not retain the superseded evidence gallery");
 assert(manufacturingPage.includes("Verify the project, not the photograph."), "Manufacturing page must explain the verification path");
 for (const item of equipmentFamilies) assert(manufacturingPage.includes(item.sku), `Manufacturing page must expose equipment reference: ${item.sku}`);
 assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage must use the approved matching backdrop");

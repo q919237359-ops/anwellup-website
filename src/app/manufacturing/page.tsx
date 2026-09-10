@@ -8,11 +8,11 @@ import { ScrollMotion } from "../../components/ScrollMotion";
 
 export const metadata: Metadata = {
   title: "Food Packaging Manufacturing & Equipment",
-  description: "Review attributed packaging-factory imagery and prepare aluminium-container line, mould and collection-equipment enquiries with a clear verification path.",
+  description: "Review real factory and equipment photography from supplied catalogues, then prepare aluminium-container line, mould and collection-equipment enquiries.",
   alternates: { canonical: "/manufacturing/" },
   openGraph: {
     title: "Food Packaging Manufacturing & Equipment | ANWELLUP",
-    description: "See attributed production imagery and define equipment projects from the target format, process and verification requirements.",
+    description: "See real factory and equipment photography from supplied catalogues and define projects from the target format, process and verification requirements.",
     url: "/manufacturing/",
     type: "website",
     images: [{ url: "/assets/manufacturing/2026-09-source/aluminium-factory-overview-source.webp", width: 720, height: 362, alt: "Ningbo Times aluminium packaging facility exterior from a supplied source catalogue" }],
@@ -21,14 +21,20 @@ export const metadata: Metadata = {
 };
 
 const sourceRoot = "/assets/manufacturing/2026-09-source";
+const weiboRoot = "/assets/manufacturing/2026-09-weibo";
 
 const factoryEvidence = [
-  { file: "plastic-blister-injection-malaysia-source.webp", title: "Forming and moulding", body: "Plastic blister and injection-moulding equipment shown in the source catalogue.", location: "Kuala Lumpur", width: 176, height: 127 },
-  { file: "paper-cup-line-kunming-source.webp", title: "Paper-format production", body: "Paper cup, bowl and box production equipment shown in the source catalogue.", location: "Yunnan · Kunming", width: 180, height: 153 },
-  { file: "bag-production-chuzhou-source.webp", title: "Bag conversion", body: "Production equipment associated with carry-bag conversion in the source catalogue.", location: "Anhui · Chuzhou", width: 211, height: 126 },
-  { file: "coated-paper-floor-philadelphia-source.webp", title: "Material handling", body: "Coated-paper reels and production-floor handling shown in the source catalogue.", location: "Philadelphia", width: 185, height: 155 },
-  { file: "injection-moulding-cangzhou-source.webp", title: "Production layout", body: "Injection-moulding and plastic-blister production hall shown in the source catalogue.", location: "Hebei · Cangzhou", width: 175, height: 125 },
-  { file: "plastic-blister-injection-sichuan-source.webp", title: "Equipment floor", body: "Multiple packaging-production workstations shown in the source catalogue.", location: "Sichuan · Lezhi", width: 185, height: 172 },
+  { file: "foshan-factory-exterior.webp", title: "Foshan factory exterior", body: "Exterior, loading yard and site context from the supplied company catalogue.", location: "Foshan · Guangdong", width: 1379, height: 672, treatment: "Original catalogue photograph" },
+  { file: "hubei-production-floor-restored.webp", title: "Hubei production floor", body: "Production hall with installed equipment and overhead services visible in the supplied photograph.", location: "Hubei", width: 1455, height: 1081, treatment: "Clarity restored from supplied photograph" },
+  { file: "sichuan-production-floor-restored.webp", title: "Sichuan production floor", body: "Multi-line production-floor view retained from the supplied company catalogue.", location: "Sichuan", width: 1586, height: 992, treatment: "Clarity restored from supplied photograph" },
+  { file: "mould-storage-room.webp", title: "Mould storage", body: "Organised tooling and mould storage shown as part of the production environment.", location: "Factory floor", width: 1100, height: 577, treatment: "Original catalogue photograph" },
+  { file: "aluminium-line-workshop.webp", title: "Aluminium container workshop", body: "A wide workshop view showing installed aluminium-container production equipment.", location: "Production floor", width: 1487, height: 676, treatment: "Original catalogue photograph" },
+];
+
+const equipmentEvidence = [
+  { file: "wb45t-production-line.webp", label: "WB-45T production line", width: 1355, height: 1090 },
+  { file: "aluminium-container-moulds.webp", label: "Aluminium container moulds", width: 1405, height: 1470 },
+  { file: "automatic-collection-equipment.webp", label: "Automatic collection equipment", width: 1445, height: 1470 },
 ];
 
 const verificationSteps = [
@@ -65,6 +71,11 @@ export default function ManufacturingPage() {
           contentUrl: `https://anwellup.com${sourceRoot}/aluminium-factory-overview-source.webp`,
           caption: "Ningbo Times aluminium packaging facility exterior from a supplied source catalogue.",
         },
+        associatedMedia: factoryEvidence.map((item) => ({
+          "@type": "ImageObject",
+          contentUrl: `https://anwellup.com${weiboRoot}/${item.file}`,
+          caption: `${item.title}, ${item.location}. ${item.treatment}.`,
+        })),
         mainEntity: {
           "@type": "ItemList",
           numberOfItems: equipmentFamilies.length,
@@ -77,7 +88,7 @@ export default function ManufacturingPage() {
       <div className="manufacturing-hero-copy">
         <span className="eyebrow">Manufacturing / source evidence</span>
         <h1><span className="manufacturing-title-line title-mask"><span>Production,</span></span><span className="manufacturing-title-line title-mask"><span>shown with</span></span><span className="manufacturing-title-line title-mask"><span><em>context.</em></span></span></h1>
-        <p>See how paper, plastic, bag and aluminium formats move through forming, conversion and handling. Every facility image keeps its source context; each equipment project starts from a written brief.</p>
+        <p>Review real production-floor and equipment photography from the supplied catalogues. Each image keeps its source context, while every equipment project begins with a written format and output brief.</p>
         <a className="manufacturing-jump" href="#factory-evidence">Review the evidence <ArrowDown size={18}/></a>
       </div>
       <figure className="manufacturing-hero-media" data-manufacturing-hero-media>
@@ -85,24 +96,24 @@ export default function ManufacturingPage() {
         <figcaption><span>Catalogue source</span><strong>Ningbo Times Aluminium Foil Technology Corp., Ltd.</strong><small>Facility relationship, equipment scope and project availability are confirmed separately.</small></figcaption>
       </figure>
       <dl className="manufacturing-facts" aria-label="Manufacturing page evidence summary">
-        <div><dt>Attributed facility views</dt><dd>{String(factoryEvidence.length).padStart(2, "0")}</dd></div>
-        <div><dt>Equipment enquiry families</dt><dd>{String(equipmentFamilies.length).padStart(2, "0")}</dd></div>
+        <div><dt>Real factory views</dt><dd>{String(factoryEvidence.length).padStart(2, "0")}</dd></div>
+        <div><dt>Equipment references</dt><dd>{String(equipmentFamilies.length).padStart(2, "0")}</dd></div>
         <div><dt>Verification checkpoints</dt><dd>{String(verificationSteps.length).padStart(2, "0")}</dd></div>
       </dl>
     </header>
 
     <section className="factory-evidence" id="factory-evidence" aria-labelledby="factory-evidence-title">
       <header className="section-heading">
-        <div><span className="eyebrow">Attributed production views</span><h2 id="factory-evidence-title">Six views.<br/>Each one sourced.</h2></div>
-        <p>These catalogue extracts show process categories and named locations. They support an initial discussion; they do not establish ANWELLUP ownership, capacity, certification or product suitability.</p>
+        <div><span className="eyebrow">Real production views</span><h2 id="factory-evidence-title">Facilities,<br/>not renders.</h2></div>
+        <p>These are photographs supplied in the WEIBO aluminium-foil catalogue. Two low-resolution production-floor views received conservative clarity restoration; the composition and equipment layout remain tied to the supplied photographs.</p>
       </header>
       <div className="evidence-grid">
         {factoryEvidence.map((item, index) => <figure className="evidence-card" data-reveal key={item.file}>
-          <div className="evidence-image"><img src={`${sourceRoot}/${item.file}`} alt={`${item.title} in ${item.location}, shown in the supplied source catalogue`} width={item.width} height={item.height} loading="lazy"/></div>
-          <figcaption><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.location} · {item.body}</p></div></figcaption>
+          <div className="evidence-image"><img src={`${weiboRoot}/${item.file}`} alt={`${item.title} in ${item.location}, shown in the supplied WEIBO aluminium-foil catalogue`} width={item.width} height={item.height} loading="lazy"/></div>
+          <figcaption><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.location} · {item.body}</p><small>{item.treatment}</small></div></figcaption>
         </figure>)}
       </div>
-      <p className="evidence-source-note">Source boundary: production views are attributed to the supplied CNYU PACK catalogue. Confirm the proposed supplier, site, relationship and project scope in writing.</p>
+      <p className="evidence-source-note">Source: supplied WEIBO Aluminium Foil company catalogue (2020 edition). Confirm the proposed facility, equipment scope, current capacity and project relationship in writing.</p>
     </section>
 
     <section className="equipment-projects" aria-labelledby="equipment-projects-title">
@@ -113,9 +124,16 @@ export default function ManufacturingPage() {
       </header>
       <div>
         <div className="equipment-project-grid">
-          {equipmentFamilies.map((item, index) => <article className="equipment-project-card" data-reveal key={item.sku}>
-            <span>{String(index + 1).padStart(2, "0")}</span><code>{item.sku}</code><h3>{item.name}</h3><p>{item.description}</p><AddToInquiryButton compact item={{ sku: item.sku, name: item.name, category: "Equipment" }}/>
-          </article>)}
+          {equipmentFamilies.map((item, index) => {
+            const media = equipmentEvidence[index];
+            return <article className="equipment-project-card" data-reveal key={item.sku}>
+              <figure className="equipment-project-media">
+                <img src={`${weiboRoot}/${media.file}`} alt={`${media.label} shown in the supplied WEIBO equipment catalogue`} width={media.width} height={media.height} loading="lazy"/>
+                <figcaption><span>Catalogue evidence</span><strong>{media.label}</strong></figcaption>
+              </figure>
+              <div className="equipment-project-copy"><span>{String(index + 1).padStart(2, "0")}</span><code>{item.sku}</code><h3>{item.name}</h3><p>{item.description}</p><AddToInquiryButton compact item={{ sku: item.sku, name: item.name, category: "Equipment" }}/></div>
+            </article>;
+          })}
         </div>
         <p className="equipment-scope-note">Equipment names describe enquiry categories. Supplier, model, performance, price, delivery, installation and after-sales scope require a project-specific written quotation.</p>
       </div>
