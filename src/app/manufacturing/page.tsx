@@ -20,15 +20,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", images: ["/assets/manufacturing/2026-09-clean/factory-overview-signage-removed-v2.webp"] },
 };
 
-const weiboRoot = "/assets/manufacturing/2026-09-weibo";
 const cleanRoot = "/assets/manufacturing/2026-09-clean";
 
 const factoryEvidence = [
   { file: "foshan-factory-signage-removed-v2.webp", root: cleanRoot, title: "Foshan factory exterior", body: "Exterior, loading yard and site context from the supplied company catalogue.", location: "Foshan · Guangdong", width: 1797, height: 875, treatment: "Identifying facade signage removed" },
-  { file: "hubei-production-floor-restored.webp", root: weiboRoot, title: "Hubei production floor", body: "Production hall with installed equipment and overhead services visible in the supplied photograph.", location: "Hubei", width: 1455, height: 1081, treatment: "Clarity restored from supplied photograph" },
-  { file: "sichuan-production-floor-restored.webp", root: weiboRoot, title: "Sichuan production floor", body: "Multi-line production-floor view retained from the supplied company catalogue.", location: "Sichuan", width: 1586, height: 992, treatment: "Clarity restored from supplied photograph" },
-  { file: "mould-storage-room.webp", root: weiboRoot, title: "Mould storage", body: "Organised tooling and mould storage shown as part of the production environment.", location: "Factory floor", width: 1100, height: 577, treatment: "Original catalogue photograph" },
-  { file: "aluminium-line-workshop.webp", root: weiboRoot, title: "Aluminium container workshop", body: "A wide workshop view showing installed aluminium-container production equipment.", location: "Production floor", width: 1487, height: 676, treatment: "Original catalogue photograph" },
+  { file: "hubei-production-floor-restored.webp", root: cleanRoot, title: "Hubei production floor", body: "Production hall with installed equipment and overhead services visible in the supplied photograph.", location: "Hubei", width: 1455, height: 1081, treatment: "Clarity restored from supplied photograph" },
+  { file: "sichuan-production-floor-restored.webp", root: cleanRoot, title: "Sichuan production floor", body: "Multi-line production-floor view retained from the supplied company catalogue.", location: "Sichuan", width: 1586, height: 992, treatment: "Clarity restored from supplied photograph" },
+  { file: "mould-storage-room.webp", root: cleanRoot, title: "Mould storage", body: "Organised tooling and mould storage shown as part of the production environment.", location: "Factory floor", width: 1100, height: 577, treatment: "Original catalogue photograph" },
+  { file: "aluminium-line-workshop.webp", root: cleanRoot, title: "Aluminium container workshop", body: "A wide workshop view showing installed aluminium-container production equipment.", location: "Production floor", width: 1487, height: 676, treatment: "Original catalogue photograph" },
 ];
 
 const equipmentEvidence = [
