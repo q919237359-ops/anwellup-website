@@ -24,6 +24,16 @@ export function ScrollMotion({ children, variant }: { children: React.ReactNode;
             });
           });
           media.add("(min-width: 821px) and (prefers-reduced-motion: no-preference)", () => {
+            if (variant === "manufacturing") {
+              gsap.fromTo(".manufacturing-hero-media > img", { scale: 1.02, yPercent: -2.5 }, { scale: 1.085, yPercent: 2.5, ease: "none", scrollTrigger: { trigger: ".manufacturing-hero", start: "top top+=78", end: "bottom top", scrub: .65 } });
+              gsap.from(".manufacturing-facts > div", { y: 18, opacity: 0, duration: .8, stagger: .1, delay: .45, ease: "power3.out" });
+              gsap.utils.toArray<HTMLElement>(".evidence-card").forEach((card, index) => {
+                const picture = card.querySelector("img");
+                if (!picture) return;
+                gsap.fromTo(picture, { yPercent: index % 2 ? 3 : -3 }, { yPercent: index % 2 ? -3 : 3, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: .75 } });
+              });
+              return;
+            }
             if (variant !== "home") return;
             gsap.from(".cinema-copy > p, .cinema-copy > a", { y: 24, opacity: 0, duration: .9, stagger: .15, delay: .45, ease: "power3.out" });
             gsap.to(".cinema-photo", { scale: 1.08, yPercent: 5, ease: "none", scrollTrigger: { trigger: ".cinema-hero", start: "top top", end: "bottom top", scrub: .65 } });

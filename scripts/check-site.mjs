@@ -181,6 +181,13 @@ assert(home.includes("Wholesale Food Packaging Supplier | ANWELLUP"), "Homepage 
 assert(home.includes('href="/guides/"'), "Homepage must link to the buying-guide hub");
 assert(readPage("about").includes('"@type":"AboutPage"'), "About page must expose AboutPage structured data");
 assert(readPage("about").includes("Content method"), "About page must explain the content method");
+const manufacturingPage = readPage("manufacturing");
+assert(manufacturingPage.includes('class="manufacturing-page"'), "Manufacturing page must use the evidence-led layout");
+assert(manufacturingPage.includes('"@type":"WebPage"'), "Manufacturing page must expose WebPage structured data");
+assert(manufacturingPage.includes("Six views."), "Manufacturing page must expose attributed production evidence");
+assert.equal((manufacturingPage.match(/class="evidence-card"/g) || []).length, 6, "Manufacturing page must show six sourced facility views");
+assert(manufacturingPage.includes("Verify the project, not the photograph."), "Manufacturing page must explain the verification path");
+for (const item of equipmentFamilies) assert(manufacturingPage.includes(item.sku), `Manufacturing page must expose equipment reference: ${item.sku}`);
 assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage must use the approved matching backdrop");
 assert(!home.includes("cinema-baseline"));
 assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
