@@ -213,6 +213,7 @@ assert(cutleryCategory.includes("Eight inputs for a comparable quotation"), "Cut
 assert(cutleryCategory.includes('href="/solutions/airline-catering-meal-kits/"'), "Cutlery pillar must link to the airline program page");
 assert(cutleryCategory.includes('href="/guides/pp-vs-ps-disposable-cutlery/"'), "Cutlery pillar must link to the material comparison guide");
 assert(cutleryCategory.includes('data-analytics-location="category_cutlery"'), "Cutlery pillar must expose a tracked WhatsApp action");
+assert(cutleryCategory.includes("cutlery-foodservice-table-v1.webp"), "Cutlery pillar must use the foodservice scene image");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
@@ -235,6 +236,7 @@ assert(readPage("guides/paper-vs-plastic-disposable-cups").includes("guide-evide
 assert(readPage("guides/how-to-evaluate-plastic-cup-manufacturer").includes("AW SKU"), "Supplier evaluation must anchor review to public product identity");
 assert(readPage("guides/disposable-cutlery-sets-bulk").includes("AW-CUT-MW"), "Cutlery guide must anchor review to public product identity");
 assert(readPage("guides/how-to-specify-airline-meal-kits").includes("AW-KIT-HW-46"), "Airline guide must expose model-specific kit evidence");
+assert(readPage("guides/how-to-specify-airline-meal-kits").includes("airline-meal-kit-service-v1.webp"), "Airline guide must use the airline-service scene");
 const solutionIndex = readPage("solutions");
 assert(solutionIndex.includes('"@type":"CollectionPage"'), "Solution index must expose CollectionPage structured data");
 for (const solution of sourcingSolutions) {
@@ -245,6 +247,7 @@ for (const solution of sourcingSolutions) {
   assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Solution needs three or more contextual links: ${solution.slug}`);
   assert(html.includes(`data-analytics-location="solution_${solution.slug}"`), `Solution must expose a tracked WhatsApp action: ${solution.slug}`);
 }
+assert(readPage("solutions/custom-wrapped-meal-kits").includes("wrapped-cutlery-takeaway-v1.webp"), "Wrapped-kit solution must use the takeaway packing scene");
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);

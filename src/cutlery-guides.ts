@@ -1,6 +1,8 @@
 import type { BuyingGuide } from "./guides";
 
-const image = "/assets/catalog/2026-09-r1/cutlery-meal-kits-v1.webp";
+const foodserviceImage = "/assets/editorial/2026-09-r1/cutlery-foodservice-table-v1.webp";
+const airlineImage = "/assets/editorial/2026-09-r1/airline-meal-kit-service-v1.webp";
+const wrappedImage = "/assets/editorial/2026-09-r1/wrapped-cutlery-takeaway-v1.webp";
 const imageWidth = 1448;
 const imageHeight = 1086;
 const published = "2026-09-10";
@@ -14,7 +16,7 @@ export const cutleryClusterGuides: BuyingGuide[] = [
     shortTitle: "Source disposable cutlery sets in bulk",
     description: "Source bulk disposable cutlery and configured meal kits by utensil list, PP or PS material, piece weight, wrapping, case pack, MOQ and approval evidence.",
     lede: "A bulk cutlery quote is only comparable when every utensil, material, colour, wrapper and case quantity is defined. Start with the foodservice task, then build the individual pieces or complete kit as a controlled bill of materials.",
-    image,
+    image: foodserviceImage,
     imageAlt: "Bulk disposable forks, knives, spoons and configured meal kits",
     imageWidth,
     imageHeight,
@@ -92,7 +94,7 @@ export const cutleryClusterGuides: BuyingGuide[] = [
     shortTitle: "Compare PP and PS disposable cutlery",
     description: "Compare PP and PS disposable cutlery through exact models, utensil form, piece weight, sample handling, wrapping, documents and commercial requirements.",
     lede: "PP and PS are starting points for a disposable-cutlery comparison, not complete performance claims. Buyers should compare exact fork, knife and spoon models under the real meal and service routine, then confirm the specification and evidence in writing.",
-    image,
+    image: foodserviceImage,
     imageAlt: "PP and PS disposable cutlery models prepared for buyer comparison",
     imageWidth,
     imageHeight,
@@ -171,7 +173,7 @@ export const cutleryClusterGuides: BuyingGuide[] = [
     shortTitle: "Choose bulk or wrapped cutlery",
     description: "Compare bulk and individually wrapped disposable cutlery by service flow, component control, wrapper specification, artwork, case packs and waste considerations.",
     lede: "Bulk and individually wrapped cutlery solve different operational problems. The decision should follow the issuing routine, handling controls, kit completeness, branding, storage and total pack system—not a generic assumption that one format is always better.",
-    image,
+    image: wrappedImage,
     imageAlt: "Bulk and individually wrapped disposable cutlery presentation options",
     imageWidth,
     imageHeight,
@@ -249,7 +251,7 @@ export const cutleryClusterGuides: BuyingGuide[] = [
     shortTitle: "Specify airline meal kits",
     description: "Prepare an airline meal-kit supplier brief covering menu, utensil bill of materials, material, wrapper, weight, tray assembly, case packs, samples and documents.",
     lede: "An airline meal kit is a multi-component operational pack, not a generic cutlery set. The useful specification connects the menu and tray-service routine to every utensil, napkin, accessory, wrapper, case pack, approval step and destination requirement.",
-    image,
+    image: airlineImage,
     imageAlt: "Configured cutlery and meal-kit components for airline catering review",
     imageWidth,
     imageHeight,
@@ -327,7 +329,7 @@ export const cutleryClusterGuides: BuyingGuide[] = [
     shortTitle: "Check disposable cutlery samples",
     description: "Review disposable cutlery samples with exact model identity, agreed measurements, visual checks, food-use handling, wrapper and kit completeness, and approval records.",
     lede: "A cutlery sample is useful only when the buyer knows exactly which model, material, configuration and production status it represents. Define the decision first, then record measurable and service-based checks without turning one result into a category-wide claim.",
-    image,
+    image: foodserviceImage,
     imageAlt: "Disposable cutlery samples organized for model and kit quality review",
     imageWidth,
     imageHeight,
@@ -405,7 +407,7 @@ export const cutleryClusterGuides: BuyingGuide[] = [
     shortTitle: "Plan meal-kit MOQ and packing",
     description: "Plan disposable meal-kit MOQ, case quantities, component availability, artwork approval, production milestones and loading data by exact configuration.",
     lede: "A meal-kit minimum belongs to one controlled component list, wrapper and artwork version. Buyers should compare complete kits rather than loose piece counts, then link MOQ, case packing and lead-time milestones to the same configuration.",
-    image,
+    image: wrappedImage,
     imageAlt: "Configured disposable meal kits prepared for case-pack and lead-time planning",
     imageWidth,
     imageHeight,

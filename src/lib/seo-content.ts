@@ -32,6 +32,7 @@ export type CategorySeoContent = {
   questions: BuyerQuestion[];
   procurement?: ProcurementField[];
   clusterLinks?: ClusterLink[];
+  heroImage?: { src: string; width: number; height: number; alt: string; caption: string };
 };
 
 export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
@@ -150,6 +151,13 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
     description: "Compare PP and PS disposable cutlery, individually wrapped utensils and configured meal kits for wholesale, takeaway, catering and airline programs.",
     heading: "Specify every piece in the set.",
     introduction: "For cutlery and meal kits, the usable specification includes more than the utensil. Material, piece weight, colour, wrapping film, napkin and condiment configuration all belong in the same brief.",
+    heroImage: {
+      src: "/assets/editorial/2026-09-r1/cutlery-foodservice-table-v1.webp",
+      width: 1448,
+      height: 1086,
+      alt: "Disposable cutlery served with pasta and prepared grain bowls in a foodservice setting",
+      caption: "Foodservice context illustration. Confirm each utensil model for the intended menu and service routine.",
+    },
     notes: [
       { label: "01", title: "Utensil format", body: "List the fork, knife, spoon or serving pieces required together with material, colour and weight preference." },
       { label: "02", title: "Kit configuration", body: "Describe each component in the meal kit, including napkin, toothpick, condiments and any printed insert." },

@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const category = getCategory(slug);
   if (!category) return {};
   const seo = categorySeoContent[category.id];
+  const heroImage = seo.heroImage ?? { src: category.image, width: category.id === "bags" ? 640 : 1448, height: category.id === "bags" ? 480 : 1086, alt: `${category.label} product range` };
   return {
     title: seo.title,
     description: seo.description,
@@ -24,9 +25,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       title: `${seo.title} | ANWELLUP`,
       description: seo.description,
       url: `/products/${category.slug}/`,
-      images: [{ url: category.image, width: category.id === "bags" ? 640 : 1448, height: category.id === "bags" ? 480 : 1086, alt: `${category.label} product range` }],
+      images: [{ url: heroImage.src, width: heroImage.width, height: heroImage.height, alt: heroImage.alt }],
     },
-    twitter: { card: "summary_large_image", title: `${seo.title} | ANWELLUP`, description: seo.description, images: [category.image] },
+    twitter: { card: "summary_large_image", title: `${seo.title} | ANWELLUP`, description: seo.description, images: [heroImage.src] },
   };
 }
 
@@ -37,6 +38,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const families = getFamiliesByCategory(category.id);
   const materials = allMaterials(families);
   const seo = categorySeoContent[category.id];
+  const heroImage = seo.heroImage ?? { src: category.image, width: category.id === "bags" ? 640 : 1448, height: category.id === "bags" ? 480 : 1086, alt: category.id === "bags" ? "Supplied PE carry-bag range with original red printing" : `${category.label} range illustration`, caption: category.id === "bags" ? "PE carry bags shown. Ask for non-woven format images with your enquiry." : "Range illustration. Refer to the selected model for specifications." };
   const pageUrl = `https://anwellup.com/products/${category.slug}/`;
   const focusedGuides = {
     cups: { label: "Disposable cup sourcing guide", href: "/guides/disposable-cup-sourcing-guide/" },
@@ -66,7 +68,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         url: pageUrl,
         name: seo.title,
         description: seo.description,
-        image: `https://anwellup.com${category.image}`,
+        image: `https://anwellup.com${heroImage.src}`,
         isPartOf: { "@id": "https://anwellup.com/#website" },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         mainEntity: {
@@ -102,7 +104,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     <nav className="breadcrumb" aria-label="Breadcrumb"><Link href="/products/"><ArrowLeft size={16}/> Product range</Link><span aria-hidden="true">/</span><span aria-current="page">{category.label}</span></nav>
     <header className="category-hero">
       <div className="category-hero-copy"><h1>{category.label.replaceAll(" + ", " & ")}</h1><p>{category.description}</p><div className="material-line"><span>Materials</span><p>{materials.join(", ")}</p></div><a className="editorial-link" href="#family-title">Explore formats <span><ArrowRight size={19}/></span></a></div>
-      <figure className={category.id === "bags" ? "category-hero-image category-source-master" : "category-hero-image"}><div className="category-image-stage"><img src={category.image} alt={category.id === "bags" ? "Supplied PE carry-bag range with original red printing" : `${category.label} range illustration`} width={category.id === "bags" ? 640 : 1448} height={category.id === "bags" ? 480 : 1086} fetchPriority="high"/></div><figcaption>{category.id === "bags" ? "PE carry bags shown. Ask for non-woven format images with your enquiry." : "Range illustration. Refer to the selected model for specifications."}</figcaption></figure>
+      <figure className={category.id === "bags" ? "category-hero-image category-source-master" : "category-hero-image"}><div className="category-image-stage"><img src={heroImage.src} alt={heroImage.alt} width={heroImage.width} height={heroImage.height} fetchPriority="high"/></div><figcaption>{heroImage.caption}</figcaption></figure>
     </header>
     <CategoryFamilyBrowser category={category} families={families} />
     <section className="category-sourcing-guide" aria-labelledby="sourcing-title">
