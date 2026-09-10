@@ -15,26 +15,26 @@ export const metadata: Metadata = {
     description: "See real factory and equipment photography from supplied catalogues and define projects from the target format, process and verification requirements.",
     url: "/manufacturing/",
     type: "website",
-    images: [{ url: "/assets/manufacturing/2026-09-source/aluminium-factory-overview-source.webp", width: 720, height: 362, alt: "Ningbo Times aluminium packaging facility exterior from a supplied source catalogue" }],
+    images: [{ url: "/assets/manufacturing/2026-09-clean/factory-overview-signage-removed-v2.webp", width: 1770, height: 889, alt: "Aluminium packaging facility exterior from a supplied source catalogue" }],
   },
-  twitter: { card: "summary_large_image", images: ["/assets/manufacturing/2026-09-source/aluminium-factory-overview-source.webp"] },
+  twitter: { card: "summary_large_image", images: ["/assets/manufacturing/2026-09-clean/factory-overview-signage-removed-v2.webp"] },
 };
 
-const sourceRoot = "/assets/manufacturing/2026-09-source";
 const weiboRoot = "/assets/manufacturing/2026-09-weibo";
+const cleanRoot = "/assets/manufacturing/2026-09-clean";
 
 const factoryEvidence = [
-  { file: "foshan-factory-exterior.webp", title: "Foshan factory exterior", body: "Exterior, loading yard and site context from the supplied company catalogue.", location: "Foshan · Guangdong", width: 1379, height: 672, treatment: "Original catalogue photograph" },
-  { file: "hubei-production-floor-restored.webp", title: "Hubei production floor", body: "Production hall with installed equipment and overhead services visible in the supplied photograph.", location: "Hubei", width: 1455, height: 1081, treatment: "Clarity restored from supplied photograph" },
-  { file: "sichuan-production-floor-restored.webp", title: "Sichuan production floor", body: "Multi-line production-floor view retained from the supplied company catalogue.", location: "Sichuan", width: 1586, height: 992, treatment: "Clarity restored from supplied photograph" },
-  { file: "mould-storage-room.webp", title: "Mould storage", body: "Organised tooling and mould storage shown as part of the production environment.", location: "Factory floor", width: 1100, height: 577, treatment: "Original catalogue photograph" },
-  { file: "aluminium-line-workshop.webp", title: "Aluminium container workshop", body: "A wide workshop view showing installed aluminium-container production equipment.", location: "Production floor", width: 1487, height: 676, treatment: "Original catalogue photograph" },
+  { file: "foshan-factory-signage-removed-v2.webp", root: cleanRoot, title: "Foshan factory exterior", body: "Exterior, loading yard and site context from the supplied company catalogue.", location: "Foshan · Guangdong", width: 1797, height: 875, treatment: "Identifying facade signage removed" },
+  { file: "hubei-production-floor-restored.webp", root: weiboRoot, title: "Hubei production floor", body: "Production hall with installed equipment and overhead services visible in the supplied photograph.", location: "Hubei", width: 1455, height: 1081, treatment: "Clarity restored from supplied photograph" },
+  { file: "sichuan-production-floor-restored.webp", root: weiboRoot, title: "Sichuan production floor", body: "Multi-line production-floor view retained from the supplied company catalogue.", location: "Sichuan", width: 1586, height: 992, treatment: "Clarity restored from supplied photograph" },
+  { file: "mould-storage-room.webp", root: weiboRoot, title: "Mould storage", body: "Organised tooling and mould storage shown as part of the production environment.", location: "Factory floor", width: 1100, height: 577, treatment: "Original catalogue photograph" },
+  { file: "aluminium-line-workshop.webp", root: weiboRoot, title: "Aluminium container workshop", body: "A wide workshop view showing installed aluminium-container production equipment.", location: "Production floor", width: 1487, height: 676, treatment: "Original catalogue photograph" },
 ];
 
 const equipmentEvidence = [
-  { file: "wb45t-production-line.webp", label: "WB-45T production line", width: 1355, height: 1090 },
-  { file: "aluminium-container-moulds.webp", label: "Aluminium container moulds", width: 1405, height: 1470 },
-  { file: "automatic-collection-equipment.webp", label: "Automatic collection equipment", width: 1445, height: 1470 },
+  { file: "aluminium-production-line-studio-v2.webp", label: "Complete production-line configuration", width: 1398, height: 1125 },
+  { file: "aluminium-container-moulds-studio-v2.webp", label: "Six aluminium-container mould references", width: 1536, height: 1024 },
+  { file: "automatic-collection-equipment-studio-v2.webp", label: "Collection and control equipment references", width: 1536, height: 1024 },
 ];
 
 const verificationSteps = [
@@ -68,12 +68,12 @@ export default function ManufacturingPage() {
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          contentUrl: `https://anwellup.com${sourceRoot}/aluminium-factory-overview-source.webp`,
-          caption: "Ningbo Times aluminium packaging facility exterior from a supplied source catalogue.",
+          contentUrl: `https://anwellup.com${cleanRoot}/factory-overview-signage-removed-v2.webp`,
+          caption: "Aluminium packaging facility exterior from a supplied source catalogue; identifying rooftop signage removed.",
         },
         associatedMedia: factoryEvidence.map((item) => ({
           "@type": "ImageObject",
-          contentUrl: `https://anwellup.com${weiboRoot}/${item.file}`,
+          contentUrl: `https://anwellup.com${item.root}/${item.file}`,
           caption: `${item.title}, ${item.location}. ${item.treatment}.`,
         })),
         mainEntity: {
@@ -92,8 +92,8 @@ export default function ManufacturingPage() {
         <a className="manufacturing-jump" href="#factory-evidence">Review the evidence <ArrowDown size={18}/></a>
       </div>
       <figure className="manufacturing-hero-media" data-manufacturing-hero-media>
-        <img src={`${sourceRoot}/aluminium-factory-overview-source.webp`} alt="Ningbo Times aluminium packaging facility exterior from the supplied source catalogue" width={720} height={362} fetchPriority="high"/>
-        <figcaption><span>Catalogue source</span><strong>Ningbo Times Aluminium Foil Technology Corp., Ltd.</strong><small>Facility relationship, equipment scope and project availability are confirmed separately.</small></figcaption>
+        <img src={`${cleanRoot}/factory-overview-signage-removed-v2.webp`} alt="Aluminium packaging facility exterior from the supplied source catalogue" width={1770} height={889} fetchPriority="high"/>
+        <figcaption><span>Catalogue source</span><strong>Supplied aluminium-packaging facility photograph</strong><small>Identifying rooftop signage removed. Facility relationship and project availability are confirmed separately.</small></figcaption>
       </figure>
       <dl className="manufacturing-facts" aria-label="Manufacturing page evidence summary">
         <div><dt>Real factory views</dt><dd>{String(factoryEvidence.length).padStart(2, "0")}</dd></div>
@@ -105,15 +105,15 @@ export default function ManufacturingPage() {
     <section className="factory-evidence" id="factory-evidence" aria-labelledby="factory-evidence-title">
       <header className="section-heading">
         <div><span className="eyebrow">Real production views</span><h2 id="factory-evidence-title">Facilities,<br/>not renders.</h2></div>
-        <p>These are photographs supplied in the WEIBO aluminium-foil catalogue. Two low-resolution production-floor views received conservative clarity restoration; the composition and equipment layout remain tied to the supplied photographs.</p>
+        <p>These are photographs from the supplied aluminium-foil company catalogue. Two low-resolution production-floor views received conservative clarity restoration; identifying signage is removed where required.</p>
       </header>
       <div className="evidence-grid">
         {factoryEvidence.map((item, index) => <figure className="evidence-card" data-reveal key={item.file}>
-          <div className="evidence-image"><img src={`${weiboRoot}/${item.file}`} alt={`${item.title} in ${item.location}, shown in the supplied WEIBO aluminium-foil catalogue`} width={item.width} height={item.height} loading="lazy"/></div>
+          <div className="evidence-image"><img src={`${item.root}/${item.file}`} alt={`${item.title} in ${item.location}, shown in the supplied aluminium-foil catalogue`} width={item.width} height={item.height} loading="lazy"/></div>
           <figcaption><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.location} · {item.body}</p><small>{item.treatment}</small></div></figcaption>
         </figure>)}
       </div>
-      <p className="evidence-source-note">Source: supplied WEIBO Aluminium Foil company catalogue (2020 edition). Confirm the proposed facility, equipment scope, current capacity and project relationship in writing.</p>
+      <p className="evidence-source-note">Source: supplied aluminium-foil company catalogue (2020 edition). Confirm the proposed facility, equipment scope, current capacity and project relationship in writing.</p>
     </section>
 
     <section className="equipment-projects" aria-labelledby="equipment-projects-title">
@@ -127,11 +127,8 @@ export default function ManufacturingPage() {
           {equipmentFamilies.map((item, index) => {
             const media = equipmentEvidence[index];
             return <article className="equipment-project-card" data-reveal key={item.sku}>
-              <figure className="equipment-project-media">
-                <img src={`${weiboRoot}/${media.file}`} alt={`${media.label} shown in the supplied WEIBO equipment catalogue`} width={media.width} height={media.height} loading="lazy"/>
-                <figcaption><span>Catalogue evidence</span><strong>{media.label}</strong></figcaption>
-              </figure>
-              <div className="equipment-project-copy"><span>{String(index + 1).padStart(2, "0")}</span><code>{item.sku}</code><h3>{item.name}</h3><p>{item.description}</p><AddToInquiryButton compact item={{ sku: item.sku, name: item.name, category: "Equipment" }}/></div>
+              <figure className="equipment-project-media"><img src={`${cleanRoot}/${media.file}`} alt={`${media.label} isolated from the supplied equipment catalogue`} width={media.width} height={media.height} loading="lazy"/></figure>
+              <div className="equipment-project-copy"><span>{String(index + 1).padStart(2, "0")}</span><code>{item.sku}</code><small>{media.label} · catalogue subject isolated onto a neutral backdrop</small><h3>{item.name}</h3><p>{item.description}</p><AddToInquiryButton compact item={{ sku: item.sku, name: item.name, category: "Equipment" }}/></div>
             </article>;
           })}
         </div>
