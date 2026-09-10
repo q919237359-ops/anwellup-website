@@ -399,6 +399,156 @@ export const sourcingSolutions: SourcingSolution[] = [
       { label: "Evaluate a plastic cup manufacturer or supplier", href: "/guides/how-to-evaluate-plastic-cup-manufacturer/" },
     ],
   },
+  {
+    slug: "airline-catering-meal-kits",
+    title: "Airline catering meal kits and disposable cutlery programs",
+    seoTitle: "Airline Meal Kits & Cutlery Supplier",
+    shortTitle: "Airline catering meal kits",
+    description: "Plan airline catering meal kits by menu, service class, utensil bill of materials, wrapper artwork, tray fit, case packs, samples and program-specific documents.",
+    lede: "Airline catering cutlery should be sourced as a controlled service program. Connect each menu and service class to an exact utensil bill of materials, wrapper, artwork, tray-fit test, case pack, approval record and tender requirement.",
+    image: "/assets/catalog/2026-09-r1/cutlery-meal-kits-v1.webp",
+    imageAlt: "Disposable cutlery and configured meal kits for airline catering programs",
+    imageWidth: 1448,
+    imageHeight: 1086,
+    updated: "2026-09-10",
+    audience: "Airlines, inflight caterers, transport caterers, distributors and tender teams",
+    sections: [
+      {
+        heading: "Separate programs by menu and service class.",
+        paragraphs: [
+          "Describe the menu, tray or meal-box layout, service class, uplift point, storage routine and passenger opening. Keep different component lists or artwork versions as separate configurations.",
+          "Provide airline, caterer and destination requirements explicitly. A general transport-catering label does not define the technical or document scope.",
+        ],
+        checklist: ["Menu and service class", "Tray or box layout", "Route or uplift context", "Required program standards", "Destination market"],
+        links: [{ label: "Use the airline meal-kit specification guide", href: "/guides/how-to-specify-airline-meal-kits/" }],
+      },
+      {
+        heading: "Build the utensil and accessory bill of materials.",
+        paragraphs: [
+          "List each fork, knife, spoon, stirrer, napkin, toothpick, wipe, condiment and insert with its model or agreed specification. Identify optional components and the owner of any buyer-supplied item.",
+          "The current catalogue provides medium- and heavy-weight PP/PS families with bulk, individually wrapped and 4–6 piece kit references. Final configuration is confirmed per project.",
+        ],
+        links: [{ label: "Compare disposable cutlery families", href: "/products/cutlery-meal-kits/" }, { label: "Compare PP and PS cutlery", href: "/guides/pp-vs-ps-disposable-cutlery/" }],
+      },
+      {
+        heading: "Control the wrapper and artwork.",
+        paragraphs: [
+          "Specify wrapper construction to review, size, colour or transparency, seal presentation, printed sides, artwork versions, barcode, language and identification needs. Assign one approved file to each kit configuration.",
+          "Use a proof and sample route that distinguishes layout, colour expectation, component assembly and production-representative review.",
+        ],
+        links: [{ label: "Plan custom wrapped meal kits", href: "/solutions/custom-wrapped-meal-kits/" }],
+      },
+      {
+        heading: "Test the kit through tray service.",
+        paragraphs: [
+          "Place identified samples in the intended tray or meal box and run receiving, assembly, storage, uplift, distribution and passenger opening. Review component completeness, presentation, fit and wrapper condition.",
+          "Test utensils with representative menu items under defined conditions. Record the sample model, configuration, test conditions, outcome and unresolved action.",
+        ],
+        links: [{ label: "Build the cutlery sample checklist", href: "/guides/disposable-cutlery-samples-quality-checks/" }],
+      },
+      {
+        heading: "Quote demand and packing by real configuration.",
+        paragraphs: [
+          "Break quantities down by service class, menu, route or artwork where those fields change the kit. Ask whether MOQ applies per utensil, wrapper version or complete assembled set.",
+          "Request kits per inner pack and case, carton dimensions, gross weight, carton marks and loading assumptions. Use confirmed case data for transport planning.",
+        ],
+        links: [{ label: "Review meal-kit MOQ, packing and timing", href: "/guides/meal-kit-moq-packing-lead-time/" }],
+      },
+      {
+        heading: "Verify evidence and freeze change control.",
+        paragraphs: [
+          "Request product- and component-relevant records for the intended food-contact use, destination and tender. Review identity, scope, issuer, test basis and validity rather than relying on an unrelated certificate.",
+          "Before release, freeze the bill of materials, models, artwork, approved samples, inspection plan, documents, packing, commercial terms, milestones and owner of any change. No general airline approval is claimed without that program-specific review.",
+        ],
+        links: [{ label: "Review quality and documents", href: "/quality-compliance/" }, { label: "Build the full RFQ", href: "/guides/food-packaging-rfq-checklist/" }],
+      },
+    ],
+    questions: [
+      { question: "Can ANWELLUP supply complete airline meal-kit configurations?", answer: "The current range includes 4–6 piece kit references and bulk or wrapped utensils. Send the exact bill of materials, wrapper, artwork, quantity, packing and program requirements for configuration review." },
+      { question: "Are the kits already approved by airlines?", answer: "No general airline approval is claimed. The exact models, components, samples, documents and airline or caterer requirements must be reviewed for each program." },
+      { question: "What should be included in an airline meal-kit RFQ?", answer: "Include menu and service class, bill of materials, utensil models or specifications, wrapper and artwork, quantities by configuration, case packs, tray-fit and food-use tests, documents, milestones and destination." },
+    ],
+    related: [
+      { label: "Cutlery and meal kits", href: "/products/cutlery-meal-kits/" },
+      { label: "Airline meal-kit specification guide", href: "/guides/how-to-specify-airline-meal-kits/" },
+      { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" },
+    ],
+  },
+  {
+    slug: "custom-wrapped-meal-kits",
+    title: "Custom wrapped disposable meal kits for foodservice",
+    seoTitle: "Custom Wrapped Disposable Meal Kits",
+    shortTitle: "Custom wrapped meal kits",
+    description: "Plan custom wrapped disposable meal kits by utensil components, PP or PS model, napkin and accessories, wrapper artwork, samples, MOQ, packing and lead time.",
+    lede: "A custom wrapped meal kit combines a product bill of materials with a packaging and artwork specification. Lock every utensil and insert first, then control the wrapper, proof, assembly sample, case pack and commercial basis.",
+    image: "/assets/catalog/2026-09-r1/cutlery-meal-kits-v1.webp",
+    imageAlt: "Disposable utensils and meal-kit components for custom wrapping",
+    imageWidth: 1448,
+    imageHeight: 1086,
+    updated: "2026-09-10",
+    audience: "Restaurant groups, caterers, delivery brands, distributors, institutions and private-label programs",
+    sections: [
+      {
+        heading: "Define the meal and issue routine.",
+        paragraphs: [
+          "Describe the menu, takeaway or catering journey, where the kit is stored and issued, transport orientation and customer opening. State whether one configuration serves every order or several menu-specific sets are required.",
+          "Use the operating routine to define components and tests; do not assume that one generic wrapped set fits every service.",
+        ],
+        checklist: ["Menu and service", "Required utensils", "Additional components", "Issue and transport routine", "Destination market"],
+        links: [{ label: "Compare cutlery and meal-kit families", href: "/products/cutlery-meal-kits/" }],
+      },
+      {
+        heading: "Freeze the component list before wrapper artwork.",
+        paragraphs: [
+          "List each utensil by model or specification, material, colour and weight requirement. Add napkin, toothpick, wipe, condiment, insert or other accessory as a named component with its source responsibility.",
+          "A 4–6 piece label describes a range, not the final bill of materials. Approve one controlled list for each kit version.",
+        ],
+        links: [{ label: "Use the bulk disposable-cutlery guide", href: "/guides/disposable-cutlery-sets-bulk/" }],
+      },
+      {
+        heading: "Specify wrapper and print details.",
+        paragraphs: [
+          "Define wrapper construction for review, dimensions, colour or transparency, print sides, colour references, coverage, opening and seal presentation. Provide language, barcode and any identification requirements.",
+          "Request the correct dieline and name each artwork file and revision. Confirm what the digital proof and physical sample are intended to approve.",
+        ],
+        links: [{ label: "Review custom packaging print inputs", href: "/guides/custom-food-packaging-printing-guide/" }],
+      },
+      {
+        heading: "Approve assembly and customer use.",
+        paragraphs: [
+          "Check that the sample contains every approved component in the intended orientation, that artwork and wrapper presentation match the record, and that the kit fits the delivery bag, tray or dispenser.",
+          "Run customer opening and representative food-use checks with identified utensil models. Keep deviations and decisions attached to the sample version.",
+        ],
+        links: [{ label: "Use the cutlery sample checklist", href: "/guides/disposable-cutlery-samples-quality-checks/" }],
+      },
+      {
+        heading: "Quote MOQ and case packing by kit version.",
+        paragraphs: [
+          "Break quantities down by component list, utensil material or colour and wrapper artwork. Ask whether MOQ applies per wrapper version, assembly configuration or production batch.",
+          "Request kits per inner pack and case, carton dimensions, gross weight and carton marks. Compare complete usable kits instead of adding unrelated piece prices.",
+        ],
+        links: [{ label: "Plan MOQ, case packs and lead time", href: "/guides/meal-kit-moq-packing-lead-time/" }],
+      },
+      {
+        heading: "Confirm documents, timing and final scope.",
+        paragraphs: [
+          "Name the destination and intended use, then request available records for the exact utensils, wrapper and relevant components. Confirm what event starts production timing and what shipment-ready means.",
+          "Release the order against the component list, artwork, samples, inspection fields, documents, quantities, packing, price and delivery basis in writing.",
+        ],
+        links: [{ label: "Review quality and document handling", href: "/quality-compliance/" }, { label: "Send the kit brief", href: "/contact/" }],
+      },
+    ],
+    questions: [
+      { question: "What can be included in a custom wrapped meal kit?", answer: "Forks, knives, spoons and selected accessories such as napkins, toothpicks, wipes, condiments or inserts can be reviewed. Define every component and source responsibility in the bill of materials." },
+      { question: "Can the wrapper carry custom artwork?", answer: "Artwork options can be reviewed for the defined wrapper and configuration. Provide colours, coverage, versions, barcode or language needs and confirm proof, sample, MOQ and packing details." },
+      { question: "What is the MOQ for custom meal kits?", answer: "MOQ is confirmed for the exact component list, utensil models, wrapper, artwork, packing and destination. Ask for the unit and basis in the written quotation." },
+    ],
+    related: [
+      { label: "Disposable cutlery sets bulk guide", href: "/guides/disposable-cutlery-sets-bulk/" },
+      { label: "Bulk vs individually wrapped cutlery", href: "/guides/bulk-vs-individually-wrapped-cutlery/" },
+      { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" },
+    ],
+  },
 ];
 
 export const getSourcingSolution = (slug: string) => sourcingSolutions.find((solution) => solution.slug === slug);

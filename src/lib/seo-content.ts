@@ -147,7 +147,7 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
   },
   cutlery: {
     title: "Disposable Cutlery & Meal Kits Wholesale",
-    description: "Compare bulk, wrapped and configured disposable cutlery and meal kits for takeaway, catering and transport foodservice programs.",
+    description: "Compare PP and PS disposable cutlery, individually wrapped utensils and configured meal kits for wholesale, takeaway, catering and airline programs.",
     heading: "Specify every piece in the set.",
     introduction: "For cutlery and meal kits, the usable specification includes more than the utensil. Material, piece weight, colour, wrapping film, napkin and condiment configuration all belong in the same brief.",
     notes: [
@@ -158,6 +158,31 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
     questions: [
       { question: "Can individual utensils and complete kits be sourced?", answer: "The range includes bulk, individually wrapped and configured kit references. Confirm the exact components and packing with the enquiry." },
       { question: "What makes a meal-kit quotation accurate?", answer: "Provide the piece list, material, colour, wrapping, print requirement, quantity, destination and target packing configuration." },
+      { question: "What is the MOQ for disposable cutlery or meal kits?", answer: "MOQ is confirmed for the exact utensil models, material, colour, component list, wrapper, artwork, packing and destination. It is not one category-wide number." },
+      { question: "How should PP and PS cutlery be compared?", answer: "Compare exact fork, knife and spoon models under the intended menu and service routine, using confirmed specifications, identified samples and model-relevant documents rather than a resin-wide assumption." },
+      { question: "Can meal-kit wrappers be custom printed?", answer: "Print options can be reviewed after the wrapper and kit configuration are defined. State artwork versions, colours, coverage, language, barcode, proof and sample requirements." },
+      { question: "Does ANWELLUP claim airline approval for its meal kits?", answer: "No general airline approval is claimed. The exact products, components, samples, records and airline- or caterer-specific requirements must be reviewed for each program." },
+    ],
+    procurement: [
+      { label: "01 / Service", title: "Menu and operating journey", body: "Record the food, serving conditions, takeaway, catering or transport routine, storage, issue point and customer handling." },
+      { label: "02 / Components", title: "Utensil bill of materials", body: "List each fork, knife, spoon, napkin, toothpick, wipe, condiment or insert with its model or agreed specification." },
+      { label: "03 / Specification", title: "Material, colour and weight", body: "Name PP or PS preference, colour, piece-weight target where relevant, dimensions or drawing status and every exact AW SKU under review." },
+      { label: "04 / Presentation", title: "Bulk, wrapped or configured kit", body: "Define whether pieces are loose, individually wrapped or assembled; add wrapper construction, seal, print and component orientation." },
+      { label: "05 / Approval", title: "Samples and quality checks", body: "Identify what each sample represents and record measurable checks, representative food-use handling, wrapper presentation and component completeness." },
+      { label: "06 / Commercial", title: "MOQ and complete-kit pricing", body: "State quantities by utensil or kit version and clarify pieces, packs, cases or complete sets. Request MOQ and price on that same basis." },
+      { label: "07 / Logistics", title: "Case packs and milestones", body: "Request inner and outer quantities, carton dimensions, gross weight, carton marks, approval stages, production trigger and shipment-ready date." },
+      { label: "08 / Evidence", title: "Documents and final control", body: "Name the destination and program requirements, review model-relevant records and freeze the bill of materials, artwork, samples and change owner." },
+    ],
+    clusterLinks: [
+      { label: "Disposable cutlery sets bulk guide", href: "/guides/disposable-cutlery-sets-bulk/", intent: "Complete wholesale brief" },
+      { label: "PP vs PS disposable cutlery", href: "/guides/pp-vs-ps-disposable-cutlery/", intent: "Material and model comparison" },
+      { label: "Bulk vs individually wrapped cutlery", href: "/guides/bulk-vs-individually-wrapped-cutlery/", intent: "Presentation and operations" },
+      { label: "Airline meal-kit specification", href: "/guides/how-to-specify-airline-meal-kits/", intent: "Transport-catering requirements" },
+      { label: "Cutlery sample and quality checks", href: "/guides/disposable-cutlery-samples-quality-checks/", intent: "Approval and inspection" },
+      { label: "Meal-kit MOQ, packing and lead time", href: "/guides/meal-kit-moq-packing-lead-time/", intent: "Commercial and logistics planning" },
+      { label: "Airline catering meal kits", href: "/solutions/airline-catering-meal-kits/", intent: "Airline and inflight sourcing" },
+      { label: "Custom wrapped meal kits", href: "/solutions/custom-wrapped-meal-kits/", intent: "Private-label kit program" },
+      { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/", intent: "Final enquiry preparation" },
     ],
   },
   bags: {
