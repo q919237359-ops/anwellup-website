@@ -224,7 +224,7 @@ assert(cupCategory.includes('href="/guides/disposable-cup-lid-compatibility/"'),
 assert(cupCategory.includes('data-analytics-location="category_cups"'), "Cup pillar must expose a tracked WhatsApp action");
 for (const [familyId, content] of Object.entries(familyProcurementContent)) {
   const family = productFamilies.find(item => item.id === familyId);
-  assert(family && ["cups", "boxes", "cutlery"].includes(family.category), `Procurement content must target a published cup, container or cutlery family: ${familyId}`);
+  assert(family && ["cups", "boxes", "cutlery", "tableware"].includes(family.category), `Procurement content must target a published cup, container, cutlery or tableware family: ${familyId}`);
   const category = catalogCategories.find(item => item.id === family.category);
   assert(category, `Procurement family category must exist: ${familyId}`);
   assert(content.facts.length >= 8, `Family needs a complete procurement brief: ${familyId}`);
@@ -237,12 +237,18 @@ for (const [familyId, content] of Object.entries(familyProcurementContent)) {
 }
 assert.equal(Object.keys(familyProcurementContent).filter(id => productFamilies.find(item => item.id === id)?.category === "boxes").length, 10, "Every published container family needs a procurement brief");
 assert.equal(Object.keys(familyProcurementContent).filter(id => productFamilies.find(item => item.id === id)?.category === "cutlery").length, 2, "Every published cutlery family needs a procurement brief");
+assert.equal(Object.keys(familyProcurementContent).filter(id => productFamilies.find(item => item.id === id)?.category === "tableware").length, 5, "Every published tableware family needs a procurement brief");
 const cutleryCategory = readPage("products/cutlery-meal-kits");
 assert(cutleryCategory.includes("Eight inputs for a comparable quotation"), "Cutlery pillar must expose the complete procurement brief");
 assert(cutleryCategory.includes('href="/solutions/airline-catering-meal-kits/"'), "Cutlery pillar must link to the airline program page");
 assert(cutleryCategory.includes('href="/guides/pp-vs-ps-disposable-cutlery/"'), "Cutlery pillar must link to the material comparison guide");
 assert(cutleryCategory.includes('data-analytics-location="category_cutlery"'), "Cutlery pillar must expose a tracked WhatsApp action");
 assert(cutleryCategory.includes("cutlery-foodservice-table-v1.webp"), "Cutlery pillar must use the foodservice scene image");
+const tablewareCategory = readPage("products/plates-bowls-trays");
+assert(tablewareCategory.includes("Eight inputs for a comparable quotation"), "Tableware pillar must expose the complete procurement brief");
+assert(tablewareCategory.includes('href="/products/plates-bowls-trays/tableware-meal-trays/"'), "Tableware pillar must link to the meal-tray family");
+assert(tablewareCategory.includes('href="/guides/food-container-size-guide/"'), "Tableware pillar must link to the size guide");
+assert(tablewareCategory.includes('data-analytics-location="category_tableware"'), "Tableware pillar must expose a tracked WhatsApp action");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
