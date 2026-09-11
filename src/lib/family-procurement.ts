@@ -402,6 +402,56 @@ export const familyProcurementContent: Record<string, FamilyProcurementContent> 
       { label: "Container MOQ guide", href: "/guides/takeaway-container-moq/", context: "Model and artwork basis" },
     ],
   },
+  "medium-cutlery": {
+    seoTitle: "Medium-Weight Disposable Cutlery Wholesale",
+    description: "Compare medium-weight PP and PS forks, knives and spoons in bulk, individually wrapped and configurable 4–6 piece meal-kit formats.",
+    heading: "Specify each utensil before building the set.",
+    introduction: "The current medium-weight family covers four selected bulk utensils, one individually wrapped reference and one configurable meal-kit reference. A comparable RFQ keeps the utensil model, material, colour, wrapper and case basis visible.",
+    facts: [
+      { label: "01 / Range", title: "Six listed purchasing references", body: "The public family includes bulk fork, knife, tea spoon and soup spoon lines, an individually wrapped format and a 4–6 piece meal-kit reference. Use the AW SKU for every quotation line." },
+      { label: "02 / Material", title: "PP and PS remain model-level choices", body: "The family lists PP and PS options, but the final resin assignment, colour and specification must be confirmed for the selected utensil or kit. Do not transfer a material-wide performance claim to every model." },
+      { label: "03 / Weight", title: "Four selected bulk utensils list 2.5 g", body: "The current fork, knife, tea-spoon and soup-spoon entries each show a 2.5 g reference. No weight is published for the wrapped or kit lines, so those remain open confirmation fields." },
+      { label: "04 / Packing", title: "Bulk and wrapped lines show 1,000 pieces per case", body: "The 4–6 piece kit reference shows 250–400 kits per case. Request inner packs, final case dimensions, gross weight and the exact kit configuration before freight planning." },
+      { label: "05 / Configuration", title: "Treat a meal kit as a controlled bill of materials", body: "List each utensil, napkin, toothpick, wipe, condiment or insert separately, including material, colour, source responsibility and any optional component. A 4–6 piece label is not the final component list." },
+      ...sharedCommercialFacts,
+    ],
+    questions: [
+      { question: "Which medium-weight disposable cutlery formats are listed?", answer: "The public family lists four bulk utensils, one individually wrapped reference and one configurable 4–6 piece meal-kit reference." },
+      { question: "Are all medium-weight utensils confirmed at 2.5 g?", answer: "No. The current 2.5 g entry applies to the selected bulk fork, knife, tea spoon and soup spoon. Wrapped and kit weights are not published and must be confirmed." },
+      { question: "What should an individually wrapped cutlery RFQ include?", answer: "Identify each utensil model, material, colour, wrapper construction, artwork, components, quantity, case pack, sample purpose and destination." },
+      { question: "What is the MOQ for a custom meal kit?", answer: "MOQ is confirmed for the exact component list, utensil models, wrapper, artwork, packing, quantity unit and destination." },
+    ],
+    related: [
+      { label: "Disposable cutlery sets in bulk", href: "/guides/disposable-cutlery-sets-bulk/", context: "Complete wholesale brief" },
+      { label: "PP vs PS disposable cutlery", href: "/guides/pp-vs-ps-disposable-cutlery/", context: "Material and model comparison" },
+      { label: "Custom wrapped meal kits", href: "/solutions/custom-wrapped-meal-kits/", context: "Wrapper and component program" },
+    ],
+  },
+  "heavy-cutlery": {
+    seoTitle: "Heavy-Weight Disposable Cutlery Wholesale",
+    description: "Compare heavy-weight PP and PS disposable cutlery in white, black, individually wrapped and configurable 4–6 piece meal-kit formats.",
+    heading: "Define heavy-weight cutlery through the exact model and service test.",
+    introduction: "The heavy-weight family provides four purchasing references across bulk colour, individual wrapping and configured kits. Dimensions and piece weights remain open fields, so a responsible enquiry combines model identity with samples, menu use and packing.",
+    facts: [
+      { label: "01 / Range", title: "Four listed heavy-weight references", body: "The public family includes white bulk, black bulk, individually wrapped and 4–6 piece meal-kit references. Keep each AW SKU separate in the RFQ and approval record." },
+      { label: "02 / Material", title: "PP and PS options require exact-model confirmation", body: "The family lists PP and PS. Confirm the selected utensil model, resin, colour and intended service rather than using the family name as a complete technical specification." },
+      { label: "03 / Specification", title: "Dimensions and piece weights remain open", body: "The current table does not publish model lengths or weights. Request measurable fields and tolerances for the selected fork, knife or spoon before comparison or approval." },
+      { label: "04 / Packing", title: "Bulk and wrapped references show 1,000 pieces per case", body: "The 4–6 piece heavy-weight kit reference lists 250 kits per case. Request inner packing, carton dimensions, gross weight and the exact number of usable complete kits." },
+      { label: "05 / Service", title: "Test utensils with the intended menu", body: "Use identified samples with representative food, tray or meal-box layout, storage, issue and customer opening. Record model, material, conditions and observations rather than making a family-wide performance claim." },
+      ...sharedCommercialFacts,
+    ],
+    questions: [
+      { question: "Which heavy-weight cutlery options are listed?", answer: "The public family lists white bulk, black bulk, individually wrapped and configurable 4–6 piece meal-kit references." },
+      { question: "Are model dimensions and piece weights available on the page?", answer: "They are not published in the current table. Request exact measurements, weights and tolerances for the selected utensil models." },
+      { question: "Are the heavy-weight meal kits approved by airlines?", answer: "No general airline approval is claimed. The exact bill of materials, models, samples, documents and airline or caterer requirements must be reviewed per program." },
+      { question: "What should be confirmed for a black or white cutlery order?", answer: "Confirm the exact utensil models, material, colour reference, quantity, bulk or wrapped presentation, case pack, samples, documents and destination." },
+    ],
+    related: [
+      { label: "Airline meal kits and cutlery", href: "/solutions/airline-catering-meal-kits/", context: "Transport-catering program" },
+      { label: "How to specify airline meal kits", href: "/guides/how-to-specify-airline-meal-kits/", context: "Bill of materials and approvals" },
+      { label: "Cutlery samples and quality checks", href: "/guides/disposable-cutlery-samples-quality-checks/", context: "Model-level validation" },
+    ],
+  },
 };
 
 export function getFamilyProcurementContent(id: string) {

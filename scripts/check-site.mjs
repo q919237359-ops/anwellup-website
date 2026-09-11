@@ -224,7 +224,7 @@ assert(cupCategory.includes('href="/guides/disposable-cup-lid-compatibility/"'),
 assert(cupCategory.includes('data-analytics-location="category_cups"'), "Cup pillar must expose a tracked WhatsApp action");
 for (const [familyId, content] of Object.entries(familyProcurementContent)) {
   const family = productFamilies.find(item => item.id === familyId);
-  assert(family && ["cups", "boxes"].includes(family.category), `Procurement content must target a published cup or container family: ${familyId}`);
+  assert(family && ["cups", "boxes", "cutlery"].includes(family.category), `Procurement content must target a published cup, container or cutlery family: ${familyId}`);
   const category = catalogCategories.find(item => item.id === family.category);
   assert(category, `Procurement family category must exist: ${familyId}`);
   assert(content.facts.length >= 8, `Family needs a complete procurement brief: ${familyId}`);
@@ -236,6 +236,7 @@ for (const [familyId, content] of Object.entries(familyProcurementContent)) {
   assert(html.includes(`data-analytics-location="family_${familyId}"`), `Family WhatsApp action must be tracked: ${familyId}`);
 }
 assert.equal(Object.keys(familyProcurementContent).filter(id => productFamilies.find(item => item.id === id)?.category === "boxes").length, 10, "Every published container family needs a procurement brief");
+assert.equal(Object.keys(familyProcurementContent).filter(id => productFamilies.find(item => item.id === id)?.category === "cutlery").length, 2, "Every published cutlery family needs a procurement brief");
 const cutleryCategory = readPage("products/cutlery-meal-kits");
 assert(cutleryCategory.includes("Eight inputs for a comparable quotation"), "Cutlery pillar must expose the complete procurement brief");
 assert(cutleryCategory.includes('href="/solutions/airline-catering-meal-kits/"'), "Cutlery pillar must link to the airline program page");

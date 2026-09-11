@@ -413,9 +413,10 @@ export const sourcingSolutions: SourcingSolution[] = [
     lede: "Airline catering cutlery should be sourced as a controlled service program. Connect each menu and service class to an exact utensil bill of materials, wrapper, artwork, tray-fit test, case pack, approval record and tender requirement.",
     image: "/assets/editorial/2026-09-r1/airline-meal-kit-service-v1.webp",
     imageAlt: "Disposable cutlery and configured meal kits for airline catering programs",
+    imageCaption: "Representative airline meal-service illustration. No general airline approval is claimed; confirm the exact bill of materials, models and program requirements.",
     imageWidth: 1448,
     imageHeight: 1086,
-    updated: "2026-09-10",
+    updated: "2026-09-11",
     audience: "Airlines, inflight caterers, transport caterers, distributors and tender teams",
     sections: [
       {
@@ -488,9 +489,10 @@ export const sourcingSolutions: SourcingSolution[] = [
     lede: "A custom wrapped meal kit combines a product bill of materials with a packaging and artwork specification. Lock every utensil and insert first, then control the wrapper, proof, assembly sample, case pack and commercial basis.",
     image: "/assets/editorial/2026-09-r1/wrapped-cutlery-takeaway-v1.webp",
     imageAlt: "Disposable utensils and meal-kit components for custom wrapping",
+    imageCaption: "Representative takeaway-service illustration. Confirm every utensil, accessory, wrapper and artwork version in the final kit specification.",
     imageWidth: 1448,
     imageHeight: 1086,
-    updated: "2026-09-10",
+    updated: "2026-09-11",
     audience: "Restaurant groups, caterers, delivery brands, distributors, institutions and private-label programs",
     sections: [
       {

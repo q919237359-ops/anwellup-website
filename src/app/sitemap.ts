@@ -13,10 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === "" ? 1 : route.split("/").length > 3 ? 0.6 : 0.8,
   });
   const staticEntries = staticRoutes.map((route) => entry(route, route === "/manufacturing" ? "2026-09-10" : "2026-09-09"));
-  const categoryEntries = catalogCategories.map((category) => entry(`/products/${category.slug}`, category.id === "cups" || category.id === "boxes" ? "2026-09-11" : category.id === "cutlery" ? "2026-09-10" : "2026-09-09"));
+  const categoryEntries = catalogCategories.map((category) => entry(`/products/${category.slug}`, ["cups", "boxes", "cutlery"].includes(category.id) ? "2026-09-11" : "2026-09-09"));
   const familyEntries = productFamilies.map((family) => {
     const category = catalogCategories.find((item) => item.id === family.category)!;
-    return entry(`/products/${category.slug}/${family.id}`, family.category === "cups" || family.category === "boxes" ? "2026-09-11" : family.category === "cutlery" ? "2026-09-10" : "2026-09-09");
+    return entry(`/products/${category.slug}/${family.id}`, ["cups", "boxes", "cutlery"].includes(family.category) ? "2026-09-11" : "2026-09-09");
   });
   const guideEntries = buyingGuides.map((guide) => entry(`/guides/${guide.slug}`, guide.updated));
   const solutionEntries = sourcingSolutions.map((solution) => entry(`/solutions/${solution.slug}`, solution.updated));
