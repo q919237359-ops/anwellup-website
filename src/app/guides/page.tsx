@@ -6,7 +6,7 @@ import { buyingGuides } from "../../guides";
 
 export const metadata: Metadata = {
   title: "Food Packaging Buying Guides",
-  description: "Food-packaging buying guides for comparing materials, sizes, printing, MOQ, cups, takeaway containers and complete wholesale RFQs.",
+  description: "Food-packaging buying guides for cups, containers, tableware, foil, shopping bags, gloves, materials, printing, MOQ and complete wholesale RFQs.",
   alternates: { canonical: "/guides/" },
   openGraph: {
     title: "Food Packaging Buying Guides | ANWELLUP",

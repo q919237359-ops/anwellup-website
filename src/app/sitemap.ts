@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: route === "" ? "weekly" : route.includes("/products") || route.includes("/guides") || route.includes("/solutions") ? "monthly" : "yearly",
     priority: route === "" ? 1 : route.split("/").length > 3 ? 0.6 : 0.8,
   });
-  const staticEntries = staticRoutes.map((route) => entry(route, route === "/manufacturing" ? "2026-09-10" : "2026-09-09"));
+  const staticEntries = staticRoutes.map((route) => entry(route, route === "/manufacturing" ? "2026-09-10" : route === "/guides" ? "2026-09-11" : "2026-09-09"));
   const categoryEntries = catalogCategories.map((category) => entry(`/products/${category.slug}`, ["cups", "boxes", "cutlery", "tableware", "foil", "bags", "gloves"].includes(category.id) ? "2026-09-11" : "2026-09-09"));
   const familyEntries = productFamilies.map((family) => {
     const category = catalogCategories.find((item) => item.id === family.category)!;

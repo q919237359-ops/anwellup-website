@@ -43,11 +43,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
   const focusedGuides = {
     cups: { label: "Disposable cup sourcing guide", href: "/guides/disposable-cup-sourcing-guide/" },
     boxes: { label: "Takeaway container sourcing guide", href: "/guides/takeaway-container-sourcing-guide/" },
-    tableware: { label: "Food container size guide", href: "/guides/food-container-size-guide/" },
-    foil: { label: "Food packaging material comparison", href: "/guides/food-packaging-materials-comparison/" },
+    tableware: { label: "Disposable tableware sourcing guide", href: "/guides/disposable-plates-bowls-trays-sourcing-guide/" },
+    foil: { label: "Aluminium foil sourcing guide", href: "/guides/aluminium-foil-food-wrap-sourcing-guide/" },
     cutlery: { label: "Disposable cutlery sets bulk guide", href: "/guides/disposable-cutlery-sets-bulk/" },
-    bags: { label: "Custom packaging printing guide", href: "/guides/custom-food-packaging-printing-guide/" },
-    gloves: { label: "Food packaging MOQ guide", href: "/guides/food-packaging-moq-guide/" },
+    bags: { label: "Custom shopping-bag sourcing guide", href: "/guides/custom-shopping-bags-sourcing-guide/" },
+    gloves: { label: "Disposable glove sourcing guide", href: "/guides/disposable-gloves-wholesale-sourcing-guide/" },
   } as const;
   const focusedGuide = focusedGuides[category.id];
   return <main id="main-content" className="page-main category-page">

@@ -145,6 +145,7 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
       { label: "08 / Delivery", title: "Case data and milestones", body: "Request final pack hierarchy, carton dimensions, gross weight, approval sequence, production trigger and shipment-ready milestone before loading calculations." },
     ],
     clusterLinks: [
+      { label: "Disposable tableware sourcing guide", href: "/guides/disposable-plates-bowls-trays-sourcing-guide/", intent: "Complete purchasing framework" },
       { label: "Sugarcane bagasse bowls", href: "/products/plates-bowls-trays/tableware-bowls/", intent: "Molded-fiber bowl sourcing" },
       { label: "Bagasse disposable plates", href: "/products/plates-bowls-trays/tableware-plates/", intent: "Round and compartment plates" },
       { label: "Bagasse meal trays", href: "/products/plates-bowls-trays/tableware-meal-trays/", intent: "Open and divided trays" },
@@ -185,6 +186,7 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
       { label: "08 / Evidence", title: "Documents, timing and release", body: "Name the destination and intended use, review product- or material-relevant records and freeze specifications, samples, artwork, timing and commercial terms in writing." },
     ],
     clusterLinks: [
+      { label: "Aluminium foil and food-wrap sourcing guide", href: "/guides/aluminium-foil-food-wrap-sourcing-guide/", intent: "Complete purchasing framework" },
       { label: "Aluminium foil rolls and baking paper", href: "/products/foil-wraps-baking/foil-rolls-sheets-paper/", intent: "Roll and mixed-format programs" },
       { label: "Cushion foil sheets", href: "/products/foil-wraps-baking/cushion-foil/", intent: "Paper-and-foil laminate" },
       { label: "Pop-up aluminium foil sheets", href: "/products/foil-wraps-baking/popup-foil/", intent: "Pre-cut dispensing program" },
@@ -271,6 +273,7 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
       { label: "08 / Release", title: "Documents, timing and final control", body: "Name destination requirements and freeze the drawing, construction, artwork, sample, inspection fields, packing, timing and commercial terms in writing." },
     ],
     clusterLinks: [
+      { label: "Custom shopping-bag sourcing guide", href: "/guides/custom-shopping-bags-sourcing-guide/", intent: "Complete custom bag brief" },
       { label: "PE T-shirt shopping bags", href: "/products/carry-shopping-bags/pe-shopping-bags/", intent: "Film carry-bag program" },
       { label: "Non-woven shopping bags", href: "/products/carry-shopping-bags/nonwoven-shopping-bags/", intent: "Structured branded bag program" },
       { label: "Custom food-packaging printing", href: "/guides/custom-food-packaging-printing-guide/", intent: "Artwork and proof control" },
@@ -309,6 +312,7 @@ export const categorySeoContent: Record<CategoryId, CategorySeoContent> = {
       { label: "08 / Release", title: "Freeze claims, documents and timing", body: "Confirm the product specification, permitted claim wording, document set, samples, inspection fields, quantity, packing and shipment milestone in writing." },
     ],
     clusterLinks: [
+      { label: "Disposable glove sourcing guide", href: "/guides/disposable-gloves-wholesale-sourcing-guide/", intent: "Task, specification and evidence" },
       { label: "Vinyl, nitrile and TPE handling gloves", href: "/products/gloves-protective-supplies/gloves-handling-gloves/", intent: "Mixed-material comparison" },
       { label: "Powder-free nitrile gloves", href: "/products/gloves-protective-supplies/nitrile-exam-gloves/", intent: "Nitrile size program" },
       { label: "Powder-free vinyl gloves", href: "/products/gloves-protective-supplies/vinyl-exam-gloves/", intent: "PVC or vinyl program" },

@@ -1,6 +1,7 @@
 import { containerClusterGuides } from "./container-guides";
 import { cupClusterGuides } from "./cup-guides";
 import { cutleryClusterGuides } from "./cutlery-guides";
+import { categoryProcurementGuides } from "./category-procurement-guides";
 
 export type BuyingGuide = {
   slug: string;
@@ -531,6 +532,7 @@ export const buyingGuides: BuyingGuide[] = [
   ...cutleryClusterGuides,
   ...cupClusterGuides,
   ...containerClusterGuides,
+  ...categoryProcurementGuides,
 ];
 
 export const getBuyingGuide = (slug: string) => buyingGuides.find((guide) => guide.slug === slug);

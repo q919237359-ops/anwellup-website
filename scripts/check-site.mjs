@@ -40,7 +40,7 @@ const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
-assert.equal(buyingGuides.length, 25);
+assert.equal(buyingGuides.length, 29);
 assert.equal(new Set(buyingGuides.map(guide => guide.slug)).size, buyingGuides.length);
 assert(buyingGuides.every(guide => guide.sections.length >= 6), "Every guide needs a substantial decision structure");
 assert(buyingGuides.every(guide => guide.questions.length >= 3), "Every guide needs visible buyer questions");
@@ -282,7 +282,7 @@ for (const guide of buyingGuides) {
   assert(html.includes(guide.title), `Guide title missing from output: ${guide.slug}`);
   assert(html.includes('href="/guides/food-packaging-rfq-checklist/"') || guide.slug === "food-packaging-rfq-checklist", `Guide must connect to the RFQ cluster: ${guide.slug}`);
 }
-for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide", "paper-vs-plastic-disposable-cups", "disposable-cup-lid-compatibility", "disposable-cup-moq", "disposable-cup-printing-samples", "disposable-cup-lead-time-packing", "how-to-evaluate-plastic-cup-manufacturer", "hinged-vs-folded-takeaway-containers", "how-to-choose-takeaway-packaging", "takeaway-container-moq", "takeaway-container-samples-prototyping", "takeaway-container-lead-time-packing", "how-to-verify-food-packaging-supplier", "disposable-cutlery-sets-bulk", "pp-vs-ps-disposable-cutlery", "bulk-vs-individually-wrapped-cutlery", "how-to-specify-airline-meal-kits", "disposable-cutlery-samples-quality-checks", "meal-kit-moq-packing-lead-time"]) {
+for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide", "paper-vs-plastic-disposable-cups", "disposable-cup-lid-compatibility", "disposable-cup-moq", "disposable-cup-printing-samples", "disposable-cup-lead-time-packing", "how-to-evaluate-plastic-cup-manufacturer", "hinged-vs-folded-takeaway-containers", "how-to-choose-takeaway-packaging", "takeaway-container-moq", "takeaway-container-samples-prototyping", "takeaway-container-lead-time-packing", "how-to-verify-food-packaging-supplier", "disposable-cutlery-sets-bulk", "pp-vs-ps-disposable-cutlery", "bulk-vs-individually-wrapped-cutlery", "how-to-specify-airline-meal-kits", "disposable-cutlery-samples-quality-checks", "meal-kit-moq-packing-lead-time", "disposable-plates-bowls-trays-sourcing-guide", "aluminium-foil-food-wrap-sourcing-guide", "custom-shopping-bags-sourcing-guide", "disposable-gloves-wholesale-sourcing-guide"]) {
   const html = readPage(`guides/${slug}`);
   assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Decision guide needs three or more contextual links: ${slug}`);
 }
