@@ -9,6 +9,13 @@ import { GENERAL_WHATSAPP_URL } from "../../../../lib/contact";
 import { getFamilyProcurementContent } from "../../../../lib/family-procurement";
 import { getSpecificationColumns } from "../../../../lib/specification-columns";
 
+const familyImageSize = (image: string, categoryId: string) => {
+  if (image.endsWith("/aw-bg-h96.webp")) return { width: 900, height: 600 };
+  if (image.startsWith("/assets/generated/products/")) return { width: 900, height: 675 };
+  if (categoryId === "bags") return { width: 640, height: 480 };
+  return { width: 1448, height: 1086 };
+};
+
 export function generateStaticParams() {
   return productFamilies.map((family) => ({ category: catalogCategories.find((item) => item.id === family.category)!.slug, family: family.id }));
 }
@@ -21,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const procurement = getFamilyProcurementContent(family.id);
   const title = procurement?.seoTitle ?? `${family.name} Wholesale`;
   const description = procurement?.description ?? `Compare ${family.variants.length} listed ${family.name} ${family.variants.length === 1 ? "model" : "models"}, materials and catalogue specifications for a wholesale food-packaging enquiry.`;
+  const imageSize = familyImageSize(family.image, category.id);
   return {
     title,
     description,
@@ -30,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       description,
       url: `/products/${category.slug}/${family.id}/`,
       type: "website",
-      images: [{ url: family.image, width: category.id === "bags" ? 640 : 1448, height: category.id === "bags" ? 480 : 1086, alt: `${family.name} product range` }],
+      images: [{ url: family.image, ...imageSize, alt: `${family.name} product range` }],
     },
     twitter: { card: "summary_large_image", title: `${title} | ANWELLUP`, description, images: [family.image] },
   };
@@ -43,6 +51,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
   if (!family || !category) notFound();
   const columns = getSpecificationColumns(family.variants);
   const procurement = getFamilyProcurementContent(family.id);
+  const imageSize = familyImageSize(family.image, category.id);
   const pageUrl = `https://anwellup.com/products/${category.slug}/${family.id}/`;
   return <main id="main-content" className="page-main product-detail-page">
     <JsonLd data={[
@@ -104,8 +113,8 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
     ]} />
     <nav className="breadcrumb" aria-label="Breadcrumb"><Link href={`/products/${category.slug}/`}><ArrowLeft size={16}/> {category.label}</Link><span aria-hidden="true">/</span><span aria-current="page">{family.name}</span></nav>
     <header className="family-hero">
-      <figure className={category.id === "bags" ? "category-source-master" : undefined}><div className="family-image-stage"><img src={family.image} alt={category.id === "bags" ? "Supplied PE carry-bag range; representative image only" : `${family.name} range illustration`} width={category.id === "bags" ? 640 : 1448} height={category.id === "bags" ? 480 : 1086} fetchPriority="high"/></div><figcaption>{category.id === "bags" ? "PE carry bags shown. This is not a photograph of every model in the range." : "Range illustration. Confirm the selected model with your enquiry."}</figcaption></figure>
-      <div className="family-hero-copy"><h1>{family.name}</h1><code className="display-sku">{family.sku}</code><p>{family.summary}</p><div className="family-attributes"><div><span>Materials</span><strong>{family.materials.join(", ")}</strong></div><div><span>Applications</span><strong>{family.applications.join(", ")}</strong></div><div><span>Specification</span><strong>{family.specificationStatus === "pending" ? "Awaiting documentation" : "Confirm with enquiry"}</strong></div></div><AddToInquiryButton item={{ sku: family.sku, name: family.name, category: category.label }}/></div>
+      <figure className={category.id === "bags" ? "category-source-master" : undefined}><div className="family-image-stage"><img src={family.image} alt={category.id === "bags" ? "Supplied PE carry-bag range; representative image only" : `${family.name} range illustration`} {...imageSize} fetchPriority="high"/></div><figcaption>{category.id === "bags" ? "PE carry bags shown. This is not a photograph of every model in the range." : "Range illustration. Confirm the selected model with your enquiry."}</figcaption></figure>
+      <div className="family-hero-copy"><h1>{family.name}</h1><code className="display-sku">{family.sku}</code><p>{procurement?.description ?? family.summary}</p><div className="family-attributes"><div><span>Materials</span><strong>{family.materials.join(", ")}</strong></div><div><span>Applications</span><strong>{family.applications.join(", ")}</strong></div><div><span>Specification</span><strong>{family.specificationStatus === "pending" ? "Awaiting documentation" : "Confirm with enquiry"}</strong></div></div><AddToInquiryButton item={{ sku: family.sku, name: family.name, category: category.label }}/></div>
     </header>
 
     <section className="specification-section" aria-labelledby="spec-title"><header className="specification-heading"><h2 id="spec-title">Models & specifications</h2><p>Compare available references, then add the models you need. Final specifications are confirmed in writing.</p></header>
