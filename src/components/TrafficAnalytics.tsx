@@ -18,7 +18,9 @@ export function TrafficAnalytics() {
       if (!target) return;
       const name = target.dataset.analyticsEvent as AnalyticsEvent | undefined;
       if (!name) return;
-      trackEvent(name, { location: target.dataset.analyticsLocation ?? "unknown" });
+      const location = target.dataset.analyticsLocation ?? "unknown";
+      trackEvent(name, { location });
+      if (name === "whatsapp_click") trackEvent("generate_lead", { method: "whatsapp", location });
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);

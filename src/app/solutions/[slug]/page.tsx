@@ -80,7 +80,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
         <div><span className="eyebrow">Sourcing solution / {solution.updated}</span><h1>{solution.title}</h1></div>
         <div className="guide-hero-summary"><p>{solution.lede}</p><p className="solution-audience">For: {solution.audience}</p><p className="guide-byline">Prepared and reviewed by ANWELLUP · <Link href="/about/#content-method">Content method</Link></p></div>
       </header>
-      <figure className="guide-lead-figure"><img src={solution.image} alt={solution.imageAlt} width={solution.imageWidth} height={solution.imageHeight}/><figcaption>Range image for sourcing orientation. Confirm the exact model, evidence and project specification in writing.</figcaption></figure>
+      <figure className="guide-lead-figure"><img src={solution.image} alt={solution.imageAlt} width={solution.imageWidth} height={solution.imageHeight}/><figcaption>{solution.imageCaption ?? "Range image for sourcing orientation. Confirm the exact model, evidence and project specification in writing."}</figcaption></figure>
       <div className="guide-layout">
         <aside aria-label="In this solution"><span className="eyebrow">Planning sequence</span><ol>{solution.sections.map((section, index) => <li key={section.heading}><a href={`#section-${index + 1}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.heading}</a></li>)}</ol></aside>
         <div className="guide-body">

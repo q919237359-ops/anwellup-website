@@ -7,6 +7,7 @@ export type SourcingSolution = {
   lede: string;
   image: string;
   imageAlt: string;
+  imageCaption?: string;
   imageWidth: number;
   imageHeight: number;
   updated: string;
@@ -256,11 +257,12 @@ export const sourcingSolutions: SourcingSolution[] = [
     shortTitle: "Custom printed coffee cups",
     description: "Plan custom printed coffee cups by cup construction, size, lid pairing, artwork, proofs, MOQ, case packing and model-specific document requirements.",
     lede: "A printed coffee cup is a controlled product-and-artwork system. Choose the exact single-wall or double-wall cup and matching lid first, then define print coverage, colour references, approval samples, packing and commercial terms.",
-    image: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp",
-    imageAlt: "Single-wall and double-wall paper cups arranged for a custom printed coffee-cup program",
-    imageWidth: 1448,
-    imageHeight: 1086,
-    updated: "2026-09-09",
+    image: "/assets/editorial/2026-09-r2/custom-printed-coffee-cups-cafe-v1.webp",
+    imageAlt: "Printed kraft and white paper coffee cups presented in a natural cafe service setting",
+    imageCaption: "Service-context illustration for artwork and format planning. Confirm the exact cup, lid and print specification in writing.",
+    imageWidth: 1536,
+    imageHeight: 1024,
+    updated: "2026-09-11",
     audience: "Coffee brands, café groups, distributors, events and private-label beverage programs",
     sections: [
       {
@@ -331,11 +333,12 @@ export const sourcingSolutions: SourcingSolution[] = [
     shortTitle: "Cold drink cup programs",
     description: "Plan a wholesale PET or PP cold-drink cup program by beverage, size, clarity, rim and lid, sealing, artwork, case packs and destination evidence.",
     lede: "A cold-drink cup program should connect the beverage and operating routine to an exact PET or PP cup, compatible lid or sealing route, presentation requirement, size matrix, case pack and written evidence scope.",
-    image: "/assets/catalog/2026-09-r1/cups-drinkware-v1.webp",
-    imageAlt: "PET and PP cups arranged for cold beverage and milk-tea sourcing",
-    imageWidth: 1448,
-    imageHeight: 1086,
-    updated: "2026-09-09",
+    image: "/assets/editorial/2026-09-r2/pet-pp-cold-drink-cups-cafe-v1.webp",
+    imageAlt: "Clear PET and translucent PP cups with iced tea, milk tea and sparkling lemon water in beverage service",
+    imageCaption: "Representative beverage-service illustration, not an exact model claim. Confirm cup, closure and filled-service conditions by AW SKU.",
+    imageWidth: 1536,
+    imageHeight: 1024,
+    updated: "2026-09-11",
     audience: "Beverage brands, bubble-tea groups, distributors, events and prepared retail programs",
     sections: [
       {

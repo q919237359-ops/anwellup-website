@@ -4,6 +4,7 @@ export type AnalyticsEvent =
   | "category_filter"
   | "inquiry_clear"
   | "inquiry_open"
+  | "generate_lead"
   | "product_preview"
   | "product_search"
   | "remove_from_inquiry"

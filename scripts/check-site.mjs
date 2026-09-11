@@ -34,6 +34,7 @@ const { sourcingSolutions } = load("src/solutions.ts");
 const { filterCatalog, matchingVariants, materialsForCategory, readCatalogFilters, writeCatalogFilters } = load("src/lib/catalog-search.ts");
 const { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GENERAL_WHATSAPP_URL, whatsappInquiryUrl } = load("src/lib/contact.ts");
 const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
+const { familyProcurementContent } = load("src/lib/family-procurement.ts");
 const { galleryDistance, galleryProgress } = load("src/lib/gallery-motion.ts");
 const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
@@ -120,8 +121,10 @@ const theme = fs.readFileSync(path.join(root, "src/app/plan-a.css"), "utf8");
 const analyticsSource = fs.readFileSync(path.join(root, "src/lib/analytics.ts"), "utf8");
 const trackingSource = fs.readFileSync(path.join(root, "src/components/TrafficAnalytics.tsx"), "utf8");
 assert(analyticsSource.includes('window.gtag?.("event", event, parameters)'), "Tracked actions must be forwarded to GA4");
+assert(analyticsSource.includes('"generate_lead"'), "High-intent contact actions must support the GA4 generate_lead event");
 assert(trackingSource.includes("NEXT_PUBLIC_GA4_ID"), "GA4 must be configurable at deploy time");
 assert(trackingSource.includes("googletagmanager.com/gtag/js"), "GA4 loader must be present");
+assert(trackingSource.includes('trackEvent("generate_lead"'), "WhatsApp contacts must emit a lead-intent event");
 const token = name => { const match = theme.match(new RegExp(`--${name}:\\s*(#[a-f0-9]{6})`, "i")); assert(match, `Missing Plan A token ${name}`); return match[1]; };
 assert.equal(token("sage"), "#58715a");
 assert.equal(token("paper-deep"), "#e4eadf");
@@ -219,6 +222,17 @@ assert(cupCategory.includes("Eight inputs for a comparable quotation"), "Cup pil
 assert(cupCategory.includes('href="/solutions/custom-printed-coffee-cups/"'), "Cup pillar must link to the custom-print solution");
 assert(cupCategory.includes('href="/guides/disposable-cup-lid-compatibility/"'), "Cup pillar must link to the compatibility guide");
 assert(cupCategory.includes('data-analytics-location="category_cups"'), "Cup pillar must expose a tracked WhatsApp action");
+for (const [familyId, content] of Object.entries(familyProcurementContent)) {
+  const family = productFamilies.find(item => item.id === familyId);
+  assert(family?.category === "cups", `Procurement content must target a published cup family: ${familyId}`);
+  assert(content.facts.length >= 8, `Cup family needs a complete procurement brief: ${familyId}`);
+  assert(content.questions.length >= 4, `Cup family needs buyer questions: ${familyId}`);
+  assert(content.related.length >= 3, `Cup family needs related decision paths: ${familyId}`);
+  const html = readPage(`products/cups-drinkware/${familyId}`);
+  assert(html.includes("Wholesale buying brief"), `Cup family brief missing from output: ${familyId}`);
+  assert(html.includes('"@type":"FAQPage"'), `Cup family FAQ schema missing from output: ${familyId}`);
+  assert(html.includes(`data-analytics-location="family_${familyId}"`), `Cup family WhatsApp action must be tracked: ${familyId}`);
+}
 const cutleryCategory = readPage("products/cutlery-meal-kits");
 assert(cutleryCategory.includes("Eight inputs for a comparable quotation"), "Cutlery pillar must expose the complete procurement brief");
 assert(cutleryCategory.includes('href="/solutions/airline-catering-meal-kits/"'), "Cutlery pillar must link to the airline program page");
@@ -258,6 +272,8 @@ for (const solution of sourcingSolutions) {
   assert((html.match(/class="guide-inline-link"/g) || []).length >= 3, `Solution needs three or more contextual links: ${solution.slug}`);
   assert(html.includes(`data-analytics-location="solution_${solution.slug}"`), `Solution must expose a tracked WhatsApp action: ${solution.slug}`);
 }
+assert(readPage("solutions/custom-printed-coffee-cups").includes("custom-printed-coffee-cups-cafe-v1.webp"), "Coffee-cup solution must use its service-context image");
+assert(readPage("solutions/cold-drink-cup-programs").includes("pet-pp-cold-drink-cups-cafe-v1.webp"), "Cold-cup solution must use its service-context image");
 assert(readPage("solutions/custom-wrapped-meal-kits").includes("wrapped-cutlery-takeaway-v1.webp"), "Wrapped-kit solution must use the takeaway packing scene");
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
