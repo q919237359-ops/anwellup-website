@@ -26,6 +26,84 @@ const containerImage = "/assets/catalog/2026-09-r1/takeaway-boxes-containers-v1.
 
 export const sourcingSolutions: SourcingSolution[] = [
   {
+    slug: "food-packaging-sourcing-china",
+    title: "Wholesale food packaging sourcing from China",
+    seoTitle: "Food Packaging Supplier China | Wholesale Sourcing",
+    shortTitle: "Food packaging sourcing from China",
+    description: "Source wholesale food packaging from China with a model-level brief covering supplier identity, materials, samples, documents, MOQ, packing and shipment.",
+    lede: "A search for a food packaging supplier in China is only the beginning. A responsible sourcing process connects the quoted legal entity, exact product model, supporting evidence, approved sample, commercial basis and export plan before an order is released.",
+    image: "/assets/manufacturing/2026-09-clean/factory-overview-signage-removed-v2.webp",
+    imageAlt: "Food packaging facility exterior in China from a supplied company catalogue",
+    imageCaption: "Supplied catalogue photograph with identifying signage removed. The proposed supplier, facility relationship and production scope are confirmed separately for each project.",
+    imageWidth: 1770,
+    imageHeight: 889,
+    updated: "2026-09-13",
+    audience: "Importers, distributors, foodservice groups and private-label buyers sourcing packaging from China",
+    sections: [
+      {
+        heading: "Define the buying scope before contacting suppliers.",
+        paragraphs: [
+          "List each required format, its food or handling application, target dimensions or capacity, preferred material, quantity and destination. Separate confirmed requirements from fields that still need supplier input.",
+          "Use one line per product model and matching component. A broad request for cups, boxes or tableware cannot support a comparable quotation because material, size, lid, packing and decoration may follow different production routes.",
+        ],
+        checklist: ["Product family and intended use", "Dimensions or capacity", "Material and colour", "Quantity by model", "Destination market"],
+        links: [{ label: "Browse the wholesale product range", href: "/products/" }],
+      },
+      {
+        heading: "Verify the legal entity and production relationship.",
+        paragraphs: [
+          "Ask which legal entity will quote, receive payment and issue commercial documents. Record the proposed facility and whether it manufactures, converts, assembles, coordinates or supplies the selected product.",
+          "A factory photograph or catalogue page does not by itself prove ownership, capacity or the relationship to every item. Resolve identity differences and obtain a written project scope before treating the production route as confirmed.",
+        ],
+        links: [{ label: "Review the supplier-verification checklist", href: "/guides/how-to-verify-food-packaging-supplier/" }, { label: "See how manufacturing evidence is presented", href: "/manufacturing/" }],
+      },
+      {
+        heading: "Shortlist exact models, not generic material names.",
+        paragraphs: [
+          "Keep the public AW SKU or another controlled model reference beside dimensions, capacity, weight, material and matching components. Compare PP, PET, paper, bagasse, aluminium and other constructions only against the real food, temperature, holding and service conditions.",
+          "Do not transfer a claim from one material, colour, size or supplier reference to another. Mark missing values for confirmation and use an identified sample or drawing to close the gaps.",
+        ],
+        links: [{ label: "Compare food-packaging materials", href: "/guides/food-packaging-materials-comparison/" }, { label: "Use the container size guide", href: "/guides/food-container-size-guide/" }],
+      },
+      {
+        heading: "Connect samples and documents to the proposed order.",
+        paragraphs: [
+          "Define what each sample must answer: dimensions, portion fit, closure, lid compatibility, artwork layout, colour, packing or production finish. Test it with the intended food and operating routine, then record the model, conditions and result.",
+          "For supporting records, review the named product or material, issuer, scope, test basis and validity. Ask the supplier to explain how each document relates to the exact model and destination requirement rather than accepting a general certificate list.",
+        ],
+        links: [{ label: "Review quality and document handling", href: "/quality-compliance/" }, { label: "Plan container samples", href: "/guides/takeaway-container-samples-prototyping/" }],
+      },
+      {
+        heading: "Normalize MOQ, price and packing on one basis.",
+        paragraphs: [
+          "State whether quantities mean pieces, packs, cases or complete kits and break the demand down by model, size, colour and artwork version. Request MOQ, quoted quantity, unit price, setup items and validity against the same written specification.",
+          "Collect pieces per inner pack and case, carton dimensions, gross weight and assortment rules before comparing freight. A lower piece price is not a comparable result when the specification, quantity unit or packing basis differs.",
+        ],
+        links: [{ label: "Understand packaging MOQ inputs", href: "/guides/food-packaging-moq-guide/" }, { label: "Build the complete RFQ", href: "/guides/food-packaging-rfq-checklist/" }],
+      },
+      {
+        heading: "Freeze approvals, shipment scope and change control.",
+        paragraphs: [
+          "Separate artwork review, sample delivery, production, inspection, shipment readiness and transport. Record what starts each milestone, which buyer approvals are required and which delivery term applies.",
+          "Before order release, align the final models, specifications, artwork, approved samples, documents, quantities, packing, price, payment identity and shipment basis in one written record. Any later substitution should return to the relevant evidence and approval step.",
+        ],
+        links: [{ label: "Send a model-level enquiry", href: "/contact/" }, { label: "Review common buyer questions", href: "/buyer-faq/" }],
+      },
+    ],
+    questions: [
+      { question: "Is ANWELLUP a food packaging manufacturer in China?", answer: "ANWELLUP is presented as an English-language B2B catalogue and enquiry service. The legal supplier, proposed facility, production relationship and project scope are confirmed in writing for the selected products rather than inferred from a category page or photograph." },
+      { question: "What food packaging can be reviewed for wholesale sourcing?", answer: "The public range includes cups, takeaway containers, plates, bowls, trays, foil and wraps, cutlery and meal kits, carry bags and gloves. Availability and final specifications are confirmed by exact model and project." },
+      { question: "What should I send to request a quotation from China?", answer: "Send the product or closest format, intended use, dimensions or capacity, material, quantity by model, customization, packing needs, destination, document requirements and target timing." },
+      { question: "How should two supplier quotations be compared?", answer: "Compare the same model-level specification, quantity unit, artwork, documents, packing, delivery basis and timing. Mark provisional or missing fields instead of treating unlike quotations as equivalent." },
+    ],
+    related: [
+      { label: "Wholesale food packaging range", href: "/products/" },
+      { label: "How to verify a food packaging supplier", href: "/guides/how-to-verify-food-packaging-supplier/" },
+      { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" },
+      { label: "Request a food packaging quote", href: "/contact/" },
+    ],
+  },
+  {
     slug: "custom-takeaway-containers",
     title: "Custom takeaway containers for wholesale food programs",
     seoTitle: "Custom Takeaway Containers Supplier",

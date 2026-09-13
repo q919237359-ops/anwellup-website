@@ -6,7 +6,7 @@ import { sourcingSolutions } from "../../solutions";
 
 export const metadata: Metadata = {
   title: "Food Packaging Sourcing Solutions",
-  description: "Scenario-led sourcing plans for custom cups, cold drinks, takeaway containers, airline catering, wrapped meal kits, restaurant chains and prepared-food retail.",
+  description: "Scenario-led sourcing plans for food packaging from China, custom cups, takeaway containers, airline catering, restaurant chains and prepared-food retail.",
   alternates: { canonical: "/solutions/" },
   openGraph: {
     title: "Food Packaging Sourcing Solutions | ANWELLUP",

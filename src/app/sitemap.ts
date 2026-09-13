@@ -5,14 +5,14 @@ import { sourcingSolutions } from "../solutions";
 export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://anwellup.com";
-  const staticRoutes = ["", "/products", "/solutions", "/capabilities", "/manufacturing", "/quality-compliance", "/guides", "/about", "/contact", "/privacy", "/terms"];
+  const staticRoutes = ["", "/products", "/solutions", "/capabilities", "/manufacturing", "/quality-compliance", "/guides", "/buyer-faq", "/about", "/contact", "/privacy", "/terms"];
   const entry = (route: string, lastModified: string): MetadataRoute.Sitemap[number] => ({
     url: `${base}${route}/`.replace(`${base}//`, `${base}/`),
     lastModified: new Date(lastModified),
     changeFrequency: route === "" ? "weekly" : route.includes("/products") || route.includes("/guides") || route.includes("/solutions") ? "monthly" : "yearly",
     priority: route === "" ? 1 : route.split("/").length > 3 ? 0.6 : 0.8,
   });
-  const staticEntries = staticRoutes.map((route) => entry(route, route === "/manufacturing" ? "2026-09-10" : route === "/guides" ? "2026-09-11" : "2026-09-09"));
+  const staticEntries = staticRoutes.map((route) => entry(route, route === "/buyer-faq" || route === "/contact" || route === "/solutions" ? "2026-09-13" : route === "/manufacturing" ? "2026-09-10" : route === "/guides" ? "2026-09-11" : "2026-09-09"));
   const categoryEntries = catalogCategories.map((category) => entry(`/products/${category.slug}`, ["cups", "boxes", "cutlery", "tableware", "foil", "bags", "gloves"].includes(category.id) ? "2026-09-11" : "2026-09-09"));
   const familyEntries = productFamilies.map((family) => {
     const category = catalogCategories.find((item) => item.id === family.category)!;

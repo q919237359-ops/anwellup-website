@@ -449,6 +449,23 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .brief-checklist ul { padding: 10px 0 25px; margin: 0; list-style: none; }
 .brief-checklist ul li { display: block; padding: 10px 0; border: 0; }
 .contact-method > p { font-size: 13px; }
+.contact-hero > p { max-width: 58ch; line-height: 1.8; }
+.contact-preparation, .contact-questions { width: var(--container); margin: 0 auto; padding: 108px 0 118px; border-top: 1px solid var(--line-strong); }
+.contact-preparation { display: grid; grid-template-columns: minmax(280px,.78fr) minmax(480px,1.22fr); gap: clamp(58px,9vw,140px); }
+.contact-preparation > header h2, .contact-questions > header h2 { max-width: 12ch; margin: 23px 0 24px; font-size: clamp(42px,4.7vw,70px); font-weight: 450; line-height: 1.04; }
+.contact-preparation > header p { max-width: 42ch; color: var(--ink-soft); font-size: 14px; line-height: 1.8; }
+.contact-preparation > div { border-top: 1px solid var(--line-strong); }
+.contact-preparation > div > a { display: grid; grid-template-columns: 34px minmax(0,1fr) 19px; gap: 8px 18px; align-items: start; padding: 24px 0 27px; border-bottom: 1px solid var(--line); }
+.contact-preparation > div > a > span { padding-top: 3px; color: var(--ink-soft); font-family: var(--mono); font-size: 8px; }
+.contact-preparation > div > a > strong { font-family: var(--serif); font-size: 25px; font-weight: 470; line-height: 1.2; }
+.contact-preparation > div > a > small { grid-column: 2; max-width: 50ch; color: var(--ink-soft); font-size: 11px; line-height: 1.65; }
+.contact-preparation > div > a > svg { grid-column: 3; grid-row: 1 / 3; margin-top: 4px; transition: transform .25s ease; }
+.contact-preparation > div > a:hover svg { transform: translate(3px,-3px); }
+.contact-questions { display: grid; grid-template-columns: minmax(280px,.78fr) minmax(480px,1.22fr); gap: clamp(58px,9vw,140px); padding-bottom: 145px; }
+.contact-questions dl { margin: 0; border-top: 1px solid var(--line-strong); }
+.contact-questions dl > div { padding: 25px 0 29px; border-bottom: 1px solid var(--line); }
+.contact-questions dt { font-family: var(--serif); font-size: 25px; line-height: 1.3; }
+.contact-questions dd { max-width: 65ch; margin: 12px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.78; }
 .drawer-heading h2 { margin: 0; font-weight: 450; }
 .drawer-empty { min-height: 0; padding: 0 0 30px; }
 .drawer-empty p { font-size: 13px; }
@@ -562,6 +579,30 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .guide-related a { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0 22px; border-bottom: 1px solid var(--line); font-size: 13px; }
 .guide-related a svg { transition: transform .25s ease; }
 .guide-related a:hover svg { transform: translate(3px,-3px); }
+
+/* Buyer FAQ: concise answers with crawlable paths into the deeper sourcing content. */
+.buyer-faq-hero { width: var(--container); margin: 0 auto; padding: 86px 0 96px; display: grid; grid-template-columns: minmax(0,1.28fr) minmax(330px,.72fr); gap: 55px clamp(55px,8vw,125px); align-items: end; border-bottom: 1px solid var(--line-strong); }
+.buyer-faq-hero h1 { max-width: 12ch; margin: 25px 0 0; font-size: clamp(58px,6.8vw,100px); font-weight: 450; line-height: .98; letter-spacing: -.045em; text-wrap: balance; }
+.buyer-faq-hero > div:last-child > p:first-child { max-width: 47ch; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.85; }
+.buyer-faq-index { width: var(--container); margin: 0 auto; padding: 38px 0 76px; display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid var(--line-strong); }
+.buyer-faq-index a { min-width: 0; display: grid; grid-template-columns: 1fr auto; gap: 10px 18px; padding: 4px 24px 18px; border-left: 1px solid var(--line); font-family: var(--serif); font-size: 20px; line-height: 1.25; }
+.buyer-faq-index a:first-child { padding-left: 0; border-left: 0; }
+.buyer-faq-index a:last-child { padding-right: 0; }
+.buyer-faq-index a span { grid-column: 1 / -1; color: var(--ink-soft); font-family: var(--mono); font-size: 8px; letter-spacing: .04em; }
+.buyer-faq-index a svg { margin-top: 4px; transition: transform .25s ease; }
+.buyer-faq-index a:hover svg { transform: translateX(3px); }
+.buyer-faq-groups { width: var(--container); margin: 0 auto; padding: 102px 0 138px; }
+.buyer-faq-groups > section { scroll-margin-top: 104px; display: grid; grid-template-columns: minmax(260px,.7fr) minmax(520px,1.3fr); gap: clamp(55px,9vw,135px); padding: 0 0 96px; margin-bottom: 96px; border-bottom: 1px solid var(--line-strong); }
+.buyer-faq-groups > section:last-child { margin-bottom: 0; }
+.buyer-faq-groups header h2 { max-width: 12ch; margin: 22px 0 0; font-size: clamp(40px,4.5vw,65px); font-weight: 450; line-height: 1.05; }
+.buyer-faq-groups dl { margin: 0; border-top: 1px solid var(--line-strong); }
+.buyer-faq-groups dl > div { padding: 26px 0 30px; border-bottom: 1px solid var(--line); }
+.buyer-faq-groups dt { font-family: var(--serif); font-size: 25px; line-height: 1.3; }
+.buyer-faq-groups dd { margin: 13px 0 0; }
+.buyer-faq-groups dd p { max-width: 67ch; margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.82; }
+.buyer-faq-groups dd a { display: inline-flex; align-items: center; gap: 8px; margin-top: 17px; padding-bottom: 6px; border-bottom: 1px solid var(--line-strong); font-size: 11px; }
+.buyer-faq-groups dd a svg { transition: transform .25s ease; }
+.buyer-faq-groups dd a:hover svg { transform: translate(2px,-2px); }
 .category-guide-links { margin-top: 82px; padding-top: 27px; display: grid; grid-template-columns: minmax(180px,.7fr) minmax(420px,1.3fr); gap: clamp(45px,8vw,120px); border-top: 1px solid var(--line-strong); }
 .category-guide-links > div { display: flex; flex-direction: column; }
 .category-guide-links a { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
@@ -604,7 +645,7 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .category-sourcing-notes { width: 100%; margin-top: 68px; }
   .category-procurement > ol { margin-top: 55px; }
   .category-buyer-questions { margin-top: 82px; }
-  .home-guides, .guides-index-hero, .guide-hero, .guide-layout, .guide-related, .category-guide-links { grid-template-columns: 1fr; }
+  .home-guides, .guides-index-hero, .guide-hero, .guide-layout, .guide-related, .category-guide-links, .contact-preparation, .contact-questions, .buyer-faq-hero, .buyer-faq-groups > section { grid-template-columns: 1fr; }
   .home-guides { gap: 55px; }
   .home-guides > .editorial-link { grid-column: 1; }
   .guides-index-hero, .guide-hero { min-height: 0; padding-top: 70px; gap: 38px; }
@@ -618,6 +659,9 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .guide-layout > aside ol { display: grid; grid-template-columns: 1fr 1fr; }
   .guide-layout > aside li:nth-child(odd) { padding-right: 20px; }
   .guide-related, .category-guide-links { gap: 42px; }
+  .buyer-faq-index { grid-template-columns: 1fr 1fr; }
+  .buyer-faq-index a:nth-child(3) { padding-left: 0; border-left: 0; }
+  .buyer-faq-index a:nth-child(n+3) { padding-top: 24px; border-top: 1px solid var(--line); }
 }
 @media (max-width:600px) {
   :root { --container: calc(100% - 40px); }
@@ -681,6 +725,14 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .guide-evidence > div { grid-template-columns: 1fr; gap: 8px; }
   .category-guide-links { margin-top: 65px; grid-template-columns: 1fr; gap: 25px; }
   .contact-panel { padding-top: 55px; }
+  .contact-preparation, .contact-questions { padding: 74px 0 82px; gap: 45px; }
+  .buyer-faq-hero { padding: 56px 0 68px; gap: 36px; }
+  .buyer-faq-hero h1 { font-size: clamp(44px,12.5vw,64px); }
+  .buyer-faq-index { grid-template-columns: 1fr; padding: 30px 0 58px; }
+  .buyer-faq-index a, .buyer-faq-index a:first-child, .buyer-faq-index a:nth-child(3) { padding: 18px 0; border-left: 0; border-top: 1px solid var(--line); }
+  .buyer-faq-index a:first-child { border-top: 0; }
+  .buyer-faq-groups { padding: 72px 0 90px; }
+  .buyer-faq-groups > section { gap: 38px; padding-bottom: 65px; margin-bottom: 68px; }
   .buyer-fields input, .buyer-fields textarea { font-size: 16px; }
 }
 @media (max-height:700px) and (min-width:821px) {

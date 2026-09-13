@@ -51,7 +51,7 @@ for (const guide of buyingGuides) {
   assert.equal(imageMetadata.width, guide.imageWidth, `Guide image width mismatch: ${guide.slug}`);
   assert.equal(imageMetadata.height, guide.imageHeight, `Guide image height mismatch: ${guide.slug}`);
 }
-assert.equal(sourcingSolutions.length, 7);
+assert.equal(sourcingSolutions.length, 8);
 assert.equal(new Set(sourcingSolutions.map(solution => solution.slug)).size, sourcingSolutions.length);
 assert(sourcingSolutions.every(solution => solution.sections.length >= 6), "Every sourcing solution needs a complete planning sequence");
 assert(sourcingSolutions.every(solution => solution.questions.length >= 3), "Every sourcing solution needs buyer questions");
@@ -306,6 +306,19 @@ assert(readPage("solutions/cold-drink-cup-programs").includes("pet-pp-cold-drink
 assert(readPage("solutions/restaurant-chain-takeaway-packaging").includes("bagasse-kraft-takeaway-service-v1.webp"), "Restaurant-chain solution must use its food-service image");
 assert(readPage("solutions/prepared-food-retail-packaging").includes("aluminium-pet-prepared-food-v1.webp"), "Prepared-food solution must use its service-context image");
 assert(readPage("solutions/custom-wrapped-meal-kits").includes("wrapped-cutlery-takeaway-v1.webp"), "Wrapped-kit solution must use the takeaway packing scene");
+const chinaSourcing = readPage("solutions/food-packaging-sourcing-china");
+assert(chinaSourcing.includes("Wholesale food packaging sourcing from China"), "China sourcing page must target the intended commercial query");
+assert(chinaSourcing.includes("legal entity") && chinaSourcing.includes("production relationship"), "China sourcing page must preserve supplier and facility evidence boundaries");
+assert(chinaSourcing.includes('data-analytics-location="solution_food-packaging-sourcing-china"'), "China sourcing page must expose a tracked WhatsApp action");
+const buyerFaq = readPage("buyer-faq");
+assert(buyerFaq.includes('"@type":"FAQPage"'), "Buyer FAQ must expose FAQPage structured data");
+assert(buyerFaq.includes('"@type":"WebPage"'), "Buyer FAQ must expose WebPage structured data");
+assert((buyerFaq.match(/<dt>/g) || []).length === 12, "Buyer FAQ must expose twelve visible procurement answers");
+assert(buyerFaq.includes('href="/solutions/food-packaging-sourcing-china/"'), "Buyer FAQ must connect to the China sourcing page");
+const contactPage = readPage("contact");
+assert(contactPage.includes('"@type":"ContactPage"'), "Contact page must expose ContactPage structured data");
+assert(contactPage.includes('"@type":"FAQPage"'), "Contact page must expose visible quotation questions");
+assert(contactPage.includes('href="/guides/food-packaging-rfq-checklist/"'), "Contact page must connect to the RFQ checklist");
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);
@@ -315,7 +328,8 @@ for (const family of productFamilies) {
   }
 }
 
-const base = "http://127.0.0.1:4173";
+const previewPort = process.env.ANWELLUP_PREVIEW_PORT ?? "4173";
+const base = `http://127.0.0.1:${previewPort}`;
 for (const file of files.filter(file => file.endsWith(".css"))) {
   const css = fs.readFileSync(file, "utf8").replace(/url\("data:[^"]*"\)/g, "");
   const url = base + "/" + path.relative(out, file).replaceAll("\\", "/");

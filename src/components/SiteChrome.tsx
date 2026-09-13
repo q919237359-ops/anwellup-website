@@ -16,7 +16,7 @@ const navigation = [
   ["Contact", "/contact/"],
 ] as const;
 
-const footerNavigation = [navigation[0], ["Solutions", "/solutions/"] as const, ...navigation.slice(1)];
+const footerNavigation = [navigation[0], ["Solutions", "/solutions/"] as const, ...navigation.slice(1, -1), ["Buyer FAQ", "/buyer-faq/"] as const, navigation[navigation.length - 1]];
 
 function Wordmark() {
   return <span className="brand-wordmark" aria-hidden="true"><img src="/assets/brand/anwellup-logo-primary-orange-transparent.webp" alt="" /></span>;
