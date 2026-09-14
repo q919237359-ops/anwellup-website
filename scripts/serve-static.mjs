@@ -24,6 +24,7 @@ const contentTypes = {
   ".webp": "image/webp",
   ".woff": "font/woff",
   ".woff2": "font/woff2",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 };
 
 async function fileForRequest(requestUrl) {

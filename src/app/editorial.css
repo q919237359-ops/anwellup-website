@@ -603,6 +603,40 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .buyer-faq-groups dd a { display: inline-flex; align-items: center; gap: 8px; margin-top: 17px; padding-bottom: 6px; border-bottom: 1px solid var(--line-strong); font-size: 11px; }
 .buyer-faq-groups dd a svg { transition: transform .25s ease; }
 .buyer-faq-groups dd a:hover svg { transform: translate(2px,-2px); }
+
+/* Downloadable RFQ resource: a practical acquisition page, not a gated lead form. */
+.resource-hero { width: var(--container); margin: 0 auto; padding: 88px 0 104px; display: grid; grid-template-columns: minmax(0,1.22fr) minmax(360px,.78fr); gap: 55px clamp(60px,9vw,145px); align-items: end; border-bottom: 1px solid var(--line-strong); }
+.resource-hero h1 { max-width: 11ch; margin: 25px 0 0; font-size: clamp(62px,7.3vw,108px); font-weight: 450; line-height: .96; letter-spacing: -.048em; text-wrap: balance; }
+.resource-hero-copy > p:first-child { max-width: 47ch; margin: 0; color: var(--ink-soft); font-size: 16px; line-height: 1.85; }
+.resource-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px 28px; margin-top: 31px; }
+.resource-file-note { margin: 18px 0 0; color: var(--ink-soft); font-family: var(--mono); font-size: 8px; letter-spacing: .025em; text-transform: uppercase; }
+.resource-workbook { width: var(--container); margin: 0 auto; padding: 106px 0 125px; display: grid; grid-template-columns: minmax(280px,.72fr) minmax(520px,1.28fr); gap: clamp(55px,9vw,140px); }
+.resource-workbook > header h2, .resource-fields > header h2, .resource-how > header h2, .resource-questions > header h2 { max-width: 12ch; margin: 23px 0 0; font-size: clamp(42px,4.8vw,70px); font-weight: 450; line-height: 1.04; }
+.resource-workbook > ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+.resource-workbook > ol > li { display: grid; grid-template-columns: 42px minmax(0,1fr); gap: 18px; padding: 29px 0 33px; border-bottom: 1px solid var(--line); }
+.resource-workbook > ol > li > span { padding-top: 7px; color: var(--ink-soft); font-family: var(--mono); font-size: 8px; }
+.resource-workbook h3 { margin: 0; font-family: var(--serif); font-size: 31px; font-weight: 470; }
+.resource-workbook li p { max-width: 64ch; margin: 12px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.78; }
+.resource-fields { padding: 110px max(32px, calc((100vw - min(1440px, calc(100vw - 64px))) / 2)) 125px; display: grid; grid-template-columns: minmax(280px,.72fr) minmax(520px,1.28fr); gap: clamp(55px,9vw,140px); background: var(--paper-deep); }
+.resource-fields > header p { max-width: 42ch; margin: 24px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.8; }
+.resource-fields dl { margin: 0; border-top: 1px solid var(--line-strong); }
+.resource-fields dl > div { display: grid; grid-template-columns: 32px minmax(150px,.6fr) minmax(280px,1.4fr); gap: 18px 24px; padding: 20px 0 23px; border-bottom: 1px solid var(--line); align-items: start; }
+.resource-fields dl span { padding-top: 3px; color: var(--ink-soft); font-family: var(--mono); font-size: 8px; }
+.resource-fields dt { font-family: var(--serif); font-size: 22px; line-height: 1.3; }
+.resource-fields dd { margin: 3px 0 0; color: var(--ink-soft); font-size: 12px; line-height: 1.7; }
+.resource-how { width: var(--container); margin: 0 auto; padding: 112px 0 132px; }
+.resource-how > header { display: grid; grid-template-columns: minmax(260px,.7fr) minmax(520px,1.3fr); gap: clamp(55px,9vw,140px); align-items: end; }
+.resource-how > ol { display: grid; grid-template-columns: repeat(4,1fr); margin: 79px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+.resource-how > ol > li { min-height: 310px; padding: 27px 25px 30px; border-left: 1px solid var(--line); }
+.resource-how > ol > li:first-child { padding-left: 0; border-left: 0; }
+.resource-how li > span { color: var(--ink-soft); font-family: var(--mono); font-size: 8px; }
+.resource-how h3 { max-width: 10ch; margin: 78px 0 16px; font-family: var(--serif); font-size: 27px; font-weight: 470; line-height: 1.18; }
+.resource-how li p { max-width: 31ch; margin: 0; color: var(--ink-soft); font-size: 12px; line-height: 1.74; }
+.resource-questions { width: var(--container); margin: 0 auto; padding: 108px 0 145px; display: grid; grid-template-columns: minmax(280px,.72fr) minmax(520px,1.28fr); gap: clamp(55px,9vw,140px); border-top: 1px solid var(--line-strong); }
+.resource-questions dl { margin: 0; border-top: 1px solid var(--line-strong); }
+.resource-questions dl > div { padding: 25px 0 29px; border-bottom: 1px solid var(--line); }
+.resource-questions dt { font-family: var(--serif); font-size: 25px; line-height: 1.3; }
+.resource-questions dd { max-width: 66ch; margin: 12px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.78; }
 .category-guide-links { margin-top: 82px; padding-top: 27px; display: grid; grid-template-columns: minmax(180px,.7fr) minmax(420px,1.3fr); gap: clamp(45px,8vw,120px); border-top: 1px solid var(--line-strong); }
 .category-guide-links > div { display: flex; flex-direction: column; }
 .category-guide-links a { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
@@ -645,7 +679,7 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .category-sourcing-notes { width: 100%; margin-top: 68px; }
   .category-procurement > ol { margin-top: 55px; }
   .category-buyer-questions { margin-top: 82px; }
-  .home-guides, .guides-index-hero, .guide-hero, .guide-layout, .guide-related, .category-guide-links, .contact-preparation, .contact-questions, .buyer-faq-hero, .buyer-faq-groups > section { grid-template-columns: 1fr; }
+  .home-guides, .guides-index-hero, .guide-hero, .guide-layout, .guide-related, .category-guide-links, .contact-preparation, .contact-questions, .buyer-faq-hero, .buyer-faq-groups > section, .resource-hero, .resource-workbook, .resource-fields, .resource-how > header, .resource-questions { grid-template-columns: 1fr; }
   .home-guides { gap: 55px; }
   .home-guides > .editorial-link { grid-column: 1; }
   .guides-index-hero, .guide-hero { min-height: 0; padding-top: 70px; gap: 38px; }
@@ -662,6 +696,9 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .buyer-faq-index { grid-template-columns: 1fr 1fr; }
   .buyer-faq-index a:nth-child(3) { padding-left: 0; border-left: 0; }
   .buyer-faq-index a:nth-child(n+3) { padding-top: 24px; border-top: 1px solid var(--line); }
+  .resource-how > ol { grid-template-columns: 1fr 1fr; }
+  .resource-how > ol > li:nth-child(3) { padding-left: 0; border-left: 0; }
+  .resource-how > ol > li:nth-child(n+3) { border-top: 1px solid var(--line); }
 }
 @media (max-width:600px) {
   :root { --container: calc(100% - 40px); }
@@ -733,6 +770,17 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
   .buyer-faq-index a:first-child { border-top: 0; }
   .buyer-faq-groups { padding: 72px 0 90px; }
   .buyer-faq-groups > section { gap: 38px; padding-bottom: 65px; margin-bottom: 68px; }
+  .resource-hero { padding: 56px 0 70px; gap: 38px; }
+  .resource-hero h1 { font-size: clamp(46px,13vw,67px); }
+  .resource-actions { align-items: flex-start; flex-direction: column; }
+  .resource-workbook, .resource-fields, .resource-questions { padding-top: 76px; padding-bottom: 88px; gap: 45px; }
+  .resource-fields { padding-left: 20px; padding-right: 20px; }
+  .resource-fields dl > div { grid-template-columns: 28px 1fr; gap: 8px 14px; }
+  .resource-fields dd { grid-column: 2; }
+  .resource-how { padding: 80px 0 94px; }
+  .resource-how > ol { grid-template-columns: 1fr; margin-top: 52px; }
+  .resource-how > ol > li, .resource-how > ol > li:first-child, .resource-how > ol > li:nth-child(3) { min-height: 0; padding: 24px 0 29px; border-left: 0; border-top: 1px solid var(--line); }
+  .resource-how h3 { margin-top: 42px; }
   .buyer-fields input, .buyer-fields textarea { font-size: 16px; }
 }
 @media (max-height:700px) and (min-width:821px) {

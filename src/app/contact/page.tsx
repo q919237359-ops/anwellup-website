@@ -80,8 +80,9 @@ export default function ContactPage() {
     <section className="contact-preparation" aria-labelledby="contact-preparation-title"><header><span className="eyebrow">Before you send</span><h2 id="contact-preparation-title">A clearer brief produces a more comparable answer.</h2><p>These references help separate product selection, evidence and commercial terms before a supplier comparison.</p></header><div>
       <Link href="/products/"><span>01</span><strong>Choose the closest product family</strong><small>Browse 33 published product families and their model references.</small><ArrowUpRight size={18}/></Link>
       <Link href="/guides/food-packaging-rfq-checklist/"><span>02</span><strong>Use the complete RFQ checklist</strong><small>Organize product, application, customization, quantity and delivery.</small><ArrowUpRight size={18}/></Link>
-      <Link href="/solutions/food-packaging-sourcing-china/"><span>03</span><strong>Plan sourcing from China</strong><small>Connect supplier identity, samples, documents, packing and shipment.</small><ArrowUpRight size={18}/></Link>
-      <Link href="/buyer-faq/"><span>04</span><strong>Review common buyer questions</strong><small>Get concise answers on materials, MOQ, samples and lead time.</small><ArrowUpRight size={18}/></Link>
+      <Link href="/resources/food-packaging-rfq-template/"><span>03</span><strong>Download the Excel RFQ template</strong><small>Capture product requirements and compare supplier responses.</small><ArrowUpRight size={18}/></Link>
+      <Link href="/solutions/food-packaging-sourcing-china/"><span>04</span><strong>Plan sourcing from China</strong><small>Connect supplier identity, samples, documents, packing and shipment.</small><ArrowUpRight size={18}/></Link>
+      <Link href="/buyer-faq/"><span>05</span><strong>Review common buyer questions</strong><small>Get concise answers on materials, MOQ, samples and lead time.</small><ArrowUpRight size={18}/></Link>
     </div></section>
     <section id="questions" className="contact-questions" aria-labelledby="contact-questions-title"><header><span className="eyebrow">Buyer questions</span><h2 id="contact-questions-title">Before you request a quote.</h2></header><dl>{contactQuestions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>
   </main>;

@@ -319,6 +319,13 @@ const contactPage = readPage("contact");
 assert(contactPage.includes('"@type":"ContactPage"'), "Contact page must expose ContactPage structured data");
 assert(contactPage.includes('"@type":"FAQPage"'), "Contact page must expose visible quotation questions");
 assert(contactPage.includes('href="/guides/food-packaging-rfq-checklist/"'), "Contact page must connect to the RFQ checklist");
+assert(contactPage.includes('href="/resources/food-packaging-rfq-template/"'), "Contact page must connect to the downloadable RFQ resource");
+const rfqTemplatePage = readPage("resources/food-packaging-rfq-template");
+assert(rfqTemplatePage.includes('"@type":"DigitalDocument"'), "RFQ template page must describe the downloadable workbook");
+assert(rfqTemplatePage.includes('"@type":"FAQPage"'), "RFQ template page must expose visible buyer questions");
+assert(rfqTemplatePage.includes('data-analytics-event="rfq_template_download"'), "RFQ template downloads must be tracked");
+assert(rfqTemplatePage.includes('href="/downloads/ANWELLUP_Food_Packaging_RFQ_Template.xlsx"'), "RFQ template page must link to the workbook");
+assert(fs.existsSync(path.join(out, "downloads", "ANWELLUP_Food_Packaging_RFQ_Template.xlsx")), "RFQ workbook must be exported with the site");
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);
@@ -346,4 +353,6 @@ for (let i = 0; i < references.length; i += 12) {
 const response = await fetch(base + "/");
 assert.equal(response.headers.get("content-type"), "text/html; charset=utf-8");
 assert.equal(await response.text(), home, "Preview must serve the latest export");
+const rfqWorkbookResponse = await fetch(base + "/downloads/ANWELLUP_Food_Packaging_RFQ_Template.xlsx");
+assert.equal(rfqWorkbookResponse.headers.get("content-type"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "RFQ workbook must use the Excel content type");
 console.log(JSON.stringify({ status: "passed", categories: catalogCategories.length, families: productFamilies.length, variantsChecked, htmlFiles: htmlFiles.length, uniquePageTitles: pageTitles.size, structuredDataBlocks, httpReferences: refs.size, contrastChecks, browserVisualReview: "not part of the automated suite" }, null, 2));

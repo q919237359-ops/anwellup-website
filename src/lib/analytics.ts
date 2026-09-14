@@ -7,6 +7,7 @@ export type AnalyticsEvent =
   | "generate_lead"
   | "product_preview"
   | "product_search"
+  | "rfq_template_download"
   | "remove_from_inquiry"
   | "whatsapp_click";
 
