@@ -85,7 +85,10 @@ export const buyingGuides: BuyingGuide[] = [
           "Share the target delivery date, destination port or address, preferred shipping term and whether the order will be consolidated with other products. If timing is fixed, identify the date by which samples, artwork and specifications must be approved.",
           "A complete RFQ will not remove every follow-up question, but it creates a clear record of what has been requested and what still needs confirmation.",
         ],
-        links: [{ label: "Download the editable Excel RFQ template", href: "/resources/food-packaging-rfq-template/" }],
+        links: [
+          { label: "Download the editable Excel RFQ template", href: "/resources/food-packaging-rfq-template/" },
+          { label: "Calculate carton CBM", href: "/resources/carton-cbm-calculator/" },
+        ],
       },
     ],
     questions: [
@@ -98,6 +101,7 @@ export const buyingGuides: BuyingGuide[] = [
       { label: "Review customization capabilities", href: "/capabilities/" },
       { label: "Discuss quality and documents", href: "/quality-compliance/" },
       { label: "Download the Excel RFQ template", href: "/resources/food-packaging-rfq-template/" },
+      { label: "Calculate carton CBM", href: "/resources/carton-cbm-calculator/" },
     ],
   },
   {

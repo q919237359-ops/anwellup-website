@@ -1,6 +1,7 @@
 export type AnalyticsEvent =
   | "add_to_inquiry"
   | "catalog_download"
+  | "cbm_calculation"
   | "category_filter"
   | "inquiry_clear"
   | "inquiry_open"

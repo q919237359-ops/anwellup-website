@@ -325,7 +325,14 @@ assert(rfqTemplatePage.includes('"@type":"DigitalDocument"'), "RFQ template page
 assert(rfqTemplatePage.includes('"@type":"FAQPage"'), "RFQ template page must expose visible buyer questions");
 assert(rfqTemplatePage.includes('data-analytics-event="rfq_template_download"'), "RFQ template downloads must be tracked");
 assert(rfqTemplatePage.includes('href="/downloads/ANWELLUP_Food_Packaging_RFQ_Template.xlsx"'), "RFQ template page must link to the workbook");
+assert(rfqTemplatePage.includes('href="/resources/carton-cbm-calculator/"'), "RFQ template page must link to the carton calculator");
 assert(fs.existsSync(path.join(out, "downloads", "ANWELLUP_Food_Packaging_RFQ_Template.xlsx")), "RFQ workbook must be exported with the site");
+const cbmCalculatorPage = readPage("resources/carton-cbm-calculator");
+assert(cbmCalculatorPage.includes('"@type":"WebApplication"'), "CBM calculator must describe the browser application");
+assert(cbmCalculatorPage.includes('"@type":"FAQPage"'), "CBM calculator must expose visible buyer questions");
+assert(cbmCalculatorPage.includes("Carton CBM calculator"), "CBM calculator must expose its intended search topic");
+assert(cbmCalculatorPage.includes('data-analytics-location="cbm_calculator"'), "CBM calculator must expose a tracked WhatsApp action");
+assert(analyticsSource.includes('"cbm_calculation"'), "Successful CBM calculations must support an analytics event");
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);
