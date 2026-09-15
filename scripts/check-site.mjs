@@ -32,7 +32,7 @@ const { catalogCategories, productFamilies, equipmentFamilies } = load("src/cata
 const { buyingGuides } = load("src/guides.ts");
 const { sourcingSolutions } = load("src/solutions.ts");
 const { filterCatalog, matchingVariants, materialsForCategory, readCatalogFilters, writeCatalogFilters } = load("src/lib/catalog-search.ts");
-const { WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GENERAL_WHATSAPP_URL, whatsappInquiryUrl } = load("src/lib/contact.ts");
+const { CONTACT_EMAIL, GENERAL_EMAIL_URL, WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GENERAL_WHATSAPP_URL, emailInquiryUrl, whatsappInquiryUrl } = load("src/lib/contact.ts");
 const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
 const { familyProcurementContent } = load("src/lib/family-procurement.ts");
 const { galleryDistance, galleryProgress } = load("src/lib/gallery-motion.ts");
@@ -73,8 +73,14 @@ assert.deepEqual(filterCatalog(productFamilies, "all", " "), productFamilies);
 assert.equal(filterCatalog(productFamilies, "all", "no-such-product-q9z").length, 0);
 assert.equal(WHATSAPP_NUMBER, "8613202830014");
 assert.equal(WHATSAPP_DISPLAY, "+86 132 0283 0014");
+assert.equal(CONTACT_EMAIL, "admin@anwellup.com");
+assert.equal(new URL(GENERAL_EMAIL_URL).pathname, CONTACT_EMAIL);
 assert.equal(new URL(GENERAL_WHATSAPP_URL).pathname, "/8613202830014");
 assert.equal(new URL(whatsappInquiryUrl("Model AW-01\nQty 100 & artwork")).searchParams.get("text"), "Model AW-01\nQty 100 & artwork");
+const emailInquiry = new URL(emailInquiryUrl("Model AW-01\nQty 100 & artwork"));
+assert.equal(emailInquiry.pathname, CONTACT_EMAIL);
+assert.equal(emailInquiry.searchParams.get("subject"), "Food packaging RFQ | ANWELLUP website");
+assert.equal(emailInquiry.searchParams.get("body"), "Model AW-01\nQty 100 & artwork");
 const categoryIds = catalogCategories.map(category => category.id);
 assert.deepEqual(readCatalogFilters("?category=not-valid&q=12+oz", categoryIds), { category: "all", query: "12 oz", material: "all" });
 const savedFilters = writeCatalogFilters("?utm_source=sample", "cups", "12 oz & lid", "Paper");
@@ -124,7 +130,8 @@ assert(analyticsSource.includes('window.gtag?.("event", event, parameters)'), "T
 assert(analyticsSource.includes('"generate_lead"'), "High-intent contact actions must support the GA4 generate_lead event");
 assert(trackingSource.includes("NEXT_PUBLIC_GA4_ID"), "GA4 must be configurable at deploy time");
 assert(trackingSource.includes("googletagmanager.com/gtag/js"), "GA4 loader must be present");
-assert(trackingSource.includes('trackEvent("generate_lead"'), "WhatsApp contacts must emit a lead-intent event");
+assert(trackingSource.includes('trackEvent("generate_lead"'), "Contact actions must emit a lead-intent event");
+assert(trackingSource.includes('name === "email_click"'), "Email contacts must emit a tracked lead-intent event");
 const token = name => { const match = theme.match(new RegExp(`--${name}:\\s*(#[a-f0-9]{6})`, "i")); assert(match, `Missing Plan A token ${name}`); return match[1]; };
 assert.equal(token("sage"), "#58715a");
 assert.equal(token("paper-deep"), "#e4eadf");
@@ -155,6 +162,7 @@ for (const file of htmlFiles) {
   assert(!/8618818283961|188 1828 3961/.test(html), `Superseded phone number in ${file}`);
   assert(!/Reference model|original reference model|referenceModel/i.test(html), `Private supplier-reference label in ${file}`);
   assert(html.includes(WHATSAPP_DISPLAY), `Missing confirmed phone in ${file}`);
+  assert(html.includes(CONTACT_EMAIL), `Missing confirmed email in ${file}`);
   assert(html.includes('class="whatsapp-float"'), `Missing contact shortcut in ${file}`);
   for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
     JSON.parse(match[1]);
@@ -318,6 +326,9 @@ assert(buyerFaq.includes('href="/solutions/food-packaging-sourcing-china/"'), "B
 const contactPage = readPage("contact");
 assert(contactPage.includes('"@type":"ContactPage"'), "Contact page must expose ContactPage structured data");
 assert(contactPage.includes('"@type":"FAQPage"'), "Contact page must expose visible quotation questions");
+assert(contactPage.includes(`href="mailto:${CONTACT_EMAIL}"`), "Contact page must expose the confirmed sales email");
+assert(contactPage.includes('data-analytics-event="email_click"'), "Contact page email action must be tracked");
+assert(contactPage.includes('"email":"admin@anwellup.com"'), "Organization structured data must expose the confirmed sales email");
 assert(contactPage.includes('href="/guides/food-packaging-rfq-checklist/"'), "Contact page must connect to the RFQ checklist");
 assert(contactPage.includes('href="/resources/food-packaging-rfq-template/"'), "Contact page must connect to the downloadable RFQ resource");
 const rfqTemplatePage = readPage("resources/food-packaging-rfq-template");

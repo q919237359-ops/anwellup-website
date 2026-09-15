@@ -9,7 +9,7 @@ import "./motion.css";
 import { SiteChrome } from "../components/SiteChrome";
 import { TrafficAnalytics } from "../components/TrafficAnalytics";
 import { JsonLd } from "../components/JsonLd";
-import { GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY } from "../lib/contact";
+import { CONTACT_EMAIL, GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY } from "../lib/contact";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -20,6 +20,7 @@ const structuredData = {
       name: "ANWELLUP",
       url: "https://anwellup.com/",
       logo: "https://anwellup.com/assets/brand/anwellup-logo-primary-orange-transparent.webp",
+      email: CONTACT_EMAIL,
       description: "An English-language B2B catalogue and enquiry service for professional food-packaging sourcing.",
       knowsAbout: [
         "Cups and drinkware",
@@ -33,6 +34,7 @@ const structuredData = {
       contactPoint: {
         "@type": "ContactPoint",
         telephone: WHATSAPP_DISPLAY,
+        email: CONTACT_EMAIL,
         url: GENERAL_WHATSAPP_URL,
         contactType: "sales",
         availableLanguage: "English",

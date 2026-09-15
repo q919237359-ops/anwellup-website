@@ -476,6 +476,7 @@ h1 em, h2 em { font-style: normal; font-weight: inherit; }
 .drawer-disclaimer { font-size: 11px; }
 .whatsapp-button { background: var(--ink); }
 .whatsapp-button:hover { background: var(--orange-dark); }
+.drawer-email-note { font-size: 10px; }
 
 /* Buyer guides: long-form information with the same quiet editorial system. */
 .home-guides {

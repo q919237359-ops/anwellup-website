@@ -3,6 +3,7 @@ export type AnalyticsEvent =
   | "catalog_download"
   | "cbm_calculation"
   | "category_filter"
+  | "email_click"
   | "inquiry_clear"
   | "inquiry_open"
   | "generate_lead"

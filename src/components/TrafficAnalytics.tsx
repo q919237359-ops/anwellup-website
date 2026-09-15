@@ -20,7 +20,9 @@ export function TrafficAnalytics() {
       if (!name) return;
       const location = target.dataset.analyticsLocation ?? "unknown";
       trackEvent(name, { location });
-      if (name === "whatsapp_click") trackEvent("generate_lead", { method: "whatsapp", location });
+      if (name === "whatsapp_click" || name === "email_click") {
+        trackEvent("generate_lead", { method: name === "whatsapp_click" ? "whatsapp" : "email", location });
+      }
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);

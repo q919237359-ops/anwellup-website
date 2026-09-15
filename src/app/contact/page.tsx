@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, ArrowUpRight, EnvelopeSimple, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../components/JsonLd";
 import { OpenInquiryButton } from "../../components/InquiryProvider";
-import { GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY } from "../../lib/contact";
+import { CONTACT_EMAIL, GENERAL_EMAIL_URL, GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY } from "../../lib/contact";
 
 const contactQuestions = [
   {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact/" },
   openGraph: {
     title: "Request a Food Packaging Quote | ANWELLUP",
-    description: "Prepare a model-level wholesale food packaging enquiry and continue directly in WhatsApp.",
+    description: "Prepare a model-level wholesale food packaging enquiry and continue by email or WhatsApp.",
     url: "/contact/",
     type: "website",
   },
@@ -57,7 +57,7 @@ export default function ContactPage() {
         name: "Request a wholesale food packaging quote",
         description: metadata.description,
         inLanguage: "en",
-        dateModified: "2026-09-13",
+        dateModified: "2026-09-15",
         isPartOf: { "@id": "https://anwellup.com/#website" },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         mainEntity: { "@id": "https://anwellup.com/#organization" },
@@ -76,7 +76,7 @@ export default function ContactPage() {
     ]} />
     <nav className="breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link><span aria-hidden="true">/</span><span aria-current="page">Request a quote</span></nav>
     <header className="page-hero contact-hero"><span className="eyebrow">Wholesale food packaging enquiry</span><h1>Request a model-level quote.</h1><p>Share what you know about the product, application, quantity and destination. We will use those details to identify the specification, evidence and commercial fields that still need confirmation.</p></header>
-    <section className="contact-panel" aria-label="Contact and enquiry options"><div className="contact-method"><span className="eyebrow">Direct conversation</span><h2>Continue in WhatsApp.</h2><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="contact_page"><WhatsappLogo size={30} weight="fill"/><span><strong>{WHATSAPP_DISPLAY}</strong><small>Open a new WhatsApp conversation</small></span><ArrowRight size={21}/></a><p>Use WhatsApp for a product question, customization brief, sample request or equipment enquiry.</p></div><div className="brief-checklist"><span className="eyebrow">Structured RFQ</span><h2>Start with the fields you know.</h2><p>The enquiry builder keeps selected products and project context together in one message.</p><ul><li>Product, format or ANWELLUP SKU</li><li>Food, application and destination</li><li>Dimensions, capacity and material</li><li>Quantity by model or order</li><li>Artwork, packing and document needs</li><li>Target timing or delivery context</li></ul><OpenInquiryButton className="button button-dark">Build an RFQ <ArrowRight size={18}/></OpenInquiryButton></div></section>
+    <section className="contact-panel" aria-label="Contact and enquiry options"><div className="contact-method"><span className="eyebrow">Direct conversation</span><h2>WhatsApp or email.</h2><div className="contact-channels"><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="contact_page"><WhatsappLogo size={30} weight="fill"/><span><strong>{WHATSAPP_DISPLAY}</strong><small>Open a new WhatsApp conversation</small></span><ArrowRight size={21}/></a><a href={GENERAL_EMAIL_URL} data-analytics-event="email_click" data-analytics-location="contact_page"><EnvelopeSimple size={30}/><span><strong>{CONTACT_EMAIL}</strong><small>Open a new email to the sales inbox</small></span><ArrowRight size={21}/></a></div><p>Use either channel for a product question, customization brief, sample request or equipment enquiry.</p></div><div className="brief-checklist"><span className="eyebrow">Structured RFQ</span><h2>Start with the fields you know.</h2><p>The enquiry builder keeps selected products and project context together in one message.</p><ul><li>Product, format or ANWELLUP SKU</li><li>Food, application and destination</li><li>Dimensions, capacity and material</li><li>Quantity by model or order</li><li>Artwork, packing and document needs</li><li>Target timing or delivery context</li></ul><OpenInquiryButton className="button button-dark">Build an RFQ <ArrowRight size={18}/></OpenInquiryButton></div></section>
     <section className="contact-preparation" aria-labelledby="contact-preparation-title"><header><span className="eyebrow">Before you send</span><h2 id="contact-preparation-title">A clearer brief produces a more comparable answer.</h2><p>These references help separate product selection, evidence and commercial terms before a supplier comparison.</p></header><div>
       <Link href="/products/"><span>01</span><strong>Choose the closest product family</strong><small>Browse 33 published product families and their model references.</small><ArrowUpRight size={18}/></Link>
       <Link href="/guides/food-packaging-rfq-checklist/"><span>02</span><strong>Use the complete RFQ checklist</strong><small>Organize product, application, customization, quantity and delivery.</small><ArrowUpRight size={18}/></Link>

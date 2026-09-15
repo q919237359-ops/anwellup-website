@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, List, WhatsappLogo, X } from "@phosphor-icons/react";
+import { ArrowRight, EnvelopeSimple, List, WhatsappLogo, X } from "@phosphor-icons/react";
 import { InquiryProvider, useInquiry } from "./InquiryProvider";
-import { GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY, whatsappInquiryUrl } from "../lib/contact";
+import { CONTACT_EMAIL, emailInquiryUrl, GENERAL_EMAIL_URL, GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY, whatsappInquiryUrl } from "../lib/contact";
 
 const navigation = [
   ["Range", "/products/"],
@@ -138,7 +138,11 @@ function InquiryDrawer() {
             <label><span>Notes</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Use, timing, artwork or packing context" rows={3} /></label>
           </div>
           <p className="drawer-disclaimer">Submitting an enquiry does not confirm specifications, availability, claims or commercial terms.</p>
-          <a className="whatsapp-button" href={whatsappInquiryUrl(message)} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="rfq_drawer"><WhatsappLogo size={21} weight="fill" /> Continue in WhatsApp <ArrowRight size={18} /></a>
+          <div className="inquiry-channel-actions">
+            <a className="whatsapp-button" href={whatsappInquiryUrl(message)} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="rfq_drawer"><WhatsappLogo size={21} weight="fill" /> Continue in WhatsApp <ArrowRight size={18} /></a>
+            <a className="email-button" href={emailInquiryUrl(message)} data-analytics-event="email_click" data-analytics-location="rfq_drawer"><EnvelopeSimple size={21} /> Continue by email <ArrowRight size={18} /></a>
+          </div>
+          <p className="drawer-email-note">Email opens your mail app with the RFQ addressed to {CONTACT_EMAIL}. Send it there to complete the enquiry.</p>
       </div>
     </aside>
   </div>;
@@ -152,7 +156,7 @@ function Footer() {
         <span className="eyebrow">Navigate</span>
         {footerNavigation.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
       </div>
-      <div className="footer-note"><span className="eyebrow">Let’s talk packaging</span><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="footer">{WHATSAPP_DISPLAY}</a><p>Share a product, an idea or your next project.</p></div>
+      <div className="footer-note"><span className="eyebrow">Let’s talk packaging</span><a href={GENERAL_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="footer">{WHATSAPP_DISPLAY}</a><a href={GENERAL_EMAIL_URL} data-analytics-event="email_click" data-analytics-location="footer">{CONTACT_EMAIL}</a><p>Share a product, an idea or your next project.</p></div>
     </div>
     <div className="footer-legal"><span>© 2026 ANWELLUP</span><div><Link href="/about/">About</Link><Link href="/privacy/">Privacy</Link><Link href="/terms/">Terms</Link></div></div>
   </footer>;

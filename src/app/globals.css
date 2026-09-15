@@ -171,6 +171,8 @@ code { font-family: var(--mono); font-size: .82em; }
 .footer-index .eyebrow, .footer-note .eyebrow { margin-bottom: 10px; }
 .footer-index a { font-size: 13px; }
 .footer-index a:hover { color: var(--orange-dark); }
+.footer-note > a { font-size: 13px; }
+.footer-note > a:hover { color: var(--orange-dark); }
 .footer-note p { max-width: 370px; color: var(--ink-soft); font-size: 12px; }
 .footer-legal { width: var(--container); margin: 0 auto; padding: 18px 0 28px; display: flex; justify-content: space-between; border-top: 1px solid var(--line); color: var(--ink-soft); font-family: var(--mono); font-size: 10px; letter-spacing: .05em; }
 .footer-legal div { display: flex; gap: 24px; }
@@ -402,11 +404,12 @@ code { font-family: var(--mono); font-size: .82em; }
 
 /* Contact + legal */
 .contact-panel { width: var(--container); margin: 0 auto; padding: 90px 0 150px; display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(70px,10vw,150px); }
-.contact-method > a { margin: 30px 0 20px; padding: 22px 0; display: grid; grid-template-columns: 38px 1fr auto; gap: 15px; align-items: center; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); }
-.contact-method > a strong, .contact-method > a small { display: block; }
-.contact-method > a strong { font-family: var(--mono); font-size: 17px; }
-.contact-method > a small { margin-top: 5px; color: var(--ink-soft); font-size: 10px; }
-.contact-method > a:hover { color: var(--orange-dark); }
+.contact-channels { margin: 30px 0 20px; border-top: 1px solid var(--line-strong); }
+.contact-channels > a { padding: 22px 0; display: grid; grid-template-columns: 38px minmax(0,1fr) auto; gap: 15px; align-items: center; border-bottom: 1px solid var(--line); }
+.contact-channels > a strong, .contact-channels > a small { display: block; }
+.contact-channels > a strong { overflow-wrap: anywhere; font-family: var(--mono); font-size: 17px; }
+.contact-channels > a small { margin-top: 5px; color: var(--ink-soft); font-size: 10px; }
+.contact-channels > a:hover { color: var(--orange-dark); }
 .contact-method > p { color: var(--ink-soft); font-size: 11px; }
 .brief-checklist ol { margin: 30px 0 36px; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
 .brief-checklist li { padding: 16px 0; display: grid; grid-template-columns: 48px 1fr; border-bottom: 1px solid var(--line); font-size: 13px; }
@@ -447,9 +450,14 @@ code { font-family: var(--mono); font-size: .82em; }
 .buyer-fields input, .buyer-fields textarea { width: 100%; padding: 12px 13px; border: 1px solid var(--line); border-radius: 0; outline: 0; background: var(--white); font-size: 12px; resize: vertical; }
 .buyer-fields input:focus, .buyer-fields textarea:focus { border-color: var(--orange); }
 .drawer-disclaimer { margin: 17px 0; color: var(--ink-soft); font-size: 9px; }
-.whatsapp-button { min-height: 54px; padding: 0 17px; display: flex; align-items: center; gap: 12px; color: #fff; background: #176b43; font-size: 12px; font-weight: 650; }
-.whatsapp-button svg:last-child { margin-left: auto; }
+.inquiry-channel-actions { display: grid; gap: 9px; }
+.whatsapp-button, .email-button { min-height: 54px; padding: 0 17px; display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 650; }
+.whatsapp-button { color: #fff; background: #176b43; }
+.email-button { color: var(--ink); border: 1px solid var(--line-strong); background: transparent; }
+.whatsapp-button svg:last-child, .email-button svg:last-child { margin-left: auto; }
 .whatsapp-button:hover { background: #0f5735; }
+.email-button:hover { color: var(--orange-dark); border-color: var(--orange-dark); }
+.drawer-email-note { margin: 10px 0 0; color: var(--ink-soft); font-size: 9px; line-height: 1.55; }
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes drawer-in { from { transform: translateX(100%); } }
 
