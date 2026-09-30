@@ -36,7 +36,7 @@ const { CONTACT_EMAIL, GENERAL_EMAIL_URL, WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GEN
 const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
 const { familyProcurementContent } = load("src/lib/family-procurement.ts");
 const { galleryDistance, galleryProgress } = load("src/lib/gallery-motion.ts");
-const { materialPages, materialFamilies, familyPath } = load("src/materials.ts");
+const { materialPages, materialFamilies, materialModelExamples, familyPath } = load("src/materials.ts");
 const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
@@ -72,6 +72,24 @@ assert.equal(createHash("sha256").update(fs.readFileSync(path.join(root, "public
 assert.equal(new Set(productFamilies.map(f => f.id)).size, productFamilies.length);
 assert.deepEqual(filterCatalog(productFamilies, "all", " "), productFamilies);
 assert.equal(filterCatalog(productFamilies, "all", "no-such-product-q9z").length, 0);
+const bagasseClamshells = productFamilies.find(family => family.id === "boxes-hinged-containers");
+assert.deepEqual(filterCatalog(productFamilies, "all", "bagasse 9x6"), [bagasseClamshells], "Material and dimensions must match one real model");
+for (const query of ["sugarcane 9 × 6", "bagasse 9*6", "bagasse 9 x 6 in"]) {
+  assert.deepEqual(matchingVariants(bagasseClamshells.variants, query, bagasseClamshells).map(variant => variant.sku), ["AW-BG-H96"], `Model-level normalization: ${query}`);
+}
+assert(filterCatalog(productFamilies, "all", "aluminum trays").some(family => family.id === "boxes-wrinkle-wall-containers"), "US spelling and singular/plural must work");
+assert(filterCatalog(productFamilies, "all", "take out kraft containers").some(family => family.id === "boxes-takeaway-containers"), "Takeout terminology must work without exact phrase order");
+assert(filterCatalog(productFamilies, "cups", "paper cup 12oz").length > 0, "Material and capacity can be combined");
+assert.equal(filterCatalog(productFamilies, "cups", "bagasse 9x6").length, 0, "Category scope must remain strict");
+assert.equal(filterCatalog(productFamilies, "all", "AW-BG-H960").length, 0, "Do not partially match an unknown SKU to a shorter known SKU");
+assert.equal(filterCatalog(productFamilies, "all", "AW-H96-BG").length, 0, "SKU segment order is meaningful");
+assert.deepEqual(matchingVariants(bagasseClamshells.variants, "bagasse 6x6", bagasseClamshells).map(variant => variant.sku), ["AW-BG-H66"], "Repeated dimensions cannot reuse one numeric match");
+assert.deepEqual(matchingVariants(bagasseClamshells.variants, "bagasse 9x9", bagasseClamshells).map(variant => variant.sku), ["AW-BG-H99"], "Square formats must not include rectangular formats");
+assert.equal(filterCatalog(productFamilies, "all", "@@@").length, 0, "Punctuation-only searches must not pretend to match everything");
+assert.equal(matchingVariants(bagasseClamshells.variants, "bagasse", bagasseClamshells).length, 0, "Family-only searches must not imply a size match");
+const searchFixture = { ...bagasseClamshells, variants: [{ sku: "ONE", label: "12 oz" }, { sku: "TWO", label: "16 oz" }] };
+assert.equal(filterCatalog([searchFixture], "all", "12 oz 16 oz").length, 0, "Never combine sizes from separate models to create a match");
+assert.equal(filterCatalog([searchFixture], "all", "2 oz").length, 0, "Numeric capacity matches must be exact");
 assert.equal(WHATSAPP_NUMBER, "8613202830014");
 assert.equal(WHATSAPP_DISPLAY, "+86 132 0283 0014");
 assert.equal(CONTACT_EMAIL, "admin@anwellup.com");
@@ -179,6 +197,16 @@ for (const file of htmlFiles) {
     assert(title, `Missing page title: ${file}`);
     assert(description && description.length >= 70, `Missing or thin meta description: ${file}`);
     assert(canonical?.startsWith("https://anwellup.com/"), `Missing absolute canonical: ${file}`);
+    const ogTitle = html.match(/<meta property="og:title" content="([^"]+)"/)?.[1];
+    const twitterTitle = html.match(/<meta name="twitter:title" content="([^"]+)"/)?.[1];
+    const ogUrl = html.match(/<meta property="og:url" content="([^"]+)"/)?.[1];
+    assert.equal(ogTitle, title, `Open Graph must identify the current page: ${file}`);
+    assert.equal(twitterTitle, title, `Social card must identify the current page: ${file}`);
+    assert.equal(ogUrl, canonical, `Social sharing URL must agree with the canonical: ${file}`);
+    const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+    const twitterImage = html.match(/<meta name="twitter:image" content="([^"]+)"/)?.[1];
+    assert(ogImage?.startsWith("https://anwellup.com/"), `Missing social preview image: ${file}`);
+    assert.equal(twitterImage, ogImage, `Social image must follow this route's image: ${file}`);
     assert(!pageTitles.has(title), `Duplicate page title: ${title}`);
     pageTitles.set(title, file);
   }
@@ -220,6 +248,7 @@ refs.add("/image-sitemap.xml");
 refs.add("/a680f67e82022c38117b9661810d86dfdd6d8a4549fbbda6.txt");
 assert.equal((home.match(/class="collection-panel/g) || []).length, 7);
 assert.equal((readPage("products").match(/class="range-entry /g) || []).length, 7);
+assert(readPage("products").includes("Wholesale food packaging.</h1>"), "Product hub must clearly name the wholesale product range");
 assert(readPage("products/carry-shopping-bags").includes("format-list"));
 assert(readPage("products/carry-shopping-bags").includes("Buyer&apos;s guide") || readPage("products/carry-shopping-bags").includes("Buyer&#x27;s guide"), "Category page must include the sourcing guide");
 assert(readPage("products/cups-drinkware").includes('"@type":"CollectionPage"'), "Category page must expose CollectionPage structured data");
@@ -292,6 +321,7 @@ for (const guide of buyingGuides) {
   assert(html.includes('"@type":"Article"'), `Guide must expose Article structured data: ${guide.slug}`);
   assert(html.includes('"@type":"FAQPage"'), `Guide must expose visible FAQ structured data: ${guide.slug}`);
   assert(html.includes(guide.title), `Guide title missing from output: ${guide.slug}`);
+  assert(html.includes('href="#guide-contents"') && html.includes('id="guide-contents"'), "Guide contents must be directly reachable before the lead image");
   assert(html.includes('href="/guides/food-packaging-rfq-checklist/"') || guide.slug === "food-packaging-rfq-checklist", `Guide must connect to the RFQ cluster: ${guide.slug}`);
 }
 for (const slug of ["food-packaging-materials-comparison", "food-container-size-guide", "custom-food-packaging-printing-guide", "food-packaging-moq-guide", "paper-vs-plastic-disposable-cups", "disposable-cup-lid-compatibility", "disposable-cup-moq", "disposable-cup-printing-samples", "disposable-cup-lead-time-packing", "how-to-evaluate-plastic-cup-manufacturer", "hinged-vs-folded-takeaway-containers", "how-to-choose-takeaway-packaging", "takeaway-container-moq", "takeaway-container-samples-prototyping", "takeaway-container-lead-time-packing", "how-to-verify-food-packaging-supplier", "disposable-cutlery-sets-bulk", "pp-vs-ps-disposable-cutlery", "bulk-vs-individually-wrapped-cutlery", "how-to-specify-airline-meal-kits", "disposable-cutlery-samples-quality-checks", "meal-kit-moq-packing-lead-time", "disposable-plates-bowls-trays-sourcing-guide", "aluminium-foil-food-wrap-sourcing-guide", "custom-shopping-bags-sourcing-guide", "disposable-gloves-wholesale-sourcing-guide"]) {
@@ -343,7 +373,16 @@ for (const material of materialPages) {
   const families = materialFamilies(material);
   assert(families.length > 0, "Material landing pages must contain real catalogue families");
   for (const family of families) assert(html.includes(`href="${familyPath(family)}"`), "Material collections must link to real model pages");
+  const examples = materialModelExamples(material);
+  assert(examples.length > 0, "Each material page needs catalogue model examples");
+  for (const { family, variant, href } of examples) {
+    assert(families.includes(family) && family.variants.includes(variant), "Model examples must be original catalogue records");
+    assert(html.includes(`href="${href}"`), "Material table must link to the exact model anchor");
+    assert(readPage(familyPath(family).slice(1, -1)).includes(`id="model-${variant.sku}"`), "Every linked model anchor must exist");
+  }
+  for (const guide of material.guides) assert(html.includes(`href="${guide.href}"`), "Material pages must connect to relevant buying guides");
 }
+assert(readPage("materials").includes('"@type":"CollectionPage"'), "Material hub schema must describe the visible material ranges");
 assert(contactPage.includes('"@type":"ContactPage"'), "Contact page must expose ContactPage structured data");
 assert(contactPage.includes('"@type":"FAQPage"'), "Contact page must expose visible quotation questions");
 assert(contactPage.includes(`href="mailto:${CONTACT_EMAIL}"`), "Contact page must expose the confirmed sales email");

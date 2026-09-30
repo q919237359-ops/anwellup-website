@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "../../../lib/page-metadata";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { CbmCalculator } from "../../../components/CbmCalculator";
@@ -36,9 +37,10 @@ export const metadata: Metadata = {
   description: "Calculate carton CBM, total shipment volume, cubic feet and gross weight for wholesale food packaging orders using centimetres, millimetres or inches.",
   alternates: { canonical: "/resources/carton-cbm-calculator/" },
   openGraph: {
-    title: "Carton CBM Calculator for Food Packaging | ANWELLUP",
+    title: "Carton CBM Calculator for Food Packaging Shipments | ANWELLUP",
     description: "A free browser-based carton volume calculator for food packaging buyers preparing shipment and quotation requirements.",
     url: "/resources/carton-cbm-calculator/",
+    images: [defaultSocialImage],
     type: "website",
   },
 };

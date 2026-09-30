@@ -70,6 +70,9 @@ For a self-contained release check after building, run `pnpm test:release`. It s
 - Production builds read public values from GitHub repository variables. Changing a variable requires a new build to affect the site.
 - `pnpm audit:live` performs a read-only sitemap/metadata crawl and saves `.private/live-seo-audit.json`. It does not inspect Search Console indexing or send enquiries.
 - Material landing pages use `src/materials.ts` and real catalogue records. Regulatory-source content is in `src/plastic-alternatives-guide.ts`; check its references before updating market claims.
+- Catalogue search accepts material/size combinations, spelling variants and normalized units, but preserves exact AW model identifiers and numeric sizes. Add regression cases in `scripts/check-site.mjs` when expanding supported terms; do not turn unverified environmental claims into product aliases.
+- Material model examples are selected directly from catalogue records and link to existing model anchors. Do not replace missing specifications with inferred values.
+- Root Twitter metadata deliberately sets only the card type so each route inherits its own Open Graph preview. `pageMetadata` supplies static page defaults; release and live audits check titles, sharing URLs and images for stale homepage inheritance.
 
 - Existing model records: `src/data.ts`
 - Category and product-family taxonomy: `src/catalog.ts`

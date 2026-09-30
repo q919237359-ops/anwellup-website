@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { OpenInquiryButton } from "../../components/InquiryProvider";
+import { pageMetadata } from "../../lib/page-metadata";
 
-export const metadata: Metadata = { title: "Customization + capabilities", description: "Explore packaging formats, artwork and packing options for your next foodservice or retail project.", alternates: { canonical: "/capabilities/" } };
+export const metadata: Metadata = pageMetadata("Custom Printed Food Packaging & Packing Options", "Explore food-packaging formats, artwork, printing and packing options. Prepare model-specific requirements for a custom foodservice or retail packaging quote.", "/capabilities/");
 
 const steps = [
   ["The right format", "Start with the food, portion and service occasion. Compare shapes, materials and dimensions within the range."],

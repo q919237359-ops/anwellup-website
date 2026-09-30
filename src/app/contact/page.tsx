@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "../../lib/page-metadata";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, EnvelopeSimple, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../components/JsonLd";
@@ -33,6 +34,7 @@ export const metadata: Metadata = {
     title: "Request a Food Packaging Quote | ANWELLUP",
     description: "Request a wholesale food packaging quote online, or continue by email or WhatsApp. An exact product model is optional.",
     url: "/contact/",
+    images: [defaultSocialImage],
     type: "website",
   },
 };

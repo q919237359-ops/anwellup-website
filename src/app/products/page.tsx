@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { catalogCategories, productFamilies } from "../../catalog";
 import { CatalogExplorer } from "../../components/CatalogExplorer";
 import { JsonLd } from "../../components/JsonLd";
+import { MaterialLinks } from "../../components/MaterialLinks";
 
 export const metadata: Metadata = {
   title: "Wholesale Food Packaging Product Range",
@@ -36,7 +37,8 @@ export default function ProductsPage() {
         })),
       },
     }} />
-    <header className="page-hero page-hero-catalog"><h1>The packaging collection.</h1><p>Browse by format, or search for a product, material or AW SKU.</p></header>
+    <header className="page-hero page-hero-catalog"><h1>Wholesale food packaging.</h1><p>Compare cups, containers, tableware, foil, cutlery, bags and gloves. Search by material and size, such as “bagasse 9 x 6” or “paper cup 12 oz”, or use an AW model reference.</p><a className="editorial-link" href="#catalog-results-title">Find a product →</a></header>
+    <MaterialLinks />
     <CatalogExplorer categories={catalogCategories} families={productFamilies} />
   </main>;
 }

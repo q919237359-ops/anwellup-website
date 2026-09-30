@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "../../../lib/page-metadata";
 import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../../components/JsonLd";
@@ -44,6 +45,7 @@ export const metadata: Metadata = {
     title: "Food Packaging RFQ Template for Wholesale Buyers | ANWELLUP",
     description: "A practical Excel workbook for preparing packaging enquiries and comparing supplier quotations on the same basis.",
     url: "/resources/food-packaging-rfq-template/",
+    images: [defaultSocialImage],
     type: "website",
   },
 };

@@ -29,7 +29,7 @@ export function CategoryFamilyBrowser({ category, families }: { category: Catalo
         <span>Material</span><div><button className={material === "all" ? "active" : ""} type="button" aria-pressed={material === "all"} onClick={() => selectMaterial("all")}>All</button>{materials.map(item => <button className={material === item ? "active" : ""} type="button" aria-pressed={material === item} onClick={() => selectMaterial(item)} key={item}>{item}</button>)}</div>
       </div>}
       <div className="format-list">{filtered.map(family => <article className="format-row" key={family.id}>
-        <div className="format-name"><code>{family.sku}</code><h3><button className="family-preview-title" type="button" onClick={() => previewFamily(family)} aria-haspopup="dialog">{family.name}</button></h3></div>
+        <div className="format-name"><code>{family.sku}</code><h3><Link className="family-preview-title" href={`/products/${category.slug}/${family.id}/`}>{family.name}</Link></h3></div>
         <div className="format-description"><p>{family.summary}</p><span>{family.materials.join(", ")}</span></div>
         <div className="format-actions"><button className="format-action format-preview" type="button" onClick={() => previewFamily(family)} aria-haspopup="dialog"><span>{family.variants.length} {family.variants.length === 1 ? "option" : "options"}</span><ArrowRight size={21}/></button><Link href={`/products/${category.slug}/${family.id}/`}>Full details</Link></div>
       </article>)}</div>

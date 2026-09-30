@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "../../lib/page-metadata";
 
-export const metadata: Metadata = { title: "Privacy", description: "How ANWELLUP handles enquiry details, locally stored product selections, security verification, email delivery, analytics and external contact links.", alternates: { canonical: "/privacy/" } };
+export const metadata: Metadata = pageMetadata("Privacy", "How ANWELLUP handles enquiry details, locally stored product selections, security verification, email delivery, analytics and external contact links.", "/privacy/");
 export default function PrivacyPage() {
   return <main id="main-content" className="legal-page"><span className="eyebrow">Privacy / updated 30 September 2026</span><h1>How this website handles information.</h1><section>
     <h2>Product selections and draft details</h2><p>Selected product references are stored in your browser so you can return to your list. Contact details and project notes stay in the current page session until you choose a contact action. Clearing the list removes the selected products from browser storage.</p>

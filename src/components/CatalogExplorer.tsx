@@ -77,17 +77,17 @@ export function CatalogExplorer({ categories, families }: { categories: CatalogC
     {browsing ? <div className="range-directory">{categories.map(item => <Link className={`range-entry ${item.id === "bags" ? "range-entry-source" : ""}`} href={`/products/${item.slug}/`} key={item.id}><div className="range-entry-image"><img src={item.image} alt={`${item.label} range illustration`} width={item.id === "bags" ? 640 : 1448} height={item.id === "bags" ? 480 : 1086} loading="lazy"/></div><div className="range-entry-title"><h3>{item.label.replaceAll(" + ", " & ")}</h3><ArrowRight size={23}/></div><p>{item.description}</p></Link>)}</div> : filtered.length ? <div className="family-list">
       {filtered.map((family) => {
         const categoryRecord = categories.find((entry) => entry.id === family.category)!;
-        const matches = matchingVariants(family.variants, query);
+        const matches = matchingVariants(family.variants, query, family);
         const familyHref = `/products/${categoryRecord.slug}/${family.id}/`;
         return <article className="family-row" key={family.id}>
-          <div className="family-copy"><span>{categoryRecord.label}</span><h3><button className="family-preview-title" type="button" onClick={() => previewFamily(family)} aria-haspopup="dialog">{family.name}</button></h3><p>{family.summary}</p><div className="tag-row">{family.materials.map((item) => <button className={material === item ? "active" : ""} type="button" onClick={() => selectMaterial(item)} key={item}>{item}</button>)}</div>
+          <div className="family-copy"><span>{categoryRecord.label}</span><h3><Link className="family-preview-title" href={familyHref}>{family.name}</Link></h3><p>{family.summary}</p><div className="tag-row">{family.materials.map((item) => <button className={material === item ? "active" : ""} type="button" onClick={() => selectMaterial(item)} key={item}>{item}</button>)}</div><Link className="more-models" href={`${familyHref}#spec-title`}>Compare specifications <ArrowRight size={16} aria-hidden="true" /></Link>
             {matches.length > 0 && <div className="model-matches"><span>{matches.length} matching {matches.length === 1 ? "model" : "models"}</span><ul>{matches.slice(0, 3).map(variant => <li key={variant.sku}><Link href={`${familyHref}#model-${variant.sku}`}><code>{variant.sku}</code><span>{variant.label}</span><ArrowRight size={16} aria-hidden="true" /></Link></li>)}</ul>{matches.length > 3 && <Link className="more-models" href={`${familyHref}#spec-title`}>View all specifications <ArrowRight size={16} aria-hidden="true" /></Link>}</div>}
           </div>
           <div className="family-meta"><span>{family.variants.length} {family.variants.length === 1 ? "variant" : "variants"}</span><code>{family.sku}</code></div>
           <button className="family-link" type="button" onClick={() => previewFamily(family)} aria-haspopup="dialog" aria-label={`Quick view ${family.name}`}><ArrowRight size={22} /></button>
         </article>;
       })}
-    </div> : <div className="empty-state"><h3>No matching family.</h3><p>Try another material, size or ANWELLUP SKU.</p>{category !== "all" && <button type="button" onClick={() => updateFilters("all", query)}>Search all collections</button>}</div>}
+    </div> : <div className="empty-state"><h3>No matching family.</h3><p>Try a material and size, such as “bagasse 9 x 6” or “paper cup 12 oz”. You can also use an AW SKU.</p><div className="empty-state-actions">{(category !== "all" || material !== "all") && <button type="button" onClick={() => updateFilters("all", query, "all")}>Search all products and materials</button>}<button type="button" onClick={() => updateFilters("all", "", "all")}>Browse the full range</button><Link href="/contact/">Ask about an unlisted requirement</Link></div></div>}
     <ProductDetailDrawer family={selected} category={selected ? categories.find(item => item.id === selected.category) ?? null : null} onClose={() => setSelected(null)} />
   </section>;
 }

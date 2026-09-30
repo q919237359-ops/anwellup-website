@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "../../lib/page-metadata";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../components/JsonLd";
@@ -119,6 +120,7 @@ export const metadata: Metadata = {
     title: "Wholesale Food Packaging FAQ for Buyers | ANWELLUP",
     description: "Concise, model-level answers for buyers preparing a food packaging sourcing brief.",
     url: "/buyer-faq/",
+    images: [defaultSocialImage],
     type: "website",
   },
 };

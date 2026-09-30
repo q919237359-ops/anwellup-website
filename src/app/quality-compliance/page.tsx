@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { OpenInquiryButton } from "../../components/InquiryProvider";
+import { pageMetadata } from "../../lib/page-metadata";
 
-export const metadata: Metadata = { title: "Quality + compliance", description: "Discuss product specifications, intended use and destination-market documentation for your packaging project.", alternates: { canonical: "/quality-compliance/" } };
+export const metadata: Metadata = pageMetadata("Food Packaging Specifications & Compliance Checks", "Review food-packaging specifications, intended use, destination-market requirements and model-specific documentation before confirming a wholesale order.", "/quality-compliance/");
 
 const reviewSteps = [
   ["The right specification", "Start with the selected model, material, dimensions and matching components. These details form the basis of your enquiry."],

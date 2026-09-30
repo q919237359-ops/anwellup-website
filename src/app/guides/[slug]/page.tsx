@@ -86,10 +86,11 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <div className="guide-hero-summary"><p>{guide.lede}</p><p className="guide-byline">Prepared by ANWELLUP · <Link href="/about/#content-method">How this content is prepared</Link></p></div>
       </header>
       <div className="guide-quick-action"><Link href="/contact/#send-enquiry">Need a quote for your packaging requirement? →</Link></div>
+      <nav className="guide-jump-links" aria-label="Jump to a guide section"><a href="#guide-contents">Contents</a><a href="#section-1">Read the guide</a><a href="#questions">Buyer questions</a><a href="#related-title">Related buying pages</a></nav>
       {guide.comparison && <div className="guide-comparison" tabIndex={0} role="region" aria-label={guide.comparison.caption}><table><caption>{guide.comparison.caption}</caption><thead><tr>{guide.comparison.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead><tbody>{guide.comparison.rows.map(row => <tr key={row[0]}>{row.map((cell, index) => index === 0 ? <th scope="row" key={index}>{cell}</th> : <td key={index}>{cell}</td>)}</tr>)}</tbody></table></div>}
       <figure className="guide-lead-figure"><img src={guide.image} alt={guide.imageAlt} width={guide.imageWidth} height={guide.imageHeight}/><figcaption>Reference image for this buyer guide. Confirm the selected model, evidence and specification with your enquiry.</figcaption></figure>
       <div className="guide-layout">
-        <aside aria-label="In this guide"><span className="eyebrow">In this guide</span><ol>{guide.sections.map((section, index) => <li key={section.heading}><a href={`#section-${index + 1}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.heading}</a></li>)}</ol></aside>
+        <aside id="guide-contents" aria-label="In this guide"><span className="eyebrow">In this guide</span><ol>{guide.sections.map((section, index) => <li key={section.heading}><a href={`#section-${index + 1}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.heading}</a></li>)}</ol></aside>
         <div className="guide-body">
           {guide.sections.map((section, index) => <section id={`section-${index + 1}`} key={section.heading}>
             <span>{String(index + 1).padStart(2, "0")}</span><h2>{section.heading}</h2>

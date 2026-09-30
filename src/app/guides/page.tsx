@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { defaultSocialImage } from "../../lib/page-metadata";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../components/JsonLd";
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: "Food Packaging Buying Guides | ANWELLUP",
     description: "Build clearer specifications and compare food-packaging formats before a wholesale enquiry.",
     url: "/guides/",
+    images: [defaultSocialImage],
     type: "website",
   },
 };

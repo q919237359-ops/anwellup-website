@@ -3,12 +3,9 @@ import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../components/JsonLd";
 import { OpenInquiryButton } from "../../components/InquiryProvider";
+import { pageMetadata } from "../../lib/page-metadata";
 
-export const metadata: Metadata = {
-  title: "About ANWELLUP",
-  description: "Learn how ANWELLUP organizes food-packaging catalogue information, attributes source material and confirms model-specific commercial details.",
-  alternates: { canonical: "/about/" },
-};
+export const metadata: Metadata = pageMetadata("About Our Food Packaging Sourcing Service", "Learn how ANWELLUP organizes food-packaging catalogue information, attributes source material and confirms model-specific commercial details.", "/about/");
 
 const methodSteps = [
   ["Review the source", "Product names, images and available specifications are reviewed against supplied catalogue material."],

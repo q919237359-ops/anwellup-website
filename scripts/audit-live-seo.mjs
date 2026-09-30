@@ -25,6 +25,11 @@ for (let index = 0; index < urls.length; index += 6) {
       title: strip(html.match(/<title>(.*?)<\/title>/s)?.[1]),
       description: html.match(/<meta name="description" content="([^"]*)"/)?.[1],
       canonical: html.match(/<link rel="canonical" href="([^"]*)"/)?.[1],
+      ogTitle: html.match(/<meta property="og:title" content="([^"]*)"/)?.[1],
+      twitterTitle: html.match(/<meta name="twitter:title" content="([^"]*)"/)?.[1],
+      ogUrl: html.match(/<meta property="og:url" content="([^"]*)"/)?.[1],
+      ogImage: html.match(/<meta property="og:image" content="([^"]*)"/)?.[1],
+      twitterImage: html.match(/<meta name="twitter:image" content="([^"]*)"/)?.[1],
       h1: [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)].map(match => strip(match[1])),
       noindex: /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/.test(html),
       words: strip(main.replace(/<script\b[\s\S]*?<\/script>/g, "")).split(/\s+/).length,
@@ -50,6 +55,10 @@ const summary = {
   h1Problems: pages.filter(page => page.h1.length !== 1).map(page => page.url),
   duplicateTitles: [...titles].filter(([, value]) => value.length > 1),
   missingDescriptions: pages.filter(page => !page.description).map(page => page.url),
+  socialPreviewProblems: pages.flatMap(page => {
+    const issues = [page.ogTitle !== page.title ? "Open Graph title" : "", page.twitterTitle !== page.title ? "Twitter title" : "", page.ogUrl !== page.canonical ? "Sharing URL" : "", !page.ogImage || page.twitterImage !== page.ogImage ? "Preview image" : ""].filter(Boolean);
+    return issues.length ? [{ url: page.url, issues }] : [];
+  }),
 };
 fs.mkdirSync(".private", { recursive: true });
 fs.writeFileSync(output, JSON.stringify({ checkedAt: new Date().toISOString(), summary, endpoints, pages }, null, 2));
