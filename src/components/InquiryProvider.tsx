@@ -1,7 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { trackEvent } from "../lib/analytics";
+import { emptyInquiry, submitInquiry, type InquiryDraft } from "../lib/inquiry";
+import { createInquirySubmission, type InquirySubmissionState } from "../lib/inquiry-submission";
 
 export type InquiryItem = {
   sku: string;
@@ -11,6 +13,11 @@ export type InquiryItem = {
 };
 
 type InquiryContextValue = {
+  draft: InquiryDraft;
+  updateDraft: (change: Partial<InquiryDraft>) => void;
+  submission: InquirySubmissionState;
+  sendInquiry: ReturnType<typeof createInquirySubmission>["submit"];
+  startNewInquiry: () => void;
   items: InquiryItem[];
   isOpen: boolean;
   addItem: (item: InquiryItem) => void;
@@ -27,6 +34,12 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<InquiryItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [storageReady, setStorageReady] = useState(false);
+  const [draft, setDraft] = useState<InquiryDraft>({ ...emptyInquiry });
+  const [sender] = useState(() => createInquirySubmission(submitInquiry, (accepted, location, itemCount) => {
+    if (accepted) trackEvent("generate_lead", { method: "website_form", location, item_count: itemCount });
+    else trackEvent("inquiry_submit_error", { location });
+  }));
+  const submission = useSyncExternalStore(sender.subscribe, sender.getSnapshot, sender.getServerSnapshot);
 
   useEffect(() => {
     try {
@@ -56,9 +69,19 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
   }, [isOpen]);
 
   const value = useMemo<InquiryContextValue>(() => ({
+    draft,
+    updateDraft: change => { if (!sender.locked()) setDraft(current => ({ ...current, ...change })); },
+    submission,
+    sendInquiry: sender.submit,
+    startNewInquiry: () => {
+      if (!sender.reset()) return;
+      setDraft({ ...emptyInquiry });
+      setItems([]);
+    },
     items,
     isOpen,
     addItem: (item) => {
+      if (sender.locked()) { setIsOpen(true); return; }
       setItems((current) => {
         if (current.some((entry) => entry.sku === item.sku)) return current;
         trackEvent("add_to_inquiry", { sku: item.sku, category: item.category });
@@ -66,11 +89,12 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
       });
       setIsOpen(true);
     },
-    removeItem: (sku) => setItems((current) => {
+    removeItem: (sku) => { if (!sender.locked()) setItems((current) => {
       trackEvent("remove_from_inquiry", { sku });
       return current.filter((item) => item.sku !== sku);
-    }),
+    }); },
     clearItems: () => {
+      if (sender.locked()) return;
       trackEvent("inquiry_clear", { item_count: items.length });
       setItems([]);
     },
@@ -79,7 +103,7 @@ export function InquiryProvider({ children }: { children: React.ReactNode }) {
       setIsOpen(true);
     },
     closeInquiry: () => setIsOpen(false),
-  }), [items, isOpen]);
+  }), [items, isOpen, draft, sender, submission]);
 
   return <InquiryContext.Provider value={value}>{children}</InquiryContext.Provider>;
 }

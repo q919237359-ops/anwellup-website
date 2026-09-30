@@ -12,6 +12,9 @@
     "start": "next start",
     "check": "tsc --noEmit",
     "test:site": "node scripts/check-site.mjs",
+    "test:inquiry": "node scripts/test-inquiry.mjs",
+    "test:release": "node scripts/verify-release.mjs",
+    "audit:live": "node scripts/audit-live-seo.mjs",
     "audit:images": "node scripts/audit-images.mjs",
     "indexnow": "node scripts/submit-indexnow.mjs"
   },

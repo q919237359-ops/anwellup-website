@@ -64,5 +64,7 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`ANWELLUP preview: http://${host}:${port}/`);
+  const listeningPort = server.address().port;
+  console.log(`ANWELLUP preview: http://${host}:${listeningPort}/`);
+  process.send?.({ type: "ready", port: listeningPort });
 });

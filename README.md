@@ -55,7 +55,21 @@ pnpm test:site
 
 This checks search, specification fields, export structure, token contrast and HTTP resources. It does not replace browser visual and interaction review.
 
+For a self-contained release check after building, run `pnpm test:release`. It starts and stops its own temporary-port preview, leaving existing previews alone. GitHub Pages runs `pnpm test:release --production` before uploading the artifact, also requiring the online form and a configured analytics route. Run `pnpm test:inquiry` to verify enquiry behavior without sending mail.
+
 ## Content maintenance
+
+### Enquiries and measurement
+
+- Copy `.env.example` to `.env.local` for local configuration. These are public browser identifiers; server secrets belong only in the Cloudflare Worker.
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY` enables online submission to the existing inquiry Worker. Without it, the form retains email, WhatsApp and copy-for-webmail options.
+- The real widget is restricted to the production domain; localhost preview is for content/layout review. Test submission logic with `pnpm test:inquiry` (mocked verification and email providers, no real messages).
+- `NEXT_PUBLIC_ANALYTICS_MODE=ga4` uses direct GA4; `gtm` uses the published GTM container instead. Do not configure both delivery paths for the same event. Localhost previews do not load analytics.
+- `generate_lead` means the website service accepted an enquiry. Email/WhatsApp clicks have separate events. Acceptance does not prove inbox delivery or lead quality.
+- The contact page and RFQ drawer share one in-memory submission status: closing the drawer or navigating within the site preserves an in-flight request and its receipt. A deliberate new enquiry resets the draft and selection. Reloading or closing the browser tab does not preserve personal details or receipts.
+- Production builds read public values from GitHub repository variables. Changing a variable requires a new build to affect the site.
+- `pnpm audit:live` performs a read-only sitemap/metadata crawl and saves `.private/live-seo-audit.json`. It does not inspect Search Console indexing or send enquiries.
+- Material landing pages use `src/materials.ts` and real catalogue records. Regulatory-source content is in `src/plastic-alternatives-guide.ts`; check its references before updating market claims.
 
 - Existing model records: `src/data.ts`
 - Category and product-family taxonomy: `src/catalog.ts`

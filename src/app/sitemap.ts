@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { catalogCategories, productFamilies } from "../catalog";
 import { buyingGuides } from "../guides";
 import { sourcingSolutions } from "../solutions";
+import { materialPages } from "../materials";
 export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://anwellup.com";
@@ -20,5 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   });
   const guideEntries = buyingGuides.map((guide) => entry(`/guides/${guide.slug}`, guide.updated));
   const solutionEntries = sourcingSolutions.map((solution) => entry(`/solutions/${solution.slug}`, solution.updated));
-  return [...staticEntries, ...categoryEntries, ...familyEntries, ...guideEntries, ...solutionEntries];
+  const changedStaticRoutes = new Set([`${base}/`, `${base}/contact/`, `${base}/privacy/`, `${base}/guides/`, `${base}/about/`]);
+  const materialEntries = [entry("/materials", "2026-09-30"), ...materialPages.map(material => entry(`/materials/${material.slug}`, "2026-09-30"))];
+  return [...staticEntries.map(item => changedStaticRoutes.has(item.url) ? { ...item, lastModified: new Date("2026-09-30") } : item), ...categoryEntries, ...familyEntries, ...guideEntries, ...solutionEntries, ...materialEntries];
 }

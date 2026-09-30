@@ -36,11 +36,12 @@ const { CONTACT_EMAIL, GENERAL_EMAIL_URL, WHATSAPP_NUMBER, WHATSAPP_DISPLAY, GEN
 const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
 const { familyProcurementContent } = load("src/lib/family-procurement.ts");
 const { galleryDistance, galleryProgress } = load("src/lib/gallery-motion.ts");
+const { materialPages, materialFamilies, familyPath } = load("src/materials.ts");
 const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
 assert.equal(equipmentFamilies.length, 3);
-assert.equal(buyingGuides.length, 29);
+assert.equal(buyingGuides.length, 30);
 assert.equal(new Set(buyingGuides.map(guide => guide.slug)).size, buyingGuides.length);
 assert(buyingGuides.every(guide => guide.sections.length >= 6), "Every guide needs a substantial decision structure");
 assert(buyingGuides.every(guide => guide.questions.length >= 3), "Every guide needs visible buyer questions");
@@ -126,12 +127,15 @@ const contrast = (a, b) => { const values = [luminance(a), luminance(b)].sort((a
 const theme = fs.readFileSync(path.join(root, "src/app/plan-a.css"), "utf8");
 const analyticsSource = fs.readFileSync(path.join(root, "src/lib/analytics.ts"), "utf8");
 const trackingSource = fs.readFileSync(path.join(root, "src/components/TrafficAnalytics.tsx"), "utf8");
-assert(analyticsSource.includes('window.gtag?.("event", event, parameters)'), "Tracked actions must be forwarded to GA4");
+assert(analyticsSource.includes('window.gtag("event", event, parameters)'), "Tracked actions must be queued and forwarded to GA4");
 assert(analyticsSource.includes('"generate_lead"'), "High-intent contact actions must support the GA4 generate_lead event");
 assert(trackingSource.includes("NEXT_PUBLIC_GA4_ID"), "GA4 must be configurable at deploy time");
 assert(trackingSource.includes("googletagmanager.com/gtag/js"), "GA4 loader must be present");
-assert(trackingSource.includes('trackEvent("generate_lead"'), "Contact actions must emit a lead-intent event");
-assert(trackingSource.includes('name === "email_click"'), "Email contacts must emit a tracked lead-intent event");
+assert(!trackingSource.includes('trackEvent("generate_lead"'), "Contact clicks must not be reported as accepted enquiries");
+const inquiryFormSource = fs.readFileSync(path.join(root, "src/components/InquiryForm.tsx"), "utf8");
+const inquiryProviderSource = fs.readFileSync(path.join(root, "src/components/InquiryProvider.tsx"), "utf8");
+assert(inquiryProviderSource.includes('trackEvent("generate_lead"'), "Accepted website enquiries must support lead measurement");
+assert(!inquiryFormSource.includes('trackEvent("generate_lead"'), "Individual form instances must not duplicate accepted-enquiry measurement");
 const token = name => { const match = theme.match(new RegExp(`--${name}:\\s*(#[a-f0-9]{6})`, "i")); assert(match, `Missing Plan A token ${name}`); return match[1]; };
 assert.equal(token("sage"), "#58715a");
 assert.equal(token("paper-deep"), "#e4eadf");
@@ -324,6 +328,22 @@ assert(buyerFaq.includes('"@type":"WebPage"'), "Buyer FAQ must expose WebPage st
 assert((buyerFaq.match(/<dt>/g) || []).length === 12, "Buyer FAQ must expose twelve visible procurement answers");
 assert(buyerFaq.includes('href="/solutions/food-packaging-sourcing-china/"'), "Buyer FAQ must connect to the China sourcing page");
 const contactPage = readPage("contact");
+assert(contactPage.includes('<form'), "Contact page must render its enquiry form in the static HTML");
+assert.match(contactPage, /<form\b[^>]*\bmethod="post"/, "Native form fallback must never append personal details to the URL");
+assert(contactPage.includes('<noscript><p>Online submission requires JavaScript'), "Visitors without JavaScript need direct contact instructions");
+assert(contactPage.includes('name="email"') && contactPage.includes('name="notes"'), "The enquiry must collect a reply address and requirements");
+assert(contactPage.includes('data-clarity-mask="true"'), "Enquiry content must be marked for replay masking");
+const sitemapXml = fs.readFileSync(path.join(out, "sitemap.xml"), "utf8");
+for (const material of materialPages) {
+  const route = `materials/${material.slug}`;
+  const html = readPage(route);
+  assert(sitemapXml.includes(`https://anwellup.com/${route}/`), "Each material landing page must be in the sitemap");
+  assert(home.includes(`href="/${route}/"`), "Material pages must be reachable from the homepage");
+  assert(html.includes('"@type":"CollectionPage"'), "Material pages must describe their actual collection");
+  const families = materialFamilies(material);
+  assert(families.length > 0, "Material landing pages must contain real catalogue families");
+  for (const family of families) assert(html.includes(`href="${familyPath(family)}"`), "Material collections must link to real model pages");
+}
 assert(contactPage.includes('"@type":"ContactPage"'), "Contact page must expose ContactPage structured data");
 assert(contactPage.includes('"@type":"FAQPage"'), "Contact page must expose visible quotation questions");
 assert(contactPage.includes(`href="mailto:${CONTACT_EMAIL}"`), "Contact page must expose the confirmed sales email");

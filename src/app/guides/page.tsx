@@ -52,7 +52,7 @@ export default function GuidesPage() {
     ]} />
     <header className="guides-index-hero">
       <span className="eyebrow">Buyer&apos;s reference</span>
-      <h1>Clearer briefs.<br/>Better comparisons.</h1>
+      <h1>Food packaging<br/>buying guides.</h1>
       <p>Practical notes for defining the product, application and commercial context before a wholesale packaging enquiry.</p>
     </header>
     <section className="guides-directory" aria-labelledby="guide-list-title">

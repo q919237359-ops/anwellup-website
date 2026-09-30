@@ -83,7 +83,7 @@ const legacyFamilies = Object.values(
       groups[key] = {
         id: key.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
         sku: familySku[item.family] ?? item.sku,
-        name: item.family,
+        name: ({ "Hinged Containers": "Bagasse Clamshell Containers", "Bowls": "Bagasse Bowls", "Plates": "Bagasse Plates", "Meal Trays": "Bagasse Meal Trays", "Takeaway Containers": "Kraft Takeaway Containers", "Foodservice Formats": "Kraft Food Trays and Lunch Boxes", "Smoothwall Containers": "Smoothwall Aluminium Containers", "Premium Color Series": "Coloured Aluminium Containers", "Wrinkle-Wall Containers": "Wrinkle-Wall Aluminium Trays" } as Record<string, string>)[item.family] ?? item.family,
         category,
         materials: [item.material],
         applications: category === "cups" ? ["Beverage service"] : category === "gloves" ? ["Food handling", "Operations"] : ["Foodservice", "Retail"],

@@ -2,6 +2,7 @@ import { containerClusterGuides } from "./container-guides";
 import { cupClusterGuides } from "./cup-guides";
 import { cutleryClusterGuides } from "./cutlery-guides";
 import { categoryProcurementGuides } from "./category-procurement-guides";
+import { plasticAlternativesGuide } from "./plastic-alternatives-guide";
 
 export type BuyingGuide = {
   slug: string;
@@ -16,6 +17,8 @@ export type BuyingGuide = {
   imageHeight: number;
   published: string;
   updated: string;
+  sources?: Array<{ label: string; href: string }>;
+  comparison?: { caption: string; columns: string[]; rows: string[][] };
   sections: Array<{
     heading: string;
     paragraphs: string[];
@@ -28,6 +31,7 @@ export type BuyingGuide = {
 };
 
 export const buyingGuides: BuyingGuide[] = [
+  plasticAlternativesGuide,
   {
     slug: "food-packaging-rfq-checklist",
     title: "Food packaging RFQ checklist for wholesale buyers",

@@ -8,6 +8,7 @@ import { JsonLd } from "../../../../components/JsonLd";
 import { GENERAL_WHATSAPP_URL } from "../../../../lib/contact";
 import { getFamilyProcurementContent } from "../../../../lib/family-procurement";
 import { getSpecificationColumns } from "../../../../lib/specification-columns";
+import { MaterialLinks } from "../../../../components/MaterialLinks";
 
 const familyImageSize = (image: string, categoryId: string) => {
   if (image.endsWith("/aw-bg-h96.webp")) return { width: 900, height: 600 };
@@ -116,6 +117,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
       <figure className={category.id === "bags" ? "category-source-master" : undefined}><div className="family-image-stage"><img src={family.image} alt={category.id === "bags" ? "Supplied PE carry-bag range; representative image only" : `${family.name} range illustration`} {...imageSize} fetchPriority="high"/></div><figcaption>{category.id === "bags" ? "PE carry bags shown. This is not a photograph of every model in the range." : "Range illustration. Confirm the selected model with your enquiry."}</figcaption></figure>
       <div className="family-hero-copy"><h1>{family.name}</h1><code className="display-sku">{family.sku}</code><p>{procurement?.description ?? family.summary}</p><div className="family-attributes"><div><span>Materials</span><strong>{family.materials.join(", ")}</strong></div><div><span>Applications</span><strong>{family.applications.join(", ")}</strong></div><div><span>Specification</span><strong>{family.specificationStatus === "pending" ? "Awaiting documentation" : "Confirm with enquiry"}</strong></div></div><AddToInquiryButton item={{ sku: family.sku, name: family.name, category: category.label }}/></div>
     </header>
+    <MaterialLinks category={category.id} />
 
     <section className="specification-section" aria-labelledby="spec-title"><header className="specification-heading"><h2 id="spec-title">Models & specifications</h2><p>Compare available references, then add the models you need. Final specifications are confirmed in writing.</p></header>
 

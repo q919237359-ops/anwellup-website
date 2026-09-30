@@ -65,6 +65,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         isPartOf: { "@id": "https://anwellup.com/#website" },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         about: [guide.shortTitle, "Food packaging sourcing", "Wholesale packaging", "Request for quotation"],
+        ...(guide.sources ? { citation: guide.sources.map(source => source.href) } : {}),
       },
       {
         "@context": "https://schema.org",
@@ -84,6 +85,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <div><span className="eyebrow">Buyer&apos;s guide / {guide.updated}</span><h1>{guide.title}</h1></div>
         <div className="guide-hero-summary"><p>{guide.lede}</p><p className="guide-byline">Prepared by ANWELLUP · <Link href="/about/#content-method">How this content is prepared</Link></p></div>
       </header>
+      <div className="guide-quick-action"><Link href="/contact/#send-enquiry">Need a quote for your packaging requirement? →</Link></div>
+      {guide.comparison && <div className="guide-comparison" tabIndex={0} role="region" aria-label={guide.comparison.caption}><table><caption>{guide.comparison.caption}</caption><thead><tr>{guide.comparison.columns.map(column => <th scope="col" key={column}>{column}</th>)}</tr></thead><tbody>{guide.comparison.rows.map(row => <tr key={row[0]}>{row.map((cell, index) => index === 0 ? <th scope="row" key={index}>{cell}</th> : <td key={index}>{cell}</td>)}</tr>)}</tbody></table></div>}
       <figure className="guide-lead-figure"><img src={guide.image} alt={guide.imageAlt} width={guide.imageWidth} height={guide.imageHeight}/><figcaption>Reference image for this buyer guide. Confirm the selected model, evidence and specification with your enquiry.</figcaption></figure>
       <div className="guide-layout">
         <aside aria-label="In this guide"><span className="eyebrow">In this guide</span><ol>{guide.sections.map((section, index) => <li key={section.heading}><a href={`#section-${index + 1}`}><span>{String(index + 1).padStart(2, "0")}</span>{section.heading}</a></li>)}</ol></aside>
@@ -96,6 +99,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             {section.links && <div className="guide-inline-links">{section.links.map((item) => <Link className="guide-inline-link" href={item.href} key={item.href}>{item.label}<ArrowUpRight size={16}/></Link>)}</div>}
           </section>)}
           <section id="questions" className="guide-questions" aria-labelledby="guide-questions-title"><span>Q</span><h2 id="guide-questions-title">Common sourcing questions.</h2><dl>{guide.questions.map((item) => <div key={item.question}><dt>{item.question}</dt><dd>{item.answer}</dd></div>)}</dl></section>
+          {guide.sources && <section className="guide-sources"><h2>Official sources</h2><p>Checked {guide.updated}. Verify the current rules for your exact destination and product.</p><ul>{guide.sources.map(source => <li key={source.href}><a href={source.href}>{source.label}</a></li>)}</ul></section>}
         </div>
       </div>
     </article>

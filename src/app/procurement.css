@@ -1,0 +1,75 @@
+/* Buyer routes and forms; retain the existing porcelain / sage visual system. */
+.procurement-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+.cinema-copy { width: min(1000px, 85%); }
+.cinema-copy h1 { font-size: clamp(48px, 6.3vw, 104px); }
+.cinema-copy > p { max-width: 470px; }
+.home-procurement { width: var(--container); margin: auto; padding: 80px 0; }
+.home-procurement header { max-width: 720px; margin-bottom: 32px; }
+.home-procurement h2 { margin: 16px 0; font-size: clamp(38px, 4.8vw, 68px); }
+.home-procurement header p, .material-note p { color: var(--ink-soft); line-height: 1.8; }
+.material-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.material-cards article { min-width: 0; border-top: 1px solid var(--line-strong); padding: 26px 0; }
+.material-cards h2, .material-cards h3 { font-family: var(--serif); font-size: 30px; font-weight: 450; line-height: 1.15; margin: 15px 0; }
+.material-cards p, .material-cards dd { color: var(--ink-soft); font-size: 14px; line-height: 1.8; }
+.material-cards dl { margin: 20px 0; }
+.material-cards dt { font-size: 12px; font-weight: 650; margin-top: 15px; }
+.material-cards dd { margin: 5px 0; }
+.material-cards a:hover, .material-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.procurement-reference { display: inline-block; padding: 16px 0; color: var(--sage-dark); font-weight: 650; }
+.materials-page > .material-cards, .material-formats, .material-checks, .materials-page > .contact-questions { width: var(--container); margin: 40px auto; }
+.material-formats, .material-checks { scroll-margin-top: 110px; }
+.material-formats > h2, .material-checks > h2, .material-note h2, .contact-enquiry h2 { font-family: var(--serif); font-size: clamp(32px, 4vw, 50px); font-weight: 450; }
+.material-formats > p { max-width: 780px; color: var(--ink-soft); line-height: 1.8; }
+.material-note { width: var(--container); margin: 50px auto; padding: 30px; background: var(--paper-deep); }
+.material-note h2 { margin-top: 0; }
+.material-note a { text-decoration: underline; text-underline-offset: 4px; }
+.material-links { width: var(--container); margin: 28px auto; display: flex; align-items: center; flex-wrap: wrap; gap: 12px 24px; font-size: 13px; }
+.material-links > span { color: var(--ink-soft); }
+.material-links a { color: var(--sage-dark); font-weight: 650; }
+.guide-quick-action { width: var(--container); margin: 20px auto 35px; font-size: 14px; }
+.guide-quick-action a { text-decoration: underline; text-underline-offset: 4px; }
+.guide-comparison { width: var(--container); margin: 32px auto 40px; overflow-x: auto; }
+.guide-comparison table { border-collapse: collapse; width: 100%; min-width: 580px; font-size: 14px; line-height: 1.7; }
+.guide-comparison caption { text-align: left; font-family: var(--serif); font-size: 30px; margin-bottom: 18px; }
+.guide-comparison th, .guide-comparison td { text-align: left; vertical-align: top; padding: 18px; border-bottom: 1px solid var(--line-strong); }
+.guide-comparison thead th { background: var(--paper-deep); }
+.guide-comparison tbody th { width: 24%; font-weight: 650; }
+.guide-sources a { text-decoration: underline; overflow-wrap: anywhere; }
+.contact-enquiry { width: var(--container); margin: 30px auto 65px; padding: 35px 0; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 60px; border-top: 1px solid var(--line-strong); scroll-margin-top: 105px; }
+.contact-enquiry > div > p { line-height: 1.8; color: var(--ink-soft); }
+.inquiry-fieldset { padding: 0; border: 0; min-width: 0; margin: 0; }
+.inquiry-form-block { min-width: 0; }
+.inquiry-form-block .buyer-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.inquiry-form-block .buyer-fields label { min-width: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.inquiry-form-block .buyer-fields input, .inquiry-form-block .buyer-fields textarea { width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); border-radius: 3px; font: inherit; font-size: 16px; }
+.inquiry-form-block .inquiry-wide { grid-column: 1 / -1; }
+.inquiry-optional { margin: 20px 0; }
+.inquiry-optional summary { cursor: pointer; font-size: 13px; padding: 10px 0; }
+.inquiry-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.8; margin: 18px 0; }
+.inquiry-consent input { margin-top: 4px; flex: 0 0 auto; }
+.inquiry-consent a { text-decoration: underline; }
+.inquiry-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.inquiry-verification { min-height: 68px; margin-bottom: 16px; }
+.inquiry-submit { width: 100%; }
+.inquiry-result { margin: 20px 0; padding: 18px; background: var(--paper-deep); line-height: 1.7; }
+.inquiry-result[role="alert"] { border-left: 3px solid #a03b22; }
+.inquiry-help { font-size: 13px; line-height: 1.7; }
+.inquiry-channel-actions button { font: inherit; font-size: 13px; cursor: pointer; border-radius: 3px; }
+.inquiry-channel-actions .button { justify-content: center; }
+.inquiry-drawer .inquiry-channel-actions { margin-top: 15px; }
+.text-button { border: 0; background: transparent; text-decoration: underline; color: inherit; padding: 0; cursor: pointer; }
+@media (max-width: 1080px) { .material-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .contact-enquiry { gap: 32px; } }
+@media (max-width: 700px) {
+  .cinema-copy { width: calc(100% - 48px); padding: 65px 0 80px; }
+  .cinema-copy h1 { font-size: clamp(36px, 9.2vw, 64px); }
+  .cinema-hero { min-height: 590px; }
+  .cinema-copy > p { max-width: 100%; font-size: 14px; }
+  .material-cards, .contact-enquiry { grid-template-columns: 1fr; }
+  .material-cards { gap: 0; }
+  .material-hero h1, .materials-page .page-hero h1 { font-size: 44px; }
+  .contact-enquiry { gap: 20px; }
+  .material-note { padding: 22px; }
+  .home-procurement { padding: 50px 0; }
+  .procurement-actions .button { min-height: 48px; }
+}
+@media (max-width: 380px) { .inquiry-form-block .buyer-fields { grid-template-columns: 1fr; } }

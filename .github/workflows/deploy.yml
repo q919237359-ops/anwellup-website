@@ -18,6 +18,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
+      NEXT_PUBLIC_GA4_ID: ${{ vars.NEXT_PUBLIC_GA4_ID }}
+      NEXT_PUBLIC_CLARITY_ID: ${{ vars.NEXT_PUBLIC_CLARITY_ID }}
+      NEXT_PUBLIC_ANALYTICS_MODE: ${{ vars.NEXT_PUBLIC_ANALYTICS_MODE || 'ga4' }}
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
@@ -35,12 +42,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate types and enquiry handling
+        run: |
+          pnpm check
+          pnpm test:inquiry
+
       - name: Build production site
-        env:
-          NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
-          NEXT_PUBLIC_GA4_ID: ${{ vars.NEXT_PUBLIC_GA4_ID }}
-          NEXT_PUBLIC_CLARITY_ID: ${{ vars.NEXT_PUBLIC_CLARITY_ID }}
         run: pnpm build
+
+      - name: Validate exported site before publishing
+        run: pnpm test:release --production
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6

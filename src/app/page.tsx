@@ -5,10 +5,11 @@ import { catalogCategories } from "../catalog";
 import { OpenInquiryButton } from "../components/InquiryProvider";
 import { ScrollMotion } from "../components/ScrollMotion";
 import { buyingGuides } from "../guides";
+import { materialPages } from "../materials";
 
 export const metadata: Metadata = {
   title: { absolute: "Wholesale Food Packaging Supplier | ANWELLUP" },
-  description: "Explore ANWELLUP cups, takeaway containers, tableware, foil, cutlery, carry bags and gloves for wholesale and custom sourcing projects.",
+  description: "Source wholesale food packaging: bagasse containers, paper cups and kraft boxes, aluminium trays and more. Compare models and request a packaging quote.",
   alternates: { canonical: "/" },
 };
 
@@ -26,11 +27,12 @@ export default function HomePage() {
       <div className="cinema-shade" />
       <div className="cinema-copy">
         <span className="eyebrow">ANWELLUP food packaging</span>
-        <h1 id="home-title"><span className="title-mask"><span>Made to move.</span></span><span className="title-mask"><span>Made for food.</span></span></h1>
-        <p>Packaging for foodservice, takeaway and retail.</p>
-        <a className="editorial-link" href="#material-story">Explore materials <span><ArrowRight size={19}/></span></a>
+        <h1 id="home-title"><span className="title-mask"><span>Wholesale</span></span><span className="title-mask"><span>food packaging.</span></span></h1>
+        <p>Bagasse, paper and aluminium formats for takeaway, foodservice and distribution. Compare sizes, discuss samples and request a quote for your market.</p>
+        <div className="procurement-actions"><Link className="button button-dark" href="/contact/#send-enquiry">Request a quote <ArrowUpRight size={18}/></Link><Link className="button button-outline" href="/products/">Browse products <ArrowRight size={18}/></Link></div>
       </div>
     </section>
+    <section className="home-procurement" aria-labelledby="home-procurement-title"><header><span className="eyebrow">Start with the pack you need</span><h2 id="home-procurement-title">Find your material.<br/>Build your shortlist.</h2><p>Comparing alternatives to plastic? Review the complete pack, including coatings and lids, for the destination and intended use.</p></header><div className="material-cards">{materialPages.map(material => <article key={material.slug}><h3><Link href={`/materials/${material.slug}/`}>{material.name}</Link></h3><p>{material.description}</p><Link className="editorial-link" href={`/materials/${material.slug}/`}>Compare formats →</Link></article>)}</div><Link className="procurement-reference" href="/guides/single-use-plastic-packaging-alternatives/">Plastic restrictions: what to check before you source →</Link></section>
     <section className="texture-story" id="material-story" aria-labelledby="texture-title">
       <img className="texture-photo" src="/assets/generated/cinematic/fiber-macro-regenerative.webp" alt="Close-up of the texture and formed edge of a fibre tray" width={1672} height={941} loading="lazy" />
       <div className="texture-shade" />

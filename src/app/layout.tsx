@@ -6,6 +6,7 @@ import "./globals.css";
 import "./editorial.css";
 import "./plan-a.css";
 import "./motion.css";
+import "./procurement.css";
 import { SiteChrome } from "../components/SiteChrome";
 import { TrafficAnalytics } from "../components/TrafficAnalytics";
 import { JsonLd } from "../components/JsonLd";

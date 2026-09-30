@@ -8,6 +8,7 @@ import { JsonLd } from "../../../components/JsonLd";
 import { categorySeoContent } from "../../../lib/seo-content";
 import { GENERAL_WHATSAPP_URL } from "../../../lib/contact";
 import { OpenInquiryButton } from "../../../components/InquiryProvider";
+import { MaterialLinks } from "../../../components/MaterialLinks";
 
 export function generateStaticParams() { return catalogCategories.map((category) => ({ category: category.slug })); }
 
@@ -106,6 +107,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <div className="category-hero-copy"><h1>{category.label.replaceAll(" + ", " & ")}</h1><p>{category.description}</p><div className="material-line"><span>Materials</span><p>{materials.join(", ")}</p></div><a className="editorial-link" href="#family-title">Explore formats <span><ArrowRight size={19}/></span></a></div>
       <figure className={category.id === "bags" ? "category-hero-image category-source-master" : "category-hero-image"}><div className="category-image-stage"><img src={heroImage.src} alt={heroImage.alt} width={heroImage.width} height={heroImage.height} fetchPriority="high"/></div><figcaption>{heroImage.caption}</figcaption></figure>
     </header>
+    <MaterialLinks category={category.id} />
+    <div className="guide-quick-action"><Link href="/contact/#send-enquiry">Have a quantity and destination? Request a packaging quote →</Link></div>
     <CategoryFamilyBrowser category={category} families={families} />
     <section className="category-sourcing-guide" aria-labelledby="sourcing-title">
       <header className="category-sourcing-intro">

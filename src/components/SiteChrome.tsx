@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, EnvelopeSimple, List, WhatsappLogo, X } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, List, WhatsappLogo, X } from "@phosphor-icons/react";
 import { InquiryProvider, useInquiry } from "./InquiryProvider";
-import { CONTACT_EMAIL, emailInquiryUrl, GENERAL_EMAIL_URL, GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY, whatsappInquiryUrl } from "../lib/contact";
+import { CONTACT_EMAIL, GENERAL_EMAIL_URL, GENERAL_WHATSAPP_URL, WHATSAPP_DISPLAY } from "../lib/contact";
+import { InquiryForm } from "./InquiryForm";
 
 const navigation = [
   ["Range", "/products/"],
+  ["Materials", "/materials/"],
   ["Customization", "/capabilities/"],
   ["Manufacturing", "/manufacturing/"],
   ["Quality", "/quality-compliance/"],
@@ -66,12 +68,9 @@ function Header() {
 }
 
 function InquiryDrawer() {
-  const { items, isOpen, closeInquiry, removeItem, clearItems } = useInquiry();
+  const { items, isOpen, closeInquiry, removeItem, clearItems, submission } = useInquiry();
+  const locked = submission.status === "sending" || submission.status === "accepted";
   const panelRef = useRef<HTMLDivElement>(null);
-  const [company, setCompany] = useState("");
-  const [market, setMarket] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [notes, setNotes] = useState("");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -94,7 +93,7 @@ function InquiryDrawer() {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") { event.preventDefault(); closeInquiry(); }
       if (event.key === "Tab" && panelRef.current) {
-        const controls = Array.from(panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input, textarea, [tabindex="0"]'));
+        const controls = Array.from(panelRef.current.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), input:not(:disabled):not([tabindex="-1"]), textarea:not(:disabled), iframe, summary, [tabindex="0"]')).filter(element => element.getClientRects().length > 0);
         const first = controls[0], last = controls[controls.length - 1];
         if (event.shiftKey && (document.activeElement === first || document.activeElement === panelRef.current)) { event.preventDefault(); last?.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
@@ -103,15 +102,6 @@ function InquiryDrawer() {
     window.addEventListener("keydown", closeOnEscape);
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [closeInquiry, isOpen]);
-
-  const message = useMemo(() => {
-    const lines = [items.length ? "Hello ANWELLUP, I would like to review the following range:" : "Hello ANWELLUP, I would like to discuss a packaging project:", ""];
-    items.forEach((item) => {
-      lines.push(`- ${item.sku} | ${item.name}${item.variant ? ` | ${item.variant}` : ""}`);
-    });
-    lines.push("", `Company: ${company || "To be provided"}`, `Destination market: ${market || "To be provided"}`, `Estimated quantity: ${quantity || "To be provided"}`, `Notes: ${notes || "None"}`, "", "Please confirm the applicable specification, documentation, MOQ, price and lead time in writing.");
-    return lines.join("\n");
-  }, [items, company, market, quantity, notes]);
 
   if (!isOpen) return null;
 
@@ -127,22 +117,11 @@ function InquiryDrawer() {
           <p>Tell us what you need, or add products from the collection.</p><Link href="/products/" onClick={closeInquiry}>View the collection <ArrowRight size={17} /></Link>
         </div> : <>
           <ol className="inquiry-list" aria-live="polite">
-            {items.map((item) => <li key={item.sku}><div><span>{item.category}</span><strong>{item.name}</strong><small>{item.sku}{item.variant ? ` · ${item.variant}` : ""}</small></div><button type="button" onClick={() => removeItem(item.sku)} aria-label={`Remove ${item.name}`}><X size={18} /></button></li>)}
+            {items.map((item) => <li key={item.sku}><div><span>{item.category}</span><strong>{item.name}</strong><small>{item.sku}{item.variant ? ` · ${item.variant}` : ""}</small></div><button type="button" disabled={locked} onClick={() => removeItem(item.sku)} aria-label={`Remove ${item.name}`}><X size={18} /></button></li>)}
           </ol>
-          <button className="clear-list" type="button" onClick={clearItems}>Clear selection</button>
+          <button className="clear-list" type="button" disabled={locked} onClick={clearItems}>Clear selection</button>
         </>}
-          <div className="buyer-fields">
-            <label><span>Company</span><input value={company} onChange={(event) => setCompany(event.target.value)} placeholder="Company name" /></label>
-            <label><span>Destination market</span><input value={market} onChange={(event) => setMarket(event.target.value)} placeholder="Country or region" /></label>
-            <label><span>Estimated quantity</span><input value={quantity} onChange={(event) => setQuantity(event.target.value)} placeholder="Per order or annual" /></label>
-            <label><span>Notes</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Use, timing, artwork or packing context" rows={3} /></label>
-          </div>
-          <p className="drawer-disclaimer">Submitting an enquiry does not confirm specifications, availability, claims or commercial terms.</p>
-          <div className="inquiry-channel-actions">
-            <a className="whatsapp-button" href={whatsappInquiryUrl(message)} target="_blank" rel="noopener noreferrer" data-analytics-event="whatsapp_click" data-analytics-location="rfq_drawer"><WhatsappLogo size={21} weight="fill" /> Continue in WhatsApp <ArrowRight size={18} /></a>
-            <a className="email-button" href={emailInquiryUrl(message)} data-analytics-event="email_click" data-analytics-location="rfq_drawer"><EnvelopeSimple size={21} /> Continue by email <ArrowRight size={18} /></a>
-          </div>
-          <p className="drawer-email-note">Email opens your mail app with the RFQ addressed to {CONTACT_EMAIL}. Send it there to complete the enquiry.</p>
+          <InquiryForm location="rfq_drawer" />
       </div>
     </aside>
   </div>;
