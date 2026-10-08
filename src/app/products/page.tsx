@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { catalogCategories, productFamilies } from "../../catalog";
 import { CatalogExplorer } from "../../components/CatalogExplorer";
 import { JsonLd } from "../../components/JsonLd";
@@ -39,6 +40,7 @@ export default function ProductsPage() {
     }} />
     <header className="page-hero page-hero-catalog"><h1>Wholesale food packaging.</h1><p>Compare cups, containers, tableware, foil, cutlery, bags and gloves. Search by material and size, such as “bagasse 9 x 6” or “paper cup 12 oz”, or use an AW model reference.</p><a className="editorial-link" href="#catalog-results-title">Find a product →</a></header>
     <MaterialLinks />
+    <p className="guide-quick-action">Buying for distribution? <Link href="/distributors/">Compare the focused foil, baking paper and container range →</Link></p>
     <CatalogExplorer categories={catalogCategories} families={productFamilies} />
   </main>;
 }

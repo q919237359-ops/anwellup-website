@@ -86,10 +86,10 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
           "@type": "Product",
           "@id": `${pageUrl}#model-${variant.sku}`,
           url: `${pageUrl}#model-${variant.sku}`,
-          name: `${family.name} — ${variant.label}`,
+          name: `${variant.name ?? family.name} — ${variant.label}`,
           sku: variant.sku,
           size: variant.label,
-          material: family.materials,
+          ...(variant.material ? { material: variant.material } : {}),
           image: `https://anwellup.com${family.image}`,
           brand: { "@type": "Brand", name: "ANWELLUP" },
           isVariantOf: { "@id": `${pageUrl}#product-group` },
@@ -119,9 +119,16 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
     </header>
     <MaterialLinks category={category.id} />
 
-    <section className="specification-section" aria-labelledby="spec-title"><header className="specification-heading"><h2 id="spec-title">Models & specifications</h2><p>Compare available references, then add the models you need. Final specifications are confirmed in writing.</p></header>
+    <section className="specification-section" aria-labelledby="spec-title"><header className="specification-heading"><h2 id="spec-title">Models & specifications</h2><p>Listed specifications are catalogue references. Confirm the trade size or name against measured dimensions, measurement points, capacity definition where applicable and agreed tolerances in writing.{family.id === "boxes-hinged-containers" && " Treat bagasse labels such as 9 × 9 and 8 × 8 as trade-size references; confirm the actual millimetre dimensions instead of converting the label."}</p></header>
 
-      <div className="spec-table-wrap" tabIndex={0} role="region" aria-label="Model specifications, scroll horizontally if needed"><table className={`spec-table ${columns.length < 3 ? "spec-table-short" : ""}`}><caption className="sr-only">{family.name} ANWELLUP SKUs and enquiry actions</caption><thead><tr><th scope="col">AW SKU</th><th scope="col">Format / size</th>{columns.map(column => <th scope="col" key={column.field}>{column.label}</th>)}<th scope="col"><span className="sr-only">RFQ action</span></th></tr></thead><tbody>{family.variants.map((variant) => <tr key={variant.sku} id={`model-${variant.sku}`} tabIndex={-1}><th scope="row"><code>{variant.sku}</code></th><td>{variant.label}</td>{columns.map(column => <td key={column.field}>{variant[column.field] || "On request"}</td>)}<td><AddToInquiryButton compact item={{ sku: variant.sku, name: family.name, variant: variant.label, category: category.label }}/></td></tr>)}</tbody></table></div>
+      <div className="spec-table-wrap" tabIndex={0} role="region" aria-label="Model specifications, scroll horizontally if needed"><table className={`spec-table ${columns.length < 3 ? "spec-table-short" : ""}`}><caption className="sr-only">{family.name} ANWELLUP SKUs and enquiry actions</caption><thead><tr><th scope="col">AW SKU</th><th scope="col">Product / format / size</th>{columns.map(column => <th scope="col" key={column.field}>{column.label}</th>)}<th scope="col"><span className="sr-only">RFQ action</span></th></tr></thead><tbody>{family.variants.map((variant) => <tr key={variant.sku} id={`model-${variant.sku}`} tabIndex={-1}><th scope="row"><code>{variant.sku}</code></th><td>{variant.name && <>{variant.name}<br/></>}{variant.label}</td>{columns.map(column => <td key={column.field}>{variant[column.field] || "On request"}</td>)}<td><AddToInquiryButton compact item={{ sku: variant.sku, name: variant.name ?? family.name, variant: variant.label, category: category.label }}/></td></tr>)}</tbody></table></div>
+      <div className="specification-checks" aria-labelledby="order-check-title">
+        <h3 id="order-check-title">Confirm before ordering</h3>
+        <details><summary>Exact model, material and matched components</summary><p>Confirm the AW SKU, material and any paired lid, closure or accessory references. Agree component fit and whether the quotation covers separate parts or complete sets.</p></details>
+        <details><summary>Inner packs, cases and shipment data</summary><p>Request pieces per inner pack, inner packs per case, final carton dimensions and gross weight for each model. Record any separate packing for lids or accessories.</p></details>
+        <details><summary>MOQ, quantity unit and current timing</summary><p>Request the current MOQ and price basis by model, stating pieces, packs, cases or sets. Confirm sample timing, the production approval trigger and shipment-ready timing in the written quotation.</p></details>
+        <details><summary>Documents for the model, destination and use</summary><p>Request records tied to the exact model or material, destination and intended use. Review their scope, issuer, test basis and validity before relying on a suitability or compliance claim.</p></details>
+      </div>
     </section>
 
     {procurement && <>

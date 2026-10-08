@@ -2,3 +2,7 @@ allowBuilds:
   esbuild: true
 onlyBuiltDependencies:
   - esbuild
+# The optional Babel peer tree otherwise retains a vulnerable lockfile copy.
+# This patched release remains within its upstream ^4.24.0 requirement.
+overrides:
+  browserslist: 4.29.3

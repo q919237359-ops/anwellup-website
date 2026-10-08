@@ -10,6 +10,7 @@ const aliases: Record<string, string> = {
 
 export function searchTokens(value: string) {
   return value.normalize("NFKC").toLowerCase()
+    .replace(/\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b/g, number => number.replaceAll(",", ""))
     .replace(/\btake\s+(?:out|away)\b/g, "takeaway")
     .replace(/\bsugar\s+cane\b/g, "bagasse")
     .replace(/(\d)\s*[x×*]\s*(?=\d)/g, "$1 x ")
@@ -21,12 +22,19 @@ export function searchTokens(value: string) {
 
 const skuNeedle = (query: string) => /^aw[-\s][a-z0-9\s-]+$/i.test(query.trim()) ? query.trim().toLowerCase().replace(/[\s-]+/g, "-") : null;
 
-function familyText(family: ProductFamily) {
-  return [family.name, family.sku, ...family.materials, ...family.applications].join(" ");
+function familyText(family: ProductFamily, material = "") {
+  return [family.name, family.sku, material, ...family.applications].join(" ");
+}
+
+function capacities(words: string[]) {
+  return words.flatMap((word, index) => /^\d+(?:\.\d+)?$/.test(word) && /^(ml|oz)$/.test(words[index + 1] ?? "")
+    ? [`${Number(word)} ${words[index + 1]}`] : []);
 }
 
 function matchesTokens(text: string, needles: string[]) {
   const words = searchTokens(text);
+  const availableCapacities = capacities(words);
+  if (!capacities(needles).every(capacity => availableCapacities.includes(capacity))) return false;
   return needles.every(needle => {
     const index = words.findIndex(word => word === needle || (!/\d/.test(needle) && needle.length >= 3 && word.startsWith(needle)));
     if (index < 0) return false;
@@ -35,16 +43,40 @@ function matchesTokens(text: string, needles: string[]) {
   });
 }
 
-export function matchingVariants(variants: ProductVariant[], query: string, family?: ProductFamily) {
+function matchesFamily(family: ProductFamily, needles: string[], material = "all") {
+  // A range can contain several materials, but one query must not combine them.
+  const materials = material === "all" ? ["", ...family.materials] : [material];
+  return materials.some(value => matchesTokens(familyText(family, value), needles));
+}
+
+function matchesMaterial(variant: ProductVariant, material: string, family?: ProductFamily) {
+  if (material === "all") return true;
+  if (variant.material) return variant.material === material;
+  return family?.materials.length === 1 && family.materials[0] === material;
+}
+
+export function matchingVariants(variants: ProductVariant[], query: string, family?: ProductFamily, material = "all") {
   const needles = searchTokens(query);
   if (!needles.length) return [];
   const sku = skuNeedle(query);
-  if (sku) return variants.filter(item => item.sku.toLowerCase() === sku);
+  if (sku) return variants.filter(item => item.sku.toLowerCase() === sku && matchesMaterial(item, material, family));
   // Do not claim that every size matched a query which only identified a family.
   if (family && matchesTokens(familyText(family), needles)) return [];
-  return variants.filter(item => matchesTokens([
-    family ? familyText(family) : "", item.sku, item.label, item.dimensions ?? "",
-  ].join(" "), needles));
+  const numericNeedles = needles.filter(needle => /\d/.test(needle));
+  return variants.filter(item => {
+    if (!matchesMaterial(item, material, family)) return false;
+    const fields = [item.name ?? "", item.label, item.dimensions ?? "", item.sku];
+    // Repeating a size in its name and label must not create an extra dimension.
+    if (numericNeedles.length && !fields.some(field => matchesTokens(field, numericNeedles))) return false;
+    const knownMaterial = item.material ?? (family?.materials.length === 1 ? family.materials[0] : "");
+    let context = family ? familyText(family) : "";
+    if (family && knownMaterial) {
+      const rangeMaterials = new Set(family.materials.flatMap(searchTokens));
+      const modelMaterial = new Set(searchTokens(knownMaterial));
+      context = searchTokens(context).filter(word => !rangeMaterials.has(word) || modelMaterial.has(word)).join(" ");
+    }
+    return matchesTokens([context, knownMaterial, ...fields].join(" "), needles);
+  });
 }
 
 export function readCatalogFilters(search: string, categoryIds: readonly string[]) {
@@ -78,8 +110,8 @@ export function filterCatalog(families: ProductFamily[], category: CategoryId | 
     if (category !== "all" && family.category !== category) return false;
     if (material !== "all" && !family.materials.includes(material)) return false;
     if (!query.trim()) return true;
-    if (sku) return family.sku.toLowerCase() === sku || family.variants.some(variant => variant.sku.toLowerCase() === sku);
+    if (sku) return family.sku.toLowerCase() === sku || matchingVariants(family.variants, query, family, material).length > 0;
     if (!needles.length) return false;
-    return matchesTokens(familyText(family), needles) || matchingVariants(family.variants, query, family).length > 0;
+    return matchesFamily(family, needles, material) || matchingVariants(family.variants, query, family, material).length > 0;
   });
 }

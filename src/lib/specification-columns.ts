@@ -1,6 +1,7 @@
 import type { ProductVariant } from "../catalog";
 
 const optionalColumns = [
+  { field: "material", label: "Material" },
   { field: "dimensions", label: "Dimensions" },
   { field: "weight", label: "Weight / gauge" },
   { field: "pack", label: "Pack reference" },

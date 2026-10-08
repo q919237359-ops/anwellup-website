@@ -56,6 +56,7 @@ export default function SolutionsPage() {
       <span className="eyebrow">Sourcing by scenario</span>
       <h1>From operating need<br/>to packaging brief.</h1>
       <p>Focused planning pages for buyers who need to translate a food, service model and rollout into a comparable packaging enquiry.</p>
+      <Link className="editorial-link" href="/distributors/">For distributors & importers <ArrowRight size={18} aria-hidden="true" /></Link>
     </header>
     <section className="guides-directory" aria-labelledby="solution-list-title">
       <header><h2 id="solution-list-title">Sourcing solutions</h2><span>{String(sourcingSolutions.length).padStart(2, "0")} scenarios</span></header>

@@ -29,6 +29,7 @@ function load(relative) {
 }
 
 const { catalogCategories, productFamilies, equipmentFamilies } = load("src/catalog.ts");
+const { products: sourceProducts } = load("src/data.ts");
 const { buyingGuides } = load("src/guides.ts");
 const { sourcingSolutions } = load("src/solutions.ts");
 const { filterCatalog, matchingVariants, materialsForCategory, readCatalogFilters, writeCatalogFilters } = load("src/lib/catalog-search.ts");
@@ -37,6 +38,15 @@ const { getSpecificationColumns } = load("src/lib/specification-columns.ts");
 const { familyProcurementContent } = load("src/lib/family-procurement.ts");
 const { galleryDistance, galleryProgress } = load("src/lib/gallery-motion.ts");
 const { materialPages, materialFamilies, materialModelExamples, familyPath } = load("src/materials.ts");
+const { sourcingPrograms, sourcingReferences } = load("src/sourcing-programs.ts");
+for (const program of sourcingPrograms) {
+  const references = sourcingReferences(program);
+  assert.equal(references.length, program.skus.length, `Sourcing route must resolve every published model: ${program.id}`);
+  const imageMetadata = await sharp(path.join(root, "public", program.image)).metadata();
+  assert.equal(imageMetadata.width, 900, `Sourcing image width: ${program.id}`);
+  assert.equal(imageMetadata.height, 675, `Sourcing image height: ${program.id}`);
+  for (const reference of references) assert.equal(reference.href, `${familyPath(reference.family)}#model-${reference.variant.sku}`, `Sourcing links must target the exact model: ${reference.variant.sku}`);
+}
 const baseline = JSON.stringify(productFamilies);
 assert.equal(catalogCategories.length, 7);
 assert.equal(productFamilies.length, 33);
@@ -90,6 +100,35 @@ assert.equal(matchingVariants(bagasseClamshells.variants, "bagasse", bagasseClam
 const searchFixture = { ...bagasseClamshells, variants: [{ sku: "ONE", label: "12 oz" }, { sku: "TWO", label: "16 oz" }] };
 assert.equal(filterCatalog([searchFixture], "all", "12 oz 16 oz").length, 0, "Never combine sizes from separate models to create a match");
 assert.equal(filterCatalog([searchFixture], "all", "2 oz").length, 0, "Numeric capacity matches must be exact");
+const kraftContainers = productFamilies.find(family => family.id === "boxes-takeaway-containers");
+for (const query of ["500ml", "500 ml", "500 millilitres"]) {
+  assert.deepEqual(matchingVariants(kraftContainers.variants, query, kraftContainers).map(variant => variant.sku), ["AW-PK-500"], `500 ml must not match 1,500 ml: ${query}`);
+}
+const colouredContainers = productFamilies.find(family => family.id === "boxes-premium-color-series");
+for (const query of ["1000 ml", "1,000 ml"]) {
+  assert.deepEqual(matchingVariants(colouredContainers.variants, query, colouredContainers).map(variant => variant.sku), ["AW-AL-G1000S", "AW-AL-G1000R"], `Thousands separators must not hide 1,000 ml models: ${query}`);
+}
+const capacityFixture = { ...kraftContainers, variants: [{ sku: "TEST-500", name: "Food Container", label: "1,500 ml", dimensions: "500 x 200 x 100 mm" }] };
+assert.equal(filterCatalog([capacityFixture], "all", "500 ml").length, 0, "A dimension or SKU number must not become a capacity match");
+const foilFormats = productFamilies.find(family => family.id === "foil-rolls-sheets-paper");
+for (const [query, expectedSku] of [["silicone baking paper", "AW-BP-SHEET"], ["household foil", "AW-AF-H300"], ["catering foil", "AW-AF-C300"]]) {
+  assert.deepEqual(filterCatalog(productFamilies, "all", query), [foilFormats], `Product names must be searchable: ${query}`);
+  assert.deepEqual(matchingVariants(foilFormats.variants, query, foilFormats).map(variant => variant.sku), [expectedSku], `Product names must identify their own model: ${query}`);
+}
+assert.equal(matchingVariants(foilFormats.variants, "paper 300 mm", foilFormats).length, 0, "The paper member of a mixed family must not supply material to an aluminium model");
+const handlingGloves = productFamilies.find(family => family.id === "gloves-handling-gloves");
+assert.deepEqual(matchingVariants(handlingGloves.variants, "vinyl blue", handlingGloves).map(variant => variant.sku), ["AW-GL-VINYL"]);
+assert.equal(filterCatalog(productFamilies, "all", "vinyl pink").length, 0, "Vinyl must not borrow a nitrile model's colour");
+assert.equal(filterCatalog([handlingGloves], "all", "vinyl nitrile").length, 0, "Separate model materials must not be combined into one match");
+assert.equal(filterCatalog([handlingGloves], "all", "pink", "Vinyl").length, 0, "A material filter must constrain the matching model");
+assert.equal(filterCatalog([handlingGloves], "all", "nitrile", "Vinyl").length, 0, "Family-level material searches must respect the selected material");
+assert.equal(filterCatalog([handlingGloves], "all", "AW-GL-NITRILE", "Vinyl").length, 0, "An exact SKU must still respect its own material");
+assert.deepEqual(matchingVariants(handlingGloves.variants, "pink", handlingGloves, "Nitrile").map(variant => variant.sku), ["AW-GL-NITRILE"]);
+for (const product of sourceProducts.filter(product => product.family !== "Paper Cups")) {
+  const variant = productFamilies.flatMap(family => family.variants).find(variant => variant.sku === product.sku);
+  assert.equal(variant?.name, product.name, `${product.sku}: preserve the source product name`);
+  assert.equal(variant?.material, product.material, `${product.sku}: preserve the source model material`);
+}
 assert.equal(WHATSAPP_NUMBER, "8613202830014");
 assert.equal(WHATSAPP_DISPLAY, "+86 132 0283 0014");
 assert.equal(CONTACT_EMAIL, "admin@anwellup.com");
@@ -119,7 +158,7 @@ for (const family of productFamilies) {
     assert(filterCatalog(productFamilies, family.category, variant.sku).includes(family));
     assert(matchingVariants(family.variants, variant.sku).includes(variant));
     assert(filterCatalog(productFamilies, family.category, variant.label).includes(family));
-    for (const field of ["dimensions", "weight", "pack"]) {
+    for (const field of ["material", "dimensions", "weight", "pack"]) {
       if (variant[field]?.trim()) assert(columns.some(column => column.field === field), `${variant.sku}: missing ${field}`);
     }
     assert(!columns.some(column => column.field === "referenceModel"), `${variant.sku}: supplier reference leaked into public columns`);
@@ -131,6 +170,10 @@ assert(filterCatalog(productFamilies, "cups", "", "PP").every(family => family.c
 assert(productFamilies.every(family => family.variants.every(variant => !("referenceModel" in variant))), "Public catalogue must not contain supplier references");
 assert.deepEqual(getSpecificationColumns([{ sku: "TEST", label: "Test" }]), []);
 assert.equal(JSON.stringify(productFamilies), baseline, "Search and column selection must not mutate records");
+if (process.argv.includes("--catalog-only")) {
+  console.log(JSON.stringify({ status: "passed", scope: "catalogue search, source model data and specification columns", families: productFamilies.length, variantsChecked }, null, 2));
+  process.exit(0);
+}
 assert.equal(galleryDistance(4200, 1440, 80), 2840, "Gallery distance excludes its visible content width");
 assert.equal(galleryDistance(1000, 1440, 80), 0, "Short galleries must not travel backwards");
 assert.equal(galleryProgress(-50, 1000), 0);
@@ -222,6 +265,15 @@ assert(home.includes("anwellup-logo-primary-orange-transparent.webp"));
 assert(home.includes("carry-shopping-bags-sage-composite-v2.webp"));
 assert(home.includes("Wholesale Food Packaging Supplier | ANWELLUP"), "Homepage must expose the search-led title");
 assert(home.includes('href="/guides/"'), "Homepage must link to the buying-guide hub");
+const distributorPage = readPage("distributors");
+assert(home.includes('id="priority-range"'), "Focused starting range must be reachable from the hero");
+assert(distributorPage.includes('"@type":"CollectionPage"') && distributorPage.includes('"@type":"FAQPage"'), "Distributor entry must describe its collection and visible questions");
+assert(distributorPage.includes('href="/contact/#send-enquiry"'), "Distributor buyers must have a direct enquiry route");
+for (const program of sourcingPrograms) for (const reference of sourcingReferences(program)) {
+  for (const html of [home, distributorPage]) assert(html.includes(`href="${reference.href}"`), `Buyer route must expose the exact sourcing reference: ${reference.variant.sku}`);
+}
+const sitemap = fs.readFileSync(path.join(out, "sitemap.xml"), "utf8");
+assert(sitemap.includes("https://anwellup.com/distributors/"), "Distributor entry must be discoverable in the sitemap");
 assert(readPage("about").includes('"@type":"AboutPage"'), "About page must expose AboutPage structured data");
 assert(readPage("about").includes("Content method"), "About page must explain the content method");
 const manufacturingPage = readPage("manufacturing");
@@ -406,9 +458,18 @@ assert(analyticsSource.includes('"cbm_calculation"'), "Successful CBM calculatio
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);
+  const productGroup = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .flatMap(match => JSON.parse(match[1])).find(item => item["@type"] === "ProductGroup");
+  assert(productGroup, `Missing product-group structured data: ${family.id}`);
+  if (family.variants.some(variant => variant.material)) assert(html.includes('<th scope="col">Material</th>'), `Known model materials must be visible in the specification table: ${family.id}`);
   for (const variant of family.variants) {
     assert(html.includes(variant.sku), `Missing exported model: ${variant.sku}`);
     assert(html.includes(`id="model-${variant.sku}"`), `Missing model anchor: ${variant.sku}`);
+    const structuredModel = productGroup.hasVariant.find(item => item.sku === variant.sku);
+    assert(structuredModel, `Missing structured model: ${variant.sku}`);
+    assert.equal(structuredModel.material, variant.material, `Do not assign other models' materials to ${variant.sku}`);
+    if (!variant.material) assert(!Object.hasOwn(structuredModel, "material"), `Unconfirmed model material must be omitted: ${variant.sku}`);
+    if (variant.name) assert.equal(structuredModel.name, `${variant.name} — ${variant.label}`, `Structured model name must preserve the source identity: ${variant.sku}`);
   }
 }
 

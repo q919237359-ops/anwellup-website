@@ -154,7 +154,7 @@ h1, h2 { letter-spacing: -.025em; }
 .catalog-filter-stack { min-width: 0; display: grid; gap: 7px; }
 .material-filter { min-width: 0; display: flex; align-items: center; gap: 14px; }
 .material-filter > span { flex: 0 0 auto; color: var(--ink-soft); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
-.material-filter > div { min-width: 0; display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+.material-filter > div { min-width: 0; max-width: 100%; display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
 .material-filter button { flex: 0 0 auto; min-height: 34px; padding: 5px 10px; border: 1px solid transparent; background: transparent; color: var(--ink-soft); font-size: 11px; }
 .material-filter button:hover { color: var(--ink); border-color: var(--line); }
 .material-filter button.active { color: #fff; background: var(--sage-dark); border-color: var(--sage-dark); }

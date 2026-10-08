@@ -10,15 +10,15 @@ import { InquiryForm } from "./InquiryForm";
 
 const navigation = [
   ["Range", "/products/"],
+  ["For distributors", "/distributors/"],
   ["Materials", "/materials/"],
   ["Customization", "/capabilities/"],
-  ["Manufacturing", "/manufacturing/"],
   ["Quality", "/quality-compliance/"],
   ["Guides", "/guides/"],
   ["Contact", "/contact/"],
 ] as const;
 
-const footerNavigation = [navigation[0], ["Solutions", "/solutions/"] as const, ...navigation.slice(1, -1), ["RFQ Template", "/resources/food-packaging-rfq-template/"] as const, ["CBM Calculator", "/resources/carton-cbm-calculator/"] as const, ["Buyer FAQ", "/buyer-faq/"] as const, navigation[navigation.length - 1]];
+const footerNavigation = [...navigation.slice(0, -1), ["Solutions", "/solutions/"] as const, ["Manufacturing", "/manufacturing/"] as const, ["RFQ Template", "/resources/food-packaging-rfq-template/"] as const, ["CBM Calculator", "/resources/carton-cbm-calculator/"] as const, ["Buyer FAQ", "/buyer-faq/"] as const, navigation[navigation.length - 1]];
 
 function Wordmark() {
   return <span className="brand-wordmark" aria-hidden="true"><img src="/assets/brand/anwellup-logo-primary-orange-transparent.webp" alt="" /></span>;

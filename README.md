@@ -8,6 +8,8 @@ ANWELLUP's English multi-material food-packaging website for distributors, foods
 - Seven category entry pages and model-level product-family routes
 - Unified public `AW-*` SKUs; supplier references are excluded from the public repository and export
 - Category-aware material filters plus family, size and `AW-*` SKU search
+- Focused foil-roll, baking-paper and aluminium-container routes on the homepage and `/distributors/`, using published model records
+- Model-specific material/name display, exact capacity search and order-confirmation checklists
 - Persistent browser-local RFQ list with a structured WhatsApp handoff
 - Customization page and equipment enquiries without factory-ownership claims
 - Dedicated `/manufacturing/` page with attributed source-catalogue factory and equipment images
@@ -71,6 +73,9 @@ For a self-contained release check after building, run `pnpm test:release`. It s
 - `pnpm audit:live` performs a read-only sitemap/metadata crawl and saves `.private/live-seo-audit.json`. It does not inspect Search Console indexing or send enquiries.
 - Material landing pages use `src/materials.ts` and real catalogue records. Regulatory-source content is in `src/plastic-alternatives-guide.ts`; check its references before updating market claims.
 - Catalogue search accepts material/size combinations, spelling variants and normalized units, but preserves exact AW model identifiers and numeric sizes. Add regression cases in `scripts/check-site.mjs` when expanding supported terms; do not turn unverified environmental claims into product aliases.
+- `src/sourcing-programs.ts` selects existing AW models for the homepage and distributor entry. Keep those routes tied to catalogue records; a displayed buying route is not a stock, paired-lid or destination-approval claim.
+- Model-level `name` and `material` preserve available source data. Product JSON-LD omits unknown model materials rather than copying every material from a mixed family.
+- `pnpm test:inquiry` covers early GA4 initialization, malformed JSON rejection and verification script failure/retry using mocked providers. The verification loader is shared by the contact and drawer forms and removes failed scripts before retrying.
 - Material model examples are selected directly from catalogue records and link to existing model anchors. Do not replace missing specifications with inferred values.
 - Root Twitter metadata deliberately sets only the card type so each route inherits its own Open Graph preview. `pageMetadata` supplies static page defaults; release and live audits check titles, sharing URLs and images for stale homepage inheritance.
 

@@ -4,6 +4,8 @@ export type CategoryId = "cups" | "boxes" | "tableware" | "foil" | "cutlery" | "
 
 export type ProductVariant = {
   sku: string;
+  name?: string;
+  material?: string;
   label: string;
   dimensions?: string;
   weight?: string;
@@ -78,7 +80,7 @@ const legacyFamilies = Object.values(
   legacyProducts.reduce<Record<string, ProductFamily>>((groups, item) => {
     const category = legacyCategory(item.category, item.family);
     const key = `${category}:${item.family}`;
-    const variant = { sku: item.sku, label: item.size, dimensions: item.dimensions, pack: item.casePack };
+    const variant = { sku: item.sku, name: item.name, material: item.material, label: item.size, dimensions: item.dimensions, pack: item.casePack };
     if (!groups[key]) {
       groups[key] = {
         id: key.toLowerCase().replace(/[^a-z0-9]+/g, "-"),

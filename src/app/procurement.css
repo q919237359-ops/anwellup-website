@@ -3,6 +3,46 @@
 .cinema-copy { width: min(1000px, 85%); }
 .cinema-copy h1 { font-size: clamp(48px, 6.3vw, 104px); }
 .cinema-copy > p { max-width: 470px; }
+.cinema-buyer-link { display: inline-flex; margin-top: 23px; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
+.sourcing-section { width: var(--container); margin: 0 auto; padding: 70px 0; scroll-margin-top: 100px; }
+.sourcing-section > header { max-width: 760px; margin-bottom: 32px; }
+.sourcing-section h2 { margin: 17px 0 20px; font-family: var(--serif); font-size: clamp(36px, 4.5vw, 66px); font-weight: 450; line-height: 1.07; }
+.sourcing-section > header p { max-width: 690px; color: var(--ink-soft); line-height: 1.8; }
+.sourcing-collections { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.sourcing-card { min-width: 0; border: 1px solid var(--line-strong); }
+.sourcing-card-image { display: block; overflow: hidden; background: var(--paper-deep); }
+.sourcing-card-image img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; }
+.sourcing-card-copy { padding: 26px; }
+.sourcing-card .eyebrow { font-size: 10px; line-height: 1.6; }
+.sourcing-card h3 { font-family: var(--serif); font-size: clamp(27px, 2.7vw, 38px); font-weight: 450; line-height: 1.1; margin: 15px 0; }
+.sourcing-card p { font-size: 13px; color: var(--ink-soft); line-height: 1.8; }
+.sourcing-card dl { margin: 23px 0; font-size: 12px; }
+.sourcing-card dl > div { padding: 12px 0; border-top: 1px solid var(--line); }
+.sourcing-card dt { font-family: var(--mono); font-weight: 600; }
+.sourcing-card dt a { text-decoration: underline; text-underline-offset: 4px; }
+.sourcing-card dd { margin: 5px 0 0; color: var(--ink-soft); }
+.sourcing-card .sourcing-card-check { padding-top: 15px; border-top: 1px solid var(--line); }
+.sourcing-resource-links { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 28px; }
+.sourcing-resource-links a, .sourcing-channels a, .market-version-note a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 5px; }
+.home-sourcing { padding-bottom: 30px; }
+.distributor-hero h1 { font-size: clamp(48px, 6.8vw, 100px); }
+.distributor-hero > p { max-width: 710px; }
+.sourcing-channels { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; }
+.sourcing-channels article { min-width: 0; padding-top: 25px; border-top: 1px solid var(--line-strong); }
+.sourcing-channels article > span, .sourcing-checks article > span { font-size: 11px; color: var(--ink-soft); }
+.sourcing-channels h3, .sourcing-checks h3 { font-family: var(--serif); font-size: 29px; font-weight: 450; line-height: 1.15; margin: 20px 0 15px; }
+.sourcing-channels p, .sourcing-checks p, .market-version-note p { font-size: 14px; line-height: 1.8; color: var(--ink-soft); }
+.sourcing-checks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 25px; }
+.sourcing-checks article { min-width: 0; border-top: 1px solid var(--line-strong); padding-top: 22px; }
+.sourcing-checks h3 { font-size: 27px; }
+.market-version-note { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 40px; margin: 20px auto 70px; background: var(--paper-deep); }
+.market-version-note h2 { max-width: 10ch; }
+.distributor-page .contact-questions > h2 { margin-top: 0; font-size: clamp(34px, 4.5vw, 58px); font-weight: 450; line-height: 1.08; }
+.specification-checks { margin-top: 30px; max-width: 900px; }
+.specification-checks h3 { font-family: var(--serif); font-size: 29px; font-weight: 450; }
+.specification-checks details { border-bottom: 1px solid var(--line-strong); }
+.specification-checks summary { padding: 17px 0; cursor: pointer; font-size: 14px; font-weight: 600; }
+.specification-checks details p { margin: 0 0 22px; color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
 .home-procurement { width: var(--container); margin: auto; padding: 80px 0; }
 .home-procurement header { max-width: 720px; margin-bottom: 32px; }
 .home-procurement h2 { margin: 16px 0; font-size: clamp(38px, 4.8vw, 68px); }
@@ -75,6 +115,7 @@
 .guide-jump-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--sage-dark); text-decoration: underline; text-underline-offset: 4px; }
 #guide-contents, #related-title, #catalog-results-title { scroll-margin-top: 110px; }
 @media (max-width: 1080px) { .material-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .contact-enquiry { gap: 32px; } }
+@media (max-width: 1080px) { .sourcing-collections { gap: 16px; } .sourcing-card-copy { padding: 20px; } .sourcing-checks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 700px) {
   .cinema-copy { width: calc(100% - 48px); padding: 65px 0 80px; }
   .cinema-copy h1 { font-size: clamp(36px, 9.2vw, 64px); }
@@ -87,5 +128,12 @@
   .material-note { padding: 22px; }
   .home-procurement { padding: 50px 0; }
   .procurement-actions .button { min-height: 48px; }
+  .sourcing-section { padding-top: 48px; padding-bottom: 48px; }
+  .sourcing-collections, .sourcing-channels, .sourcing-checks, .market-version-note { grid-template-columns: 1fr; }
+  .sourcing-card h3 { font-size: 34px; }
+  .sourcing-card-copy { padding: 25px; }
+  .sourcing-channels, .sourcing-checks { gap: 22px; }
+  .market-version-note { gap: 12px; padding: 25px; margin-bottom: 45px; }
+  .market-version-note h2 { max-width: 100%; }
 }
 @media (max-width: 380px) { .inquiry-form-block .buyer-fields { grid-template-columns: 1fr; } }

@@ -7,7 +7,7 @@ import worker from "../workers/inquiry-api/worker.js";
 function load(file, extra = {}) {
   const module = { exports: {} };
   const context = vm.createContext({ module, exports: module.exports, process: { env: {} }, fetch: (...args) => globalThis.fetch(...args), AbortSignal, Error, ...extra });
-  vm.runInContext(ts.transpileModule(fs.readFileSync(file, "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, context);
+  vm.runInContext(ts.transpileModule(fs.readFileSync(file, "utf8"), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText, context);
   return module.exports;
 }
 const { emptyInquiry, inquiryValidation, inquiryMessage, submitInquiry } = load("src/lib/inquiry.ts");
@@ -33,6 +33,13 @@ const request = (changes = {}) => new Request("https://anwellup-inquiry-api.q919
 try {
   // All requests in this test use fake providers. No email or analytics is sent.
   globalThis.fetch = async (url, init) => { calls.push({ url, init }); throw new Error("Unexpected provider call"); };
+  for (const body of [null, [], ["product"], "text", 1, true, false]) {
+    const invalid = new Request(request(), { body: JSON.stringify(body) });
+    const response = await worker.fetch(invalid, {});
+    assert.equal(response.status, 400, "Only a top-level JSON object is an enquiry");
+    assert.deepEqual(await response.json(), { ok: false, error: "Invalid enquiry data." });
+  }
+  assert.equal(calls.length, 0, "Invalid JSON shapes must not call security or email providers");
   const blocked = await worker.fetch(request({ turnstileToken: "" }), {});
   assert.equal(blocked.status, 400);
   assert.equal(calls.length, 0);
@@ -77,6 +84,17 @@ load("src/lib/analytics.ts", { window: directWindow }).trackEvent("email_click",
 assert.equal(directWindow.dataLayer.length, 1);
 assert.equal(directWindow.dataLayer[0][0], "event");
 assert.equal(directWindow.dataLayer[0][1], "email_click");
+assert.equal(Object.prototype.toString.call(directWindow.dataLayer[0]), "[object Arguments]", "Google's gtag dispatcher does not treat Arrays as commands");
+const earlyBootstrap = directWindow.gtag;
+// The inline loader keeps an early bootstrap, so config and subsequent events
+// must retain the same Arguments command shape as the standard Google snippet.
+vm.runInNewContext(`window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date()); window.gtag('config', 'G-MOCK');`, { window: directWindow });
+load("src/lib/analytics.ts", { window: directWindow }).trackEvent("generate_lead", { method: "website_form" });
+assert.equal(directWindow.gtag, earlyBootstrap);
+assert(directWindow.dataLayer.every(command => Object.prototype.toString.call(command) === "[object Arguments]"));
+assert.deepEqual(Array.from(directWindow.dataLayer, command => command[0]), ["event", "js", "config", "event"]);
+assert.equal(directWindow.dataLayer.at(-1)[1], "generate_lead");
 const gtmWindow = { location: { hostname: "anwellup.com" } };
 load("src/lib/analytics.ts", { window: gtmWindow, process: { env: { NEXT_PUBLIC_ANALYTICS_MODE: "gtm" } } }).trackEvent("whatsapp_click", { location: "test" });
 assert.equal(gtmWindow.dataLayer.length, 1);
@@ -132,4 +150,118 @@ assert.deepEqual(failures, [[false, "contact_page", 1], [true, "contact_page", 1
 const analyticsFailure = createInquirySubmission(async () => "AW-20260930-ABCDEF12", () => { throw new Error("Analytics unavailable"); });
 await analyticsFailure.submit(payload, "contact_page");
 assert.equal(analyticsFailure.getSnapshot().status, "accepted", "Analytics must not mask acceptance");
-console.log("PASS: validation, product preservation, CORS, verification action/hostname, provider failure/success, reply-to, accepted-reference handling, GA4/GTM single delivery, shared submission lifecycle, duplicate-submit guard, timeout/retry, receipt preservation. All providers mocked; no live email sent.");
+
+// Run the form's real effects and retry handler with controllable hooks/DOM.
+// Script loading and Turnstile remain fake; no browser or provider is contacted.
+function formHarness() {
+  const scripts = [], hooks = [], pendingEffects = [];
+  const browser = {};
+  let cursor = 0, alive = true, lateUpdates = 0;
+  const changed = (previous, next) => !previous || next.some((value, index) => value !== previous[index]);
+  const react = {
+    useId: () => "mock-form",
+    useRef(initial) { const index = cursor++; return hooks[index] ??= { current: initial }; },
+    useState(initial) {
+      const index = cursor++;
+      const state = hooks[index] ??= { value: initial };
+      return [state.value, value => {
+        if (!alive) { lateUpdates++; return; }
+        state.value = typeof value === "function" ? value(state.value) : value;
+      }];
+    },
+    useCallback(callback, dependencies) {
+      const index = cursor++, previous = hooks[index];
+      if (!previous || changed(previous.dependencies, dependencies)) hooks[index] = { callback, dependencies };
+      return hooks[index].callback;
+    },
+    useEffect(effect, dependencies) {
+      const index = cursor++, previous = hooks[index];
+      if (!previous || changed(previous.dependencies, dependencies)) {
+        const hook = hooks[index] = { dependencies, cleanup: previous?.cleanup };
+        pendingEffects.push(() => { hook.cleanup?.(); hook.cleanup = effect(); });
+      }
+    },
+  };
+  const jsx = (type, props) => ({ type, props: props || {} });
+  const imports = {
+    react, "react/jsx-runtime": { jsx, jsxs: jsx }, "next/link": { default: "Link" },
+    "./InquiryProvider": { useInquiry: () => ({ items, draft, updateDraft() {}, submission: { status: "idle", reference: "", error: "" }, sendInquiry() {}, startNewInquiry() {} }) },
+    "../lib/contact": { CONTACT_EMAIL: "admin@example.invalid", emailInquiryUrl: () => "", whatsappInquiryUrl: () => "" },
+    "../lib/inquiry": { inquiryMessage, inquiryValidation, turnstileSiteKey: "mock-site-key" },
+    "../lib/analytics": { trackEvent() {} },
+  };
+  const dom = {
+    createElement: () => ({ remove() { this.removed = true; } }),
+    head: { appendChild(script) { scripts.push(script); } },
+    getElementById: () => null,
+  };
+  const api = load("src/components/InquiryForm.tsx", { window: browser, document: dom, require: id => {
+    assert(id in imports, `Unexpected component import: ${id}`);
+    return imports[id];
+  } });
+  function walk(node, visitor) {
+    if (Array.isArray(node)) { node.forEach(child => walk(child, visitor)); return; }
+    if (!node || typeof node !== "object") return;
+    visitor(node);
+    walk(node.props?.children, visitor);
+  }
+  return {
+    api, browser, scripts,
+    render() {
+      cursor = 0;
+      const tree = api.InquiryForm({});
+      walk(tree, node => { if (node.props?.ref) node.props.ref.current ??= { focus() {} }; });
+      pendingEffects.splice(0).forEach(effect => effect());
+      return tree;
+    },
+    retry(tree) {
+      let button;
+      walk(tree, node => { if (node.type === "button" && node.props.className === "text-button") button = node; });
+      assert(button, "A failed load must offer verification retry");
+      button.props.onClick();
+    },
+    unmount() { alive = false; hooks.forEach(hook => hook?.cleanup?.()); },
+    lateUpdates: () => lateUpdates,
+  };
+}
+const form = formHarness();
+form.render();
+const firstLoad = form.api.loadTurnstileApi();
+assert.equal(firstLoad, form.api.loadTurnstileApi(), "Concurrent forms must share a pending script request");
+assert.equal(form.scripts.length, 1);
+form.scripts[0].onerror();
+await assert.rejects(firstLoad);
+assert.equal(form.scripts[0].removed, true, "Failed scripts must be removed before retry");
+form.retry(form.render());
+const reloaded = form.api.loadTurnstileApi();
+assert.equal(form.scripts.length, 2, "Retry must issue a fresh script load");
+const widgets = { rendered: 0, reset: [], removed: [], options: null };
+form.browser.turnstile = {
+  render(_container, options) { widgets.rendered++; widgets.options = options; return "mock-widget"; },
+  reset(id) { widgets.reset.push(id); }, remove(id) { widgets.removed.push(id); },
+};
+form.scripts[1].onload();
+await reloaded;
+form.render();
+assert.equal(widgets.rendered, 1, "A recovered load must render exactly one widget");
+assert.equal(form.scripts[1].onload, null);
+assert.equal(form.scripts[1].onerror, null);
+widgets.options["error-callback"]();
+form.retry(form.render());
+assert.deepEqual(widgets.reset, ["mock-widget"], "A rendered widget should reset without reloading the API");
+assert.equal(form.scripts.length, 2);
+form.unmount();
+assert.deepEqual(widgets.removed, ["mock-widget"], "Unmount must remove the owned widget");
+assert.equal(form.lateUpdates(), 0);
+
+const closedForm = formHarness();
+closedForm.render();
+const delayedLoad = closedForm.api.loadTurnstileApi();
+closedForm.unmount();
+let delayedRenders = 0;
+closedForm.browser.turnstile = { render() { delayedRenders++; }, remove() {} };
+closedForm.scripts[0].onload();
+await delayedLoad;
+assert.equal(delayedRenders, 0, "A late script load must not render into an unmounted form");
+assert.equal(closedForm.lateUpdates(), 0, "A late script load must not update an unmounted form");
+console.log("PASS: JSON object validation, product preservation, CORS, verification action/hostname, provider failure/success, reply-to, accepted-reference handling, GA4 Arguments bootstrap/GTM single delivery, shared submission lifecycle, duplicate-submit guard, timeout/retry, receipt preservation, verification script failure/reload/deduplication and widget cleanup. All providers mocked; no live email or analytics sent.");

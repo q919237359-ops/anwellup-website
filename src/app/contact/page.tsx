@@ -14,7 +14,7 @@ const contactQuestions = [
   },
   {
     question: "Which details produce a more useful wholesale quotation?",
-    answer: "Include quantity by model, customization, packing, destination, document needs and target timing in addition to the product specification. Clearly label any field that is still open for supplier input.",
+    answer: "Include quantity and unit by model, matching lids or components, customization, case packing, destination country and state or region, buyer channel, food use, document needs and target timing. Clearly label any field that is still open for supplier input.",
   },
   {
     question: "Does sending an enquiry confirm MOQ, price or availability?",
@@ -60,7 +60,7 @@ export default function ContactPage() {
         name: "Request a wholesale food packaging quote",
         description: metadata.description,
         inLanguage: "en",
-        dateModified: "2026-09-30",
+        dateModified: "2026-10-08",
         isPartOf: { "@id": "https://anwellup.com/#website" },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         mainEntity: { "@id": "https://anwellup.com/#organization" },

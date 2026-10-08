@@ -4,13 +4,15 @@ import { ArrowDown, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/
 import { catalogCategories } from "../catalog";
 import { OpenInquiryButton } from "../components/InquiryProvider";
 import { ScrollMotion } from "../components/ScrollMotion";
+import { SourcingCollections } from "../components/SourcingCollections";
 import { buyingGuides } from "../guides";
 import { materialPages } from "../materials";
 
 export const metadata: Metadata = {
   title: { absolute: "Wholesale Food Packaging Supplier | ANWELLUP" },
-  description: "Source wholesale food packaging: bagasse containers, paper cups and kraft boxes, aluminium trays and more. Compare models and request a packaging quote.",
+  description: "Compare aluminium foil rolls, baking paper and food containers for wholesale distribution. Review model specifications, packing and destination requirements, then request a quote.",
   alternates: { canonical: "/" },
+  openGraph: { title: "Wholesale Food Packaging Supplier | ANWELLUP", description: "Aluminium foil, baking paper and food containers for distributors and foodservice buyers. Compare references and prepare a clearer buying brief.", url: "/", images: [{ url: "/assets/generated/cinematic/hero-regenerative-cinema.webp", width: 1672, height: 941, alt: "ANWELLUP food packaging range illustration" }], type: "website" },
 };
 
 const story = "The curve of a bowl. The texture of a tray. The way a lid meets its base. Every detail shapes the experience of a meal.";
@@ -28,10 +30,12 @@ export default function HomePage() {
       <div className="cinema-copy">
         <span className="eyebrow">ANWELLUP food packaging</span>
         <h1 id="home-title"><span className="title-mask"><span>Wholesale</span></span><span className="title-mask"><span>food packaging.</span></span></h1>
-        <p>Bagasse, paper and aluminium formats for takeaway, foodservice and distribution. Compare sizes, discuss samples and request a quote for your market.</p>
-        <div className="procurement-actions"><Link className="button button-dark" href="/contact/#send-enquiry">Request a quote <ArrowUpRight size={18}/></Link><Link className="button button-outline" href="/products/">Browse products <ArrowRight size={18}/></Link></div>
+        <p>Aluminium foil rolls, baking paper and food containers for distributors and foodservice buyers. Compare model specifications, discuss samples and build a buying brief for your destination.</p>
+        <div className="procurement-actions"><Link className="button button-dark" href="/contact/#send-enquiry">Request a quote <ArrowUpRight size={18}/></Link><a className="button button-outline" href="#priority-range">Explore the starting range <ArrowRight size={18}/></a></div>
+        <Link className="cinema-buyer-link" href="/distributors/">Sourcing for distribution? Plan your range →</Link>
       </div>
     </section>
+    <section className="sourcing-section home-sourcing" id="priority-range" aria-labelledby="priority-range-title"><header><span className="eyebrow">A focused starting range</span><h2 id="priority-range-title">The essentials for your next order.</h2><p>Start with published foil, baking paper and container references. Compare the complete pack, then confirm the specification, packing and document scope for your market.</p></header><SourcingCollections /><div className="sourcing-resource-links"><Link href="/distributors/">Build a distributor buying brief →</Link><Link href="/products/">Explore all 33 product families →</Link></div></section>
     <section className="home-procurement" aria-labelledby="home-procurement-title"><header><span className="eyebrow">Start with the pack you need</span><h2 id="home-procurement-title">Find your material.<br/>Build your shortlist.</h2><p>Comparing alternatives to plastic? Review the complete pack, including coatings and lids, for the destination and intended use.</p></header><div className="material-cards">{materialPages.map(material => <article key={material.slug}><h3><Link href={`/materials/${material.slug}/`}>{material.name}</Link></h3><p>{material.description}</p><Link className="editorial-link" href={`/materials/${material.slug}/`}>Compare formats →</Link></article>)}</div><Link className="procurement-reference" href="/guides/single-use-plastic-packaging-alternatives/">Plastic restrictions: what to check before you source →</Link></section>
     <section className="texture-story" id="material-story" aria-labelledby="texture-title">
       <img className="texture-photo" src="/assets/generated/cinematic/fiber-macro-regenerative.webp" alt="Close-up of the texture and formed edge of a fibre tray" width={1672} height={941} loading="lazy" />

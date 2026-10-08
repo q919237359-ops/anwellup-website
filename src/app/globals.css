@@ -332,7 +332,7 @@ code { font-family: var(--mono); font-size: .82em; }
 .specification-section { padding-top: 90px; border-top: 1px solid var(--line); }
 .spec-notice { margin-bottom: 22px; padding: 15px 17px; display: flex; align-items: center; gap: 12px; background: var(--sage-light); }
 .spec-notice p { margin: 0; font-size: 11px; }
-.spec-table-wrap { overflow-x: auto; border-top: 1px solid var(--line-strong); }
+.spec-table-wrap { position: relative; overflow-x: auto; border-top: 1px solid var(--line-strong); }
 .spec-table { width: 100%; border-collapse: collapse; min-width: 1060px; }
 .spec-table th { padding: 14px 12px; color: var(--ink-soft); font-family: var(--mono); font-size: 9px; font-weight: 400; text-align: left; text-transform: uppercase; letter-spacing: .06em; }
 .spec-table td { padding: 18px 12px; border-top: 1px solid var(--line); font-size: 11px; vertical-align: middle; }
@@ -466,8 +466,8 @@ code { font-family: var(--mono); font-size: .82em; }
   .desktop-navigation { display: none; }
   .header-inner { grid-template-columns: 1fr auto; min-height: 70px; }
   .menu-button { display: grid; }
-  .mobile-navigation { display: flex; flex-direction: column; padding: 14px 20px 22px; border-top: 1px solid var(--line); }
-  .mobile-navigation a { padding: 13px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: 12px; }
+  .mobile-navigation { display: flex; flex-direction: column; max-height: calc(100dvh - 71px); overflow-y: auto; overscroll-behavior: contain; padding: 14px 20px max(22px,env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
+  .mobile-navigation a { flex: 0 0 auto; padding: 13px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: 12px; }
   .catalog-controls { top: 70px; }
   .desktop-navigation { gap: 20px; }
   .home-hero { grid-template-columns: 1fr; min-height: auto; }
@@ -493,8 +493,6 @@ code { font-family: var(--mono); font-size: .82em; }
   .desktop-navigation { display: none; }
   .header-inner { grid-template-columns: 1fr auto; min-height: 70px; }
   .menu-button { display: grid; }
-  .mobile-navigation { display: flex; flex-direction: column; padding: 14px 20px 22px; border-top: 1px solid var(--line); }
-  .mobile-navigation a { padding: 13px 0; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); font-size: 12px; }
   .home-hero { padding-top: 75px; }
   .hero-copy { padding-right: 0; }
   .hero-copy h1 { font-size: clamp(40px,12.4cqw,100px); }

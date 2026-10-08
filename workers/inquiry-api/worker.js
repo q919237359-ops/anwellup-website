@@ -167,6 +167,10 @@ export default {
       return jsonResponse({ ok: false, error: "Invalid enquiry data." }, 400, origin);
     }
 
+    if (rawBody === null || typeof rawBody !== "object" || Array.isArray(rawBody)) {
+      return jsonResponse({ ok: false, error: "Invalid enquiry data." }, 400, origin);
+    }
+
     // Silently accept honeypot submissions without sending mail.
     if (cleanText(rawBody.website, 200)) {
       return jsonResponse({ ok: true, reference: "AW-RECEIVED" }, 200, origin);

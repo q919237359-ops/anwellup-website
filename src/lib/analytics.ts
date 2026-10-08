@@ -32,7 +32,9 @@ export function trackEvent(event: AnalyticsEvent, parameters: Record<string, str
   if (process.env.NEXT_PUBLIC_ANALYTICS_MODE === "gtm") {
     window.dataLayer.push({ event, ...parameters });
   } else {
-    window.gtag ??= (...args: unknown[]) => { window.dataLayer!.push(args); };
+    // gtag's command dispatcher distinguishes Arguments objects from Arrays.
+    // Keep this bootstrap compatible with the inline loader, which reuses it.
+    window.gtag ??= function () { window.dataLayer!.push(arguments); };
     window.gtag("event", event, parameters);
   }
 }

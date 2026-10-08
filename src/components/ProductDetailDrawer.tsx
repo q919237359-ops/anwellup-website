@@ -76,8 +76,8 @@ export function ProductDetailDrawer({ family, category, onClose }: {
           <header><h3 id="product-drawer-models-title">Available formats</h3><span>{family.variants.length} {family.variants.length === 1 ? "option" : "options"}</span></header>
           <ol>
             {family.variants.map(variant => <li key={variant.sku}>
-              <div><code>{variant.sku}</code><strong>{variant.label}</strong><small>{columns.map(column => variant[column.field]).filter(Boolean).join(" · ") || "Specification on request"}</small></div>
-              <AddToInquiryButton compact onAdd={onClose} item={{ sku: variant.sku, name: family.name, variant: variant.label, category: category.label }} />
+              <div><code>{variant.sku}</code><strong>{variant.name ? `${variant.name} · ${variant.label}` : variant.label}</strong><small>{columns.map(column => variant[column.field]).filter(Boolean).join(" · ") || "Specification on request"}</small></div>
+              <AddToInquiryButton compact onAdd={onClose} item={{ sku: variant.sku, name: variant.name ?? family.name, variant: variant.label, category: category.label }} />
             </li>)}
           </ol>
         </section>
