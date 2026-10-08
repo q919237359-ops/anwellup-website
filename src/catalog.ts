@@ -10,6 +10,8 @@ export type ProductVariant = {
   dimensions?: string;
   weight?: string;
   pack?: string;
+  // Existing SKU-specific reference artwork, not a product photograph.
+  image?: string;
 };
 
 export type ProductFamily = {
@@ -80,7 +82,7 @@ const legacyFamilies = Object.values(
   legacyProducts.reduce<Record<string, ProductFamily>>((groups, item) => {
     const category = legacyCategory(item.category, item.family);
     const key = `${category}:${item.family}`;
-    const variant = { sku: item.sku, name: item.name, material: item.material, label: item.size, dimensions: item.dimensions, pack: item.casePack };
+    const variant = { sku: item.sku, name: item.name, material: item.material, label: item.size, dimensions: item.dimensions, weight: item.weight, pack: item.casePack, image: item.image };
     if (!groups[key]) {
       groups[key] = {
         id: key.toLowerCase().replace(/[^a-z0-9]+/g, "-"),

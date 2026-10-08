@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const guideEntries = buyingGuides.map((guide) => entry(`/guides/${guide.slug}`, guide.updated));
   const solutionEntries = sourcingSolutions.map((solution) => entry(`/solutions/${solution.slug}`, solution.updated));
   const changedStaticRoutes = new Set([`${base}/`, `${base}/products/`, `${base}/contact/`, `${base}/privacy/`, `${base}/guides/`, `${base}/about/`]);
-  const octoberRoutes = new Set([`${base}/`, `${base}/products/`, `${base}/distributors/`, `${base}/solutions/`, `${base}/contact/`]);
+  const octoberRoutes = new Set([`${base}/`, `${base}/products/`, `${base}/distributors/`, `${base}/guides/`, `${base}/solutions/`, `${base}/contact/`]);
   const materialEntries = [entry("/materials", "2026-09-30"), ...materialPages.map(material => entry(`/materials/${material.slug}`, "2026-09-30"))];
   return [...staticEntries.map(item => octoberRoutes.has(item.url) ? { ...item, lastModified: new Date("2026-10-08") } : changedStaticRoutes.has(item.url) ? { ...item, lastModified: new Date("2026-09-30") } : item), ...categoryEntries, ...familyEntries, ...guideEntries, ...solutionEntries, ...materialEntries];
 }

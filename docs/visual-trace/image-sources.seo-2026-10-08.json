@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "createdDate": "2026-10-08",
+  "provenance": {
+    "sourceType": "AI-generated",
+    "generator": "OpenAI built-in image_gen tool",
+    "mode": "generate",
+    "model": "Not exposed by the built-in tool",
+    "generationCalls": 2,
+    "candidatesPerAsset": 1,
+    "referenceImages": [],
+    "actualProductPhotography": false,
+    "purpose": "Concept illustrations for editorial SEO/GEO content, not evidence of any real model, product specification, inventory, factory, coating or certification.",
+    "postProcessing": "Sharp 0.35.5; proportional downscaling without cropping; WebP quality 84, effort 6; no content edits."
+  },
+  "assets": [
+    {
+      "id": "food-packaging-print-surfaces",
+      "prompt": "Use case: product-mockup\nAsset type: educational website content image for a food packaging printing procurement guide; one finished landscape image, 1536 by 1024 pixels or larger, approximately 3:2.\nPrimary request: an editorial 3D illustration showing four plain, unbranded food-packaging mockups on a clean warm off-white tabletop: one paper cup, one separate open-ended paper cup sleeve, one small folded paperboard food carton, and one peelable label sheet. Show where artwork would be printed by using simple muted sage-green rectangular or wraparound color panels, with no letters, numbers, symbols or branding. Keep cup rim and cup interior plain; put the cup's print area on its exterior sidewall, the sleeve's print area on its exterior curved face, the carton's print areas on its flat outside panels, and several simple blank rectangular labels on backing paper. The separate cup sleeve must look like a hollow tapered band open at both top and bottom, not a second cup. All objects are physically plausible and distinct, arranged with generous separation for easy buyer comparison.\nStyle/medium: refined realistic-material 3D concept illustration with a clearly illustrative editorial finish, not a claimed photograph of real inventory or a technical manufacturing drawing. Natural white paper, light kraft sleeve, matte muted green panels. Soft daylight, gentle grounded shadows, slightly elevated three-quarter view, uncluttered background.\nConstraints: exactly one cohesive image, no collage panels, no hands, no people, no food, no equipment, no logo, no readable text, no brand, no certification mark, no recycled or compostable icon, no dimensions, no arrows, no seals, no watermark. Do not imply a specific product specification, print process, coating or certification.",
+      "alt": "AI illustration of a plain paper cup, cup sleeve, carton and label sheet with exterior print areas highlighted.",
+      "caption": "AI-generated illustration of example print surfaces. Artwork placement, printable areas and specifications must be confirmed for the selected item.",
+      "intendedUse": "Editorial illustration in a food packaging printing procurement guide.",
+      "visualReview": "Reviewed full generated image: distinct paper cup, separate tapered sleeve, folded carton and label sheet; blank sage panels on outside surfaces; no text, brands, certification marks or dimensions. Generic packaging geometry is illustrative.",
+      "basename": "food-packaging-print-surfaces",
+      "source": {
+        "path": "/Users/chan/Desktop/anwellup/.private/seo-images/food-packaging-print-surfaces-original.png",
+        "format": "png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 1967385,
+        "sha256": "a2c15aae30810b4fc06f8facb22da55e6ab0d78bc340ba2a708452a8fa29816a"
+      },
+      "versions": [
+        {
+          "path": "public/images/seo/food-packaging-print-surfaces-640.webp",
+          "url": "/images/seo/food-packaging-print-surfaces-640.webp",
+          "format": "webp",
+          "width": 640,
+          "height": 427,
+          "bytes": 13076,
+          "sha256": "f85b3170d9221a791060c2c8e0fcfe1b7a30fa9173b5914ccd0b23f43b7eeb19"
+        },
+        {
+          "path": "public/images/seo/food-packaging-print-surfaces-960.webp",
+          "url": "/images/seo/food-packaging-print-surfaces-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 22534,
+          "sha256": "5229911334687bd22ffa6441175546b64b3871f60ecb7c9f1232621f28ff542f"
+        },
+        {
+          "path": "public/images/seo/food-packaging-print-surfaces-1440.webp",
+          "url": "/images/seo/food-packaging-print-surfaces-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 960,
+          "bytes": 45044,
+          "sha256": "984fe62fa9c7a8e930148031a90dfb26647ded2d66925e2d8fbdc30c5ff872d2"
+        }
+      ],
+      "defaultImage": "/images/seo/food-packaging-print-surfaces-1440.webp",
+      "srcSet": "/images/seo/food-packaging-print-surfaces-640.webp 640w, /images/seo/food-packaging-print-surfaces-960.webp 960w, /images/seo/food-packaging-print-surfaces-1440.webp 1440w"
+    },
+    {
+      "id": "foil-roll-sheets-parchment",
+      "prompt": "Use case: product-mockup\nAsset type: educational website content image for a foil rolls, cut foil sheets and baking parchment procurement guide; one finished landscape image, 1536 by 1024 pixels or larger, approximately 3:2.\nPrimary request: a clean food-service preparation worktable comparison scene, showing three distinct material formats: on the left a plain unbranded aluminum foil roll lying horizontally with its cardboard core visible and a short reflective foil end unfurled onto the table; at the front center a small tidy stack of individual precut rectangular aluminum foil sheets, with visible separated edges and one top corner slightly lifted; on the right a plain shallow rectangular metal baking tray lined with one tan baking parchment sheet, whose neatly cut rectangular edges extend slightly above the tray rim. Keep the foil sheets separate from the parchment-lined tray. The foil is thin silver metal with restrained realistic reflections and a few natural creases; the parchment is warm tan, matte, thin and subtly translucent. Make the three formats easy for a buyer to identify at a glance.\nStyle/medium: refined realistic-material 3D concept illustration with a clearly illustrative editorial finish, not a claimed photograph of any real product model, factory or supplier inventory. Neutral warm off-white work surface, soft daylight, gentle shadows, slightly elevated three-quarter view. Cohesive uncluttered composition, complete objects with breathing space around them.\nConstraints: one cohesive image; no people, no hands, no food, no heat or flames, no oven, no knives, no packages, no brands, no labels, no text, no numbers, no logos, no certification marks, no icons, no dimensions, no watermark. Physically plausible sheet thicknesses and tray structure. Do not imply a specific aluminum alloy, thickness, temperature rating, coating, certification or product availability.",
+      "alt": "AI illustration comparing an aluminum foil roll, a stack of cut foil sheets and a tray lined with baking parchment.",
+      "caption": "AI-generated comparison of foil rolls, cut foil sheets and baking parchment. Illustrative only; confirm material, thickness, size and use conditions for the selected item.",
+      "intendedUse": "Editorial illustration in a foil rolls, sheets and baking parchment procurement guide.",
+      "visualReview": "Reviewed full generated image: reflective foil roll with visible core and unfurled end, separate rectangular foil-sheet stack, and tan parchment in a shallow baking tray; no text, brands, certification marks, dimensions, food or heat. Generic materials and sheet edges are illustrative.",
+      "basename": "foil-roll-sheets-parchment",
+      "source": {
+        "path": "/Users/chan/Desktop/anwellup/.private/seo-images/foil-roll-sheets-parchment-original.png",
+        "format": "png",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 2089821,
+        "sha256": "e52b07cdcc50fb642f7e6e0361d1447d678666c8651b5414ebe7c22b0c2239c3"
+      },
+      "versions": [
+        {
+          "path": "public/images/seo/foil-roll-sheets-parchment-640.webp",
+          "url": "/images/seo/foil-roll-sheets-parchment-640.webp",
+          "format": "webp",
+          "width": 640,
+          "height": 427,
+          "bytes": 26554,
+          "sha256": "a597b118c75f9be5296ca5a98027fb74bb7dc7df868363a5f3bae2bf76e568f0"
+        },
+        {
+          "path": "public/images/seo/foil-roll-sheets-parchment-960.webp",
+          "url": "/images/seo/foil-roll-sheets-parchment-960.webp",
+          "format": "webp",
+          "width": 960,
+          "height": 640,
+          "bytes": 48428,
+          "sha256": "b59ea1279a1f48fa3926494b6eeb5427d54368946ad2bbd60960fc660be9452f"
+        },
+        {
+          "path": "public/images/seo/foil-roll-sheets-parchment-1440.webp",
+          "url": "/images/seo/foil-roll-sheets-parchment-1440.webp",
+          "format": "webp",
+          "width": 1440,
+          "height": 960,
+          "bytes": 86026,
+          "sha256": "41a69146c2d0246f41a0e19b36fa89dccbe33e62853dda7df5965dca23f6b3a2"
+        }
+      ],
+      "defaultImage": "/images/seo/foil-roll-sheets-parchment-1440.webp",
+      "srcSet": "/images/seo/foil-roll-sheets-parchment-640.webp 640w, /images/seo/foil-roll-sheets-parchment-960.webp 960w, /images/seo/foil-roll-sheets-parchment-1440.webp 1440w"
+    }
+  ]
+}

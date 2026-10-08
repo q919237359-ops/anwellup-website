@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="960" viewBox="0 0 1440 960" role="img" aria-labelledby="title description">
+  <title id="title">Food container size measurement concepts</title>
+  <desc id="description">Two generic round container diagrams show rim diameter, body height, base diameter, planned fill, headspace and the need to check lid fit. No SKU dimensions or performance claims are shown. The illustration is not to scale.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#45614c"/>
+    </marker>
+  </defs>
+  <rect width="1440" height="960" fill="#f4f5ef"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#263b2d">
+    <text x="72" y="92" font-size="48" font-weight="700">Food container size measurements</text>
+    <text x="72" y="146" font-size="30" fill="#526855">Use the selected model's drawing and a filled sample.</text>
+    <rect x="56" y="196" width="640" height="640" rx="18" fill="#fff" stroke="#d9e2d5" stroke-width="2"/>
+    <rect x="744" y="196" width="640" height="640" rx="18" fill="#fff" stroke="#d9e2d5" stroke-width="2"/>
+    <text x="88" y="252" font-size="32" font-weight="700">Measure external size</text>
+    <text x="776" y="252" font-size="32" font-weight="700">Check usable fill</text>
+
+    <g stroke="#45614c" stroke-width="3" fill="none">
+      <path d="M166 400 L201 660 Q356 715 511 660 L546 400" fill="#e8ede6"/>
+      <ellipse cx="356" cy="400" rx="190" ry="40" fill="#f8faf6"/>
+      <path d="M201 660 Q356 701 511 660"/>
+      <path d="M166 346 V400 M546 346 V400 M201 704 V752 M511 704 V752" stroke="#93a58f" stroke-dasharray="7 7" stroke-width="2"/>
+      <path d="M166 332 H546" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <path d="M201 748 H511" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <path d="M574 400 H612 M542 660 H612" stroke="#93a58f" stroke-dasharray="7 7" stroke-width="2"/>
+      <path d="M606 400 V660" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    </g>
+    <text x="356" y="308" text-anchor="middle" font-size="30">Rim diameter</text>
+    <text x="356" y="796" text-anchor="middle" font-size="30">Base diameter</text>
+    <text x="649" y="530" transform="rotate(-90 649 530)" text-anchor="middle" font-size="30">Body height</text>
+
+    <g stroke="#45614c" stroke-width="3" fill="none">
+      <path d="M882 390 L918 680 Q1064 730 1210 680 L1246 390" fill="#f8faf6"/>
+      <path d="M897 520 Q1064 552 1231 520 L1210 680 Q1064 730 918 680 Z" fill="#d2dfc9" stroke="none"/>
+      <ellipse cx="1064" cy="520" rx="167" ry="32" fill="#e0e9d9" stroke="#92a48a" stroke-dasharray="8 8" stroke-width="2"/>
+      <ellipse cx="1064" cy="390" rx="182" ry="38" fill="#f8faf6"/>
+      <path d="M918 680 Q1064 718 1210 680"/>
+      <path d="M1148 320 L1203 366" marker-end="url(#arrow)"/>
+    </g>
+    <text x="1118" y="310" font-size="30">Check lid fit</text>
+    <text x="1064" y="473" text-anchor="middle" font-size="30">Headspace</text>
+    <text x="1064" y="601" text-anchor="middle" font-size="32" font-weight="700">Usable fill</text>
+    <path d="M847 749 H903" fill="none" stroke="#92a48a" stroke-dasharray="8 8" stroke-width="3"/>
+    <text x="919" y="759" font-size="28">Planned fill line</text>
+    <text x="1064" y="801" text-anchor="middle" font-size="25" fill="#526855">Confirm the body and lid references together.</text>
+    <text x="720" y="908" text-anchor="middle" font-size="26" fill="#526855">Measurement concept only · not to scale · no SKU-specific dimensions shown</text>
+  </g>
+</svg>

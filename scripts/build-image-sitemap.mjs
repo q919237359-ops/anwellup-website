@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { contentImageUrls } from "./lib/image-sitemap.mjs";
 
 const root = path.resolve("out");
 if (!fs.existsSync(root)) throw new Error("Build output not found. Run this after next build.");
@@ -21,10 +22,7 @@ for (const file of htmlFiles) {
   const canonical = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1]
     ?? html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["']canonical["']/i)?.[1];
   if (!canonical?.startsWith("https://anwellup.com/")) continue;
-  const images = [...html.matchAll(/<img\b[^>]*\bsrc=["']([^"']+)["']/gi)]
-    .map(match => new URL(match[1], canonical).href)
-    .filter(url => url.startsWith("https://anwellup.com/"));
-  const uniqueImages = [...new Set(images)];
+  const uniqueImages = contentImageUrls(html, canonical);
   if (!uniqueImages.length) continue;
   const pageImages = imagesByPage.get(canonical) ?? new Set();
   for (const image of uniqueImages) pageImages.add(image);

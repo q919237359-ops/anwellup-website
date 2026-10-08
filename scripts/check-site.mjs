@@ -39,6 +39,26 @@ const { familyProcurementContent } = load("src/lib/family-procurement.ts");
 const { galleryDistance, galleryProgress } = load("src/lib/gallery-motion.ts");
 const { materialPages, materialFamilies, materialModelExamples, familyPath } = load("src/materials.ts");
 const { sourcingPrograms, sourcingReferences } = load("src/sourcing-programs.ts");
+const { productImageSize, variantIllustration } = load("src/lib/product-images.ts");
+for (const family of productFamilies) {
+  const heroSize = productImageSize(family.image, family.category);
+  const heroMetadata = await sharp(path.join(root, "public", family.image)).metadata();
+  assert.equal(heroSize.width, heroMetadata.width, `Family image width: ${family.id}`);
+  assert.equal(heroSize.height, heroMetadata.height, `Family image height: ${family.id}`);
+  for (const variant of family.variants) {
+    const illustration = variantIllustration(family, variant);
+    const imageMetadata = await sharp(path.join(root, "public", illustration.src)).metadata();
+    assert.equal(illustration.width, imageMetadata.width, `Model image width: ${variant.sku}`);
+    assert.equal(illustration.height, imageMetadata.height, `Model image height: ${variant.sku}`);
+    if (variant.image) {
+      assert(variant.image.endsWith(`/${variant.sku.toLowerCase()}.webp`), `Model artwork must identify its own SKU: ${variant.sku}`);
+      assert(illustration.caption.includes("not a product photograph"), `Model artwork needs illustration context: ${variant.sku}`);
+    } else {
+      assert.equal(illustration.src, family.image, `Unillustrated model must retain its range fallback: ${variant.sku}`);
+      assert(illustration.caption.includes("Representative range illustration"), `Range fallback needs context: ${variant.sku}`);
+    }
+  }
+}
 for (const program of sourcingPrograms) {
   const references = sourcingReferences(program);
   assert.equal(references.length, program.skus.length, `Sourcing route must resolve every published model: ${program.id}`);
@@ -61,6 +81,24 @@ for (const guide of buyingGuides) {
   assert.equal(imageMetadata.format, "webp", `Guide image must be WebP: ${guide.slug}`);
   assert.equal(imageMetadata.width, guide.imageWidth, `Guide image width mismatch: ${guide.slug}`);
   assert.equal(imageMetadata.height, guide.imageHeight, `Guide image height mismatch: ${guide.slug}`);
+  if (guide.imageSrcSet) {
+    const candidates = guide.imageSrcSet.split(",").map(candidate => {
+      const match = candidate.trim().match(/^(\S+)\s+([1-9]\d*)w$/);
+      assert(match, `Guide srcset needs URL and width descriptors: ${guide.slug}`);
+      return { url: match[1], width: Number(match[2]) };
+    });
+    assert.equal(candidates.length, 3, `Responsive guide needs three image sizes: ${guide.slug}`);
+    assert.equal(new Set(candidates.map(candidate => candidate.width)).size, 3, `Guide srcset widths must be distinct: ${guide.slug}`);
+    assert(candidates.some(candidate => candidate.url === guide.image), `Guide fallback image must be one of its responsive sources: ${guide.slug}`);
+    for (const candidate of candidates) {
+      const file = path.join(root, "public", candidate.url.replace(/^\//, ""));
+      assert(fs.existsSync(file), `Responsive guide image missing: ${candidate.url}`);
+      const candidateMetadata = await sharp(file).metadata();
+      assert.equal(candidateMetadata.format, "webp", `Responsive guide image must be WebP: ${candidate.url}`);
+      assert.equal(candidateMetadata.width, candidate.width, `Guide srcset descriptor must match actual pixels: ${candidate.url}`);
+      assert.equal(candidateMetadata.height, Math.round(guide.imageHeight * candidate.width / guide.imageWidth), `Responsive guide image must retain its full aspect ratio: ${candidate.url}`);
+    }
+  }
 }
 assert.equal(sourcingSolutions.length, 8);
 assert.equal(new Set(sourcingSolutions.map(solution => solution.slug)).size, sourcingSolutions.length);
@@ -291,6 +329,15 @@ assert(!home.includes("carry-shopping-bags-source-master-v1.png"), "Homepage mus
 assert(!home.includes("cinema-baseline"));
 assert(robots.includes("https://anwellup.com/image-sitemap.xml"), "robots.txt must advertise the image sitemap");
 assert(imageSitemap.includes("<image:image>"), "Image sitemap must include discoverable images");
+assert(!imageSitemap.includes("/assets/brand/"), "Image sitemap must exclude navigation and footer branding");
+const foilImagePage = readPage("products/foil-wraps-baking/foil-rolls-sheets-paper");
+assert(foilImagePage.includes('class="model-illustrations"'), "Mixed foil and paper formats need a visible model gallery");
+for (const variant of foilFormats.variants) {
+  assert(variant.image, `Foil format needs its existing model illustration: ${variant.sku}`);
+  assert(foilImagePage.includes(`src="${variant.image}"`), `Foil model image must be visible in the page HTML: ${variant.sku}`);
+  assert(foilImagePage.includes(`href="#model-${variant.sku}"`), `Foil illustration must lead to the corresponding specification: ${variant.sku}`);
+  assert(imageSitemap.includes(variant.image), `Image sitemap must retain each foil format image: ${variant.sku}`);
+}
 const imageSitemapLocs = [...imageSitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
 assert.equal(imageSitemapLocs.length, new Set(imageSitemapLocs).size, "Image sitemap page URLs must be unique");
 assert(fs.existsSync(path.join(out, "a680f67e82022c38117b9661810d86dfdd6d8a4549fbbda6.txt")), "IndexNow verification file must be exported");
@@ -363,9 +410,8 @@ assert(gloveCategory.includes('href="/products/gloves-protective-supplies/hdpe-g
 assert(gloveCategory.includes('data-analytics-location="category_gloves"'), "Glove pillar must expose a tracked WhatsApp action");
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("category-source-master"));
 assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes("spec-table-short"));
-assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ProductGroup"'), "Family page must expose ProductGroup structured data");
-assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"variesBy":["https://schema.org/size"]'), "Product groups must describe their variant axis");
-assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"isVariantOf"'), "Product variants must link back to their group");
+assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"CollectionPage"'), "Quotation catalogue must expose CollectionPage structured data");
+assert(readPage("products/carry-shopping-bags/pe-shopping-bags").includes('"@type":"ItemList"'), "Quotation catalogue must describe its visible model list");
 const guideIndex = readPage("guides");
 assert(guideIndex.includes('"@type":"CollectionPage"'), "Guide index must expose CollectionPage structured data");
 for (const guide of buyingGuides) {
@@ -458,19 +504,26 @@ assert(analyticsSource.includes('"cbm_calculation"'), "Successful CBM calculatio
 for (const family of productFamilies) {
   const category = catalogCategories.find(item => item.id === family.category);
   const html = readPage(`products/${category.slug}/${family.id}`);
-  const productGroup = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
-    .flatMap(match => JSON.parse(match[1])).find(item => item["@type"] === "ProductGroup");
-  assert(productGroup, `Missing product-group structured data: ${family.id}`);
+  const catalogue = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .flatMap(match => JSON.parse(match[1])).find(item => item["@type"] === "CollectionPage");
+  assert(catalogue?.mainEntity?.["@type"] === "ItemList", `Missing catalogue model list: ${family.id}`);
+  assert(!html.includes('"@type":"Product"') && !html.includes('"@type":"ProductGroup"'), "Unpriced quote catalogues must not claim product-snippet eligibility");
   if (family.variants.some(variant => variant.material)) assert(html.includes('<th scope="col">Material</th>'), `Known model materials must be visible in the specification table: ${family.id}`);
   for (const variant of family.variants) {
     assert(html.includes(variant.sku), `Missing exported model: ${variant.sku}`);
     assert(html.includes(`id="model-${variant.sku}"`), `Missing model anchor: ${variant.sku}`);
-    const structuredModel = productGroup.hasVariant.find(item => item.sku === variant.sku);
+    const structuredModel = catalogue.mainEntity.itemListElement.find(item => item.identifier === variant.sku);
     assert(structuredModel, `Missing structured model: ${variant.sku}`);
-    assert.equal(structuredModel.material, variant.material, `Do not assign other models' materials to ${variant.sku}`);
-    if (!variant.material) assert(!Object.hasOwn(structuredModel, "material"), `Unconfirmed model material must be omitted: ${variant.sku}`);
+    assert.equal(structuredModel.image.contentUrl, `https://anwellup.com${variant.image ?? family.image}`, `Model image must match: ${variant.sku}`);
+    if (variant.material) assert(structuredModel.description.includes(`Material: ${variant.material}`), `Preserve known material: ${variant.sku}`);
+    if (!variant.material) assert(!structuredModel.description.includes("Material:"), `Unconfirmed model material must be omitted: ${variant.sku}`);
     if (variant.name) assert.equal(structuredModel.name, `${variant.name} — ${variant.label}`, `Structured model name must preserve the source identity: ${variant.sku}`);
   }
+}
+
+for (const category of catalogCategories) {
+  const html = readPage(`products/${category.slug}`);
+  assert(!html.includes('"@type":"Product"'), "Category lists must not advertise incomplete product snippets");
 }
 
 const previewPort = process.env.ANWELLUP_PREVIEW_PORT ?? "4173";

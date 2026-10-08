@@ -548,8 +548,8 @@ export const familyProcurementContent: Record<string, FamilyProcurementContent> 
     ],
     related: [
       { label: "Pop-up aluminium foil sheets", href: "/products/foil-wraps-baking/popup-foil/", context: "Defined pre-cut dispensing formats" },
-      { label: "Food packaging materials comparison", href: "/guides/food-packaging-materials-comparison/", context: "Material decision framework" },
-      { label: "Food packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/", context: "Complete enquiry fields" },
+      { label: "Aluminium foil and food-wrap sourcing guide", href: "/guides/aluminium-foil-food-wrap-sourcing-guide/", context: "Model, construction and packing comparison" },
+      { label: "Foodservice range for distributors", href: "/distributors/", context: "Build a complete buying brief" },
     ],
   },
   "cushion-foil": {

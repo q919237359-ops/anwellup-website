@@ -9,13 +9,8 @@ import { GENERAL_WHATSAPP_URL } from "../../../../lib/contact";
 import { getFamilyProcurementContent } from "../../../../lib/family-procurement";
 import { getSpecificationColumns } from "../../../../lib/specification-columns";
 import { MaterialLinks } from "../../../../components/MaterialLinks";
-
-const familyImageSize = (image: string, categoryId: string) => {
-  if (image.endsWith("/aw-bg-h96.webp")) return { width: 900, height: 600 };
-  if (image.startsWith("/assets/generated/products/")) return { width: 900, height: 675 };
-  if (categoryId === "bags") return { width: 640, height: 480 };
-  return { width: 1448, height: 1086 };
-};
+import { ModelIllustrations } from "../../../../components/ModelIllustrations";
+import { productImageSize, variantIllustration } from "../../../../lib/product-images";
 
 export function generateStaticParams() {
   return productFamilies.map((family) => ({ category: catalogCategories.find((item) => item.id === family.category)!.slug, family: family.id }));
@@ -29,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const procurement = getFamilyProcurementContent(family.id);
   const title = procurement?.seoTitle ?? `${family.name} Wholesale`;
   const description = procurement?.description ?? `Compare ${family.variants.length} listed ${family.name} ${family.variants.length === 1 ? "model" : "models"}, materials and catalogue specifications for a wholesale food-packaging enquiry.`;
-  const imageSize = familyImageSize(family.image, category.id);
+  const imageSize = productImageSize(family.image, category.id);
   return {
     title,
     description,
@@ -52,7 +47,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
   if (!family || !category) notFound();
   const columns = getSpecificationColumns(family.variants);
   const procurement = getFamilyProcurementContent(family.id);
-  const imageSize = familyImageSize(family.image, category.id);
+  const imageSize = productImageSize(family.image, category.id);
   const pageUrl = `https://anwellup.com/products/${category.slug}/${family.id}/`;
   return <main id="main-content" className="page-main product-detail-page">
     <JsonLd data={[
@@ -68,37 +63,39 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
       },
       {
         "@context": "https://schema.org",
-        "@type": "ProductGroup",
-        "@id": `${pageUrl}#product-group`,
+        "@type": "CollectionPage",
+        "@id": `${pageUrl}#catalogue`,
         url: pageUrl,
         name: family.name,
         description: procurement?.description ?? family.summary,
-        productGroupID: family.sku,
-        sku: family.sku,
-        variesBy: ["https://schema.org/size"],
-        category: category.label,
-        material: family.materials,
         image: `https://anwellup.com${family.image}`,
-        brand: { "@type": "Brand", name: "ANWELLUP" },
+        publisher: { "@id": "https://anwellup.com/#organization" },
         audience: { "@type": "BusinessAudience", audienceType: "Distributors, foodservice buyers and professional sourcing teams" },
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
-        hasVariant: family.variants.map((variant) => ({
-          "@type": "Product",
-          "@id": `${pageUrl}#model-${variant.sku}`,
-          url: `${pageUrl}#model-${variant.sku}`,
-          name: `${variant.name ?? family.name} — ${variant.label}`,
-          sku: variant.sku,
-          size: variant.label,
-          ...(variant.material ? { material: variant.material } : {}),
-          image: `https://anwellup.com${family.image}`,
-          brand: { "@type": "Brand", name: "ANWELLUP" },
-          isVariantOf: { "@id": `${pageUrl}#product-group` },
-          additionalProperty: [
-            variant.dimensions ? { "@type": "PropertyValue", name: "Dimensions", value: variant.dimensions } : null,
-            variant.weight ? { "@type": "PropertyValue", name: "Weight or construction", value: variant.weight } : null,
-            variant.pack ? { "@type": "PropertyValue", name: "Case pack", value: variant.pack } : null,
-          ].filter(Boolean),
-        })),
+        mainEntity: {
+          "@type": "ItemList",
+          "@id": `${pageUrl}#models`,
+          name: `${family.name} catalogue model references`,
+          numberOfItems: family.variants.length,
+          itemListElement: family.variants.map((variant, index) => {
+            const illustration = variantIllustration(family, variant);
+            return {
+              "@type": "ListItem",
+              position: index + 1,
+              "@id": `${pageUrl}#model-${variant.sku}`,
+              url: `${pageUrl}#model-${variant.sku}`,
+              name: `${variant.name ?? family.name} — ${variant.label}`,
+              identifier: variant.sku,
+              description: [
+                variant.material ? `Material: ${variant.material}` : null,
+                variant.dimensions ? `Dimensions: ${variant.dimensions}` : null,
+                variant.weight ? `Weight or construction: ${variant.weight}` : null,
+                variant.pack ? `Catalogue pack: ${variant.pack}` : null,
+              ].filter(Boolean).join(". "),
+              image: { "@type": "ImageObject", contentUrl: `https://anwellup.com${illustration.src}`, width: illustration.width, height: illustration.height, caption: illustration.caption },
+            };
+          }),
+        },
       },
       ...(procurement ? [{
         "@context": "https://schema.org",
@@ -118,6 +115,7 @@ export default async function FamilyPage({ params }: { params: Promise<{ categor
       <div className="family-hero-copy"><h1>{family.name}</h1><code className="display-sku">{family.sku}</code><p>{procurement?.description ?? family.summary}</p><div className="family-attributes"><div><span>Materials</span><strong>{family.materials.join(", ")}</strong></div><div><span>Applications</span><strong>{family.applications.join(", ")}</strong></div><div><span>Specification</span><strong>{family.specificationStatus === "pending" ? "Awaiting documentation" : "Confirm with enquiry"}</strong></div></div><AddToInquiryButton item={{ sku: family.sku, name: family.name, category: category.label }}/></div>
     </header>
     <MaterialLinks category={category.id} />
+    <ModelIllustrations family={family} />
 
     <section className="specification-section" aria-labelledby="spec-title"><header className="specification-heading"><h2 id="spec-title">Models & specifications</h2><p>Listed specifications are catalogue references. Confirm the trade size or name against measured dimensions, measurement points, capacity definition where applicable and agreed tolerances in writing.{family.id === "boxes-hinged-containers" && " Treat bagasse labels such as 9 × 9 and 8 × 8 as trade-size references; confirm the actual millimetre dimensions instead of converting the label."}</p></header>
 

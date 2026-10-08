@@ -7,7 +7,8 @@ export type Product = {
   family: string;
   material: string;
   size: string;
-  dimensions: string;
+  dimensions?: string;
+  weight?: string;
   casePack: string;
   image: string;
 };
@@ -575,7 +576,7 @@ export const products: Product[] = ([
     family: "Rolls, Sheets + Paper",
     material: "Baking paper",
     size: "Sheet + roll formats",
-    dimensions: "39-41 gsm options",
+    weight: "39-41 gsm options",
     casePack: "Custom program",
     image: productImage("baking_paper.png"),
   },

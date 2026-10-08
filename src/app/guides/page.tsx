@@ -3,7 +3,7 @@ import { defaultSocialImage } from "../../lib/page-metadata";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "../../components/JsonLd";
-import { buyingGuides } from "../../guides";
+import { buyingGuides, priorityBuyingGuides } from "../../guides";
 
 export const metadata: Metadata = {
   title: "Food Packaging Buying Guides",
@@ -57,6 +57,11 @@ export default function GuidesPage() {
       <h1>Food packaging<br/>buying guides.</h1>
       <p>Practical notes for defining the product, application and commercial context before a wholesale packaging enquiry.</p>
     </header>
+    <section className="sourcing-section" aria-labelledby="priority-guides-title">
+      <header><span className="eyebrow">A focused starting point</span><h2 id="priority-guides-title">Prepare your next buying brief.</h2><p>Start with the specification and quotation fields for foil, baking paper or food containers. Use the wider directory below for other formats and sourcing questions.</p></header>
+      <div className="sourcing-channels">{priorityBuyingGuides.map((guide, index) => <article key={guide.slug}><span>{String(index + 1).padStart(2, "0")} / Buyer&apos;s reference</span><h3>{guide.shortTitle}</h3><p>{guide.description}</p><Link href={`/guides/${guide.slug}/`}>Read the guide <ArrowUpRight size={18} aria-hidden="true" /></Link></article>)}</div>
+      <div className="sourcing-resource-links"><Link href="/distributors/">Build a distributor shortlist →</Link><Link href="/resources/food-packaging-rfq-template/">Download the editable RFQ workbook →</Link></div>
+    </section>
     <section className="guides-directory" aria-labelledby="guide-list-title">
       <header><h2 id="guide-list-title">Buying guides</h2><span>{String(buyingGuides.length).padStart(2, "0")} references</span></header>
       <ol>{buyingGuides.map((guide, index) => <li key={guide.slug}>

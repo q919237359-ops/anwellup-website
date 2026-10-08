@@ -4,7 +4,7 @@ import path from "node:path";
 const publicRoot = path.resolve("public");
 const scanRoot = fs.existsSync(path.resolve("out")) ? path.resolve("out") : path.resolve("src");
 const textExtensions = new Set([".html", ".tsx", ".ts", ".css", ".xml"]);
-const assetPattern = /(?:https:\/\/anwellup\.com)?(\/assets\/[^"'<>\s)]+\.(?:png|jpe?g|webp|svg))/gi;
+const assetPattern = /(?:https:\/\/anwellup\.com)?(\/(?:assets|images)\/[^"'<>\s)]+\.(?:png|jpe?g|webp|svg))/gi;
 const references = new Set();
 
 const walk = (directory, visit) => {

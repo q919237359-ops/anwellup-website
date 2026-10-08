@@ -97,6 +97,26 @@ h1, h2 { letter-spacing: -.025em; }
 .category-source-master .category-image-stage img,
 .category-source-master .family-image-stage img { width: 100%; height: auto; max-width: 640px; margin-inline: auto; }
 
+/* SKU artwork keeps its model context separate from the representative hero. */
+.model-illustrations { width: var(--container); margin: 0 auto; padding: 0 0 76px; }
+.model-illustrations > header { max-width: 720px; margin-bottom: 28px; }
+.model-illustrations h2 { margin: 14px 0; font-size: clamp(34px,4vw,54px); font-weight: 450; }
+.model-illustrations > header p { color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
+.model-illustration-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,240px),1fr)); gap: 28px; }
+.model-illustration-grid figure { min-width: 0; margin: 0; }
+.model-illustration-grid img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: contain; background: var(--surface); }
+.model-illustration-grid figcaption { padding-top: 16px; }
+.model-illustration-grid code { font-size: 10px; color: var(--ink-soft); }
+.model-illustration-grid h3 { margin: 9px 0; font-size: 18px; font-weight: 550; line-height: 1.35; }
+.model-illustration-grid p { margin: 0 0 7px; color: var(--ink-soft); font-size: 12px; }
+.model-illustration-grid a { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; color: var(--sage-dark); font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.guide-illustration-figure img { height: auto; object-fit: contain; }
+.guide-illustration-figure figcaption a { display: flex; align-items: center; gap: 8px; width: fit-content; max-width: 100%; min-height: 44px; color: var(--sage-dark); font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.guide-comparison.guide-comparison-wide table { min-width: 680px; }
+.guide-page .guide-comparison caption { font-family: var(--sans); font-size: 14px; font-weight: 400; line-height: 1.65; }
+.guide-comparison-hint { display: none; margin: 0 0 14px; color: var(--ink-soft); font-size: 12px; line-height: 1.6; }
+#model-comparison { scroll-margin-top: 110px; }
+
 /* Production belongs to the same sage chapter as customization.
    A full-width field replaces the isolated photo sitting between colour bands. */
 .production-intro {
@@ -199,6 +219,9 @@ h1, h2 { letter-spacing: -.025em; }
 .product-drawer-open .whatsapp-float { opacity: 0; pointer-events: none; }
 
 @media (max-width:820px) {
+  .guide-comparison-hint { display: block; max-width: calc(100vw - 40px); }
+  .guide-comparison.guide-comparison-wide caption { max-width: calc(100vw - 40px); }
+  .guide-comparison-wide caption > span { display: block; max-width: calc(100vw - 40px); }
   .cinema-shade { background: linear-gradient(180deg,rgba(228,234,223,0) 20%,rgba(228,234,223,.86) 62%,#e4eadf); }
   .texture-shade { background: linear-gradient(180deg,rgba(228,234,223,0) 15%,rgba(228,234,223,.94) 60%,#e4eadf); }
   .production-intro { row-gap: 32px; }

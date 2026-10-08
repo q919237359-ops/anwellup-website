@@ -1,4 +1,5 @@
 import { containerClusterGuides } from "./container-guides";
+import { productFamilies } from "./catalog";
 import { cupClusterGuides } from "./cup-guides";
 import { cutleryClusterGuides } from "./cutlery-guides";
 import { categoryProcurementGuides } from "./category-procurement-guides";
@@ -15,6 +16,8 @@ export type BuyingGuide = {
   imageAlt: string;
   imageWidth: number;
   imageHeight: number;
+  imageCaption?: string;
+  imageSrcSet?: string;
   published: string;
   updated: string;
   sources?: Array<{ label: string; href: string }>;
@@ -321,32 +324,61 @@ export const buyingGuides: BuyingGuide[] = [
   },
   {
     slug: "food-container-size-guide",
-    title: "Food container size guide for wholesale packaging buyers",
-    seoTitle: "Food Container Size Guide for Buyers",
-    shortTitle: "Define container size and usable fit",
-    description: "Learn how to specify food-container capacity, usable dimensions, portion geometry, lids, case packs and samples before requesting a wholesale quote.",
-    lede: "A container size is useful only when it describes the fit that matters. Capacity, top dimensions, base dimensions, height, compartments and closure geometry should be checked against the actual portion and packing process.",
-    image: "/assets/catalog/2026-09-r1/takeaway-boxes-containers-v1.webp",
-    imageAlt: "Assorted takeaway food containers shown in several shapes and sizes",
-    imageWidth: 1448,
-    imageHeight: 1086,
+    title: "Food container sizes for takeaway and deli packaging",
+    seoTitle: "Food Container Sizes: Takeaway & Deli Size Guide",
+    shortTitle: "Compare takeaway and deli container sizes",
+    description: "Compare takeaway and deli food container sizes using PP catalogue dimensions, nominal oz labels, usable fill, lid matching and case-pack checks.",
+    lede: "Choose a food container by the portion it must hold, the headspace needed to close it and the dimensions of the complete pack. For takeaway and deli buying, use the nominal oz size to shortlist a format, then confirm usable fill, the matching lid and case pack for the exact SKU. Start with the PP deli sizes in the catalogue comparison below.",
+    image: "/images/seo/container-size-measurements-1440.webp",
+    imageAlt: "Diagram showing rim diameter, base diameter and body height beside a container with planned fill and headspace.",
+    imageWidth: 1440,
+    imageHeight: 960,
+    imageCaption: "Measurement illustration, not to scale or an engineering drawing for a particular SKU. Confirm measurement points, usable fill and lid fit with the selected model's drawing and sample.",
+    imageSrcSet: "/images/seo/container-size-measurements-640.webp 640w, /images/seo/container-size-measurements-960.webp 960w, /images/seo/container-size-measurements-1440.webp 1440w",
     published: "2026-09-07",
-    updated: "2026-09-07",
+    updated: "2026-10-08",
+    sources: [{ label: "ANWELLUP PP injection deli container catalogue", href: "/products/takeaway-boxes-containers/pp-deli-containers/" }],
+    comparison: {
+      caption: "PP deli container sizes from the current ANWELLUP catalogue. Listed dimensions are reference values; measurement points, usable capacity and packing must be confirmed for the selected SKU.",
+      columns: ["Nominal size label", "Listed dimensions", "Case pack", "AW SKU"],
+      rows: (productFamilies.find((family) => family.id === "pp-deli-containers")?.variants ?? []).map((variant) => [
+        variant.label,
+        variant.dimensions || "Confirm dimensions",
+        variant.pack || "Confirm case pack",
+        variant.sku,
+      ]),
+    },
     sections: [
+      {
+        heading: "Which PP deli food container sizes are listed?",
+        paragraphs: [
+          "The comparison lists each PP deli SKU with its nominal size label and catalogue dimensions. Use the table to compare the available body formats, then open the product family to shortlist the exact model. These catalogue references do not establish internal dimensions, fill-line capacity or lid interchangeability.",
+          "Where the catalogue does not publish a case pack, the table says 'Confirm case pack'. Request pieces per inner pack, packs per case and whether a quoted unit includes a lid before comparing order quantities or prices.",
+        ],
+        links: [{ label: "Review PP deli container models and specifications", href: "/products/takeaway-boxes-containers/pp-deli-containers/" }],
+      },
+      {
+        heading: "How should buyers compare oz and mL?",
+        paragraphs: [
+          "The oz entries in this table are the catalogue's nominal size labels. If your portion requirement is specified in millilitres, state that mL requirement separately and ask for the selected model's measured capacity. Do not present an arithmetic conversion of the size label as verified product capacity.",
+          "Ask which unit convention and capacity basis the supplier uses, including whether the figure describes brimful volume or an intended fill level. Usable fill also depends on food shape and required headspace. Volume in mL does not by itself establish the weight of a portion.",
+        ],
+        checklist: ["Catalogue size label and AW SKU", "Required portion volume in mL, if used", "Capacity basis and measurement method", "Food shape or portion weight where relevant", "Headspace and closed-pack fit"],
+      },
       {
         heading: "Which measurements belong in a container brief?",
         paragraphs: [
           "State the nominal capacity when it is relevant, then add the dimensions that control product fit. For a rectangular or oval container these may include top length and width, base dimensions and height; for a round format, rim diameter, base diameter and height may matter.",
-          "Clarify whether measurements are internal or external and whether they refer to the base alone or the closed pack. When a catalogue value is incomplete, request a drawing or measured sample for the selected model.",
+          "Clarify whether measurements are internal or external and whether they refer to the body alone or the pack with its lid fitted. The illustration shows measurement concepts only. Request a model-specific drawing or measured sample to establish the actual measurement points and tolerances.",
         ],
         checklist: ["Nominal capacity", "Top or rim dimensions", "Base dimensions", "Overall height", "Internal usable space", "Closed-pack dimensions"],
         links: [{ label: "Compare takeaway container families", href: "/products/takeaway-boxes-containers/" }],
       },
       {
-        heading: "Why is nominal capacity not enough?",
+        heading: "Which size will fit a takeaway portion?",
         paragraphs: [
           "Two containers with a similar stated capacity can distribute volume differently. A broad, shallow tray and a narrow, deep bowl may behave differently for presentation, portioning, stacking and access even when their nominal volumes appear close.",
-          "Define the food shape, filled weight and desired headspace. Headspace may be needed for closing, garnish, movement in transport or a separate lid profile, so the fill line should not be assumed from the brim capacity.",
+          "Use the actual portion and packing method to check fit. Leave the headspace needed for closing, garnish, movement in transport or the selected lid profile. A nominal capacity label cannot establish that fill line or prove suitability for the intended food and service conditions.",
         ],
       },
       {
@@ -367,7 +399,7 @@ export const buyingGuides: BuyingGuide[] = [
       {
         heading: "How does size affect packing and freight?",
         paragraphs: [
-          "Larger external dimensions and different nesting geometries can change sleeve length, case size and storage requirements. Ask for pieces per pack, packs per case, case dimensions and gross weight for each shortlisted model.",
+          "External dimensions and nesting geometry can change inner-pack length, case size and storage requirements. Ask for pieces per pack, packs per case, case dimensions and gross weight for each shortlisted model; confirm whether lids are packed separately or included in the count.",
           "Compare logistics on the same unit basis. A piece price without pack and case information cannot show the full warehouse or freight implication of the format.",
         ],
         links: [{ label: "Prepare the full RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" }],
@@ -376,17 +408,21 @@ export const buyingGuides: BuyingGuide[] = [
         heading: "What should a size sample test include?",
         paragraphs: [
           "Fill the exact sample with the intended portion using the real packing method. Close it, hold it for the expected interval, stack it as planned and run the normal transport routine before recording the result.",
-          "Keep the model reference, base and lid pairing, portion weight and observations together. Confirm specification, packing, documents and commercial terms in writing before ordering.",
+          "Keep the AW SKU, body and lid references, portion volume or weight, headspace and observations together. Confirm specification, intended-use suitability, packing, documents and commercial terms in writing before ordering.",
         ],
         links: [{ label: "Review customization after format selection", href: "/capabilities/" }],
       },
     ],
     questions: [
-      { question: "Should buyers specify ounces, millilitres or dimensions?", answer: "Use the capacity unit relevant to the project, but add the usable dimensions, portion and headspace needed to confirm actual fit." },
+      { question: "What PP deli container sizes are listed?", answer: `The current ANWELLUP PP deli catalogue lists ${(productFamilies.find((family) => family.id === "pp-deli-containers")?.variants ?? []).map((variant) => variant.label).join(", ")}. Compare the listed dimensions and confirm usable fill, lid pairing and case pack for the selected AW SKU.` },
+      { question: "Can I convert a container's oz label directly into its usable capacity in mL?", answer: "Treat the oz entry as a nominal catalogue size label. State your required mL fill separately and ask for the model's capacity basis, unit convention and measured fill level; a calculated conversion does not verify usable product capacity." },
       { question: "Can two containers with the same capacity be substituted?", answer: "Not automatically. Shape, usable space, wall geometry, closure, packing and service conditions can differ and should be reviewed by model." },
       { question: "How should a matched lid be requested?", answer: "List the base and lid references together and ask for compatibility, material, pack quantity and closed dimensions to be confirmed." },
+      { question: "Do the listed PP deli sizes share a lid?", answer: "A common listed diameter does not confirm lid compatibility. Request the matching lid reference for each body SKU and check closure and stacking with the actual components." },
+      { question: "How many PP deli containers come in a case?", answer: "Check the case-pack field for the selected body SKU. Where the table says 'Confirm case pack', ask for the count, inner-pack arrangement and whether lids are included or packed separately before requesting a quote." },
     ],
     related: [
+      { label: "Compare PP deli container sizes by SKU", href: "/products/takeaway-boxes-containers/pp-deli-containers/" },
       { label: "Compare takeaway boxes and containers", href: "/products/takeaway-boxes-containers/" },
       { label: "Choose a takeaway container format", href: "/guides/takeaway-container-sourcing-guide/" },
       { label: "Build a complete packaging RFQ", href: "/guides/food-packaging-rfq-checklist/" },
@@ -394,18 +430,42 @@ export const buyingGuides: BuyingGuide[] = [
   },
   {
     slug: "custom-food-packaging-printing-guide",
-    title: "Custom food packaging printing guide for wholesale projects",
-    seoTitle: "Custom Food Packaging Printing Guide",
+    title: "Printing on food and ready-meal packaging: a buyer's guide",
+    seoTitle: "Food & Ready-Meal Packaging Printing Guide",
     shortTitle: "Prepare artwork and print requirements",
-    description: "Prepare a custom food-packaging printing brief covering the base product, artwork, colours, coverage, proofs, packing and approval responsibilities.",
-    lede: "A print enquiry should define two connected specifications: the packaging item and the artwork applied to it. Lock the base model first, then record colours, coverage, print area, proofing and packing as separate approval points.",
-    image: "/assets/generated/scenes/customization-oem.webp",
-    imageAlt: "Custom food-packaging artwork and printed packaging development scene",
-    imageWidth: 1003,
-    imageHeight: 1568,
+    description: "Compare direct printing, sleeves, labels and lidding for food and ready-meal packaging. Specify print surfaces, artwork, proofs and approval before a quote.",
+    lede: "Printing on ready-meal packaging can mean decorating the container, a separate sleeve, an exterior label or a lidding component. First identify the exact component and its material, then confirm the printable area, process and approval sample. A print option for one component does not establish suitability for the complete food pack.",
+    image: "/images/seo/food-packaging-print-surfaces-1440.webp",
+    imageAlt: "AI illustration of a paper cup, cup sleeve, carton and label sheet with exterior print areas highlighted",
+    imageWidth: 1440,
+    imageHeight: 960,
+    imageCaption: "AI-generated illustration of example exterior print surfaces. Confirm artwork placement, printable areas and construction for the selected item; this is not a production proof.",
+    imageSrcSet: "/images/seo/food-packaging-print-surfaces-640.webp 640w, /images/seo/food-packaging-print-surfaces-960.webp 960w, /images/seo/food-packaging-print-surfaces-1440.webp 1440w",
     published: "2026-09-07",
-    updated: "2026-09-07",
+    updated: "2026-10-08",
+    comparison: {
+      caption: "Choose the component to decorate before requesting a print quotation",
+      columns: ["Branding route", "Brief to provide", "Approval to request"],
+      rows: [
+        ["Direct printing on the container", "Exact base SKU, material, exterior surface, colours and coverage", "Model-specific print-area drawing, process and production sample"],
+        ["Separate paper sleeve or carton", "Closed pack dimensions, sleeve fit, folds, seams and artwork", "Dieline plus an assembled sample around the intended pack"],
+        ["Exterior adhesive label", "Label size, position, substrate and filling/storage conditions", "Adhesion and readability review on the actual container"],
+        ["Printed lid or lidding component", "Exact base/closure pairing, opening method and artwork orientation", "Compatibility and decoration reviewed as separate approval points"],
+      ],
+    },
     sections: [
+      {
+        heading: "Which print surface suits a ready-meal pack?",
+        paragraphs: [
+          "For a ready-meal project, mark the base, lid or film, sleeve and label separately on a reference drawing. State which surface carries the brand, product information and barcode. Ask which decoration routes are available for that exact construction rather than assuming every tray can be directly printed.",
+          "Include filling, storage, condensation, transport and any intended reheating conditions in the brief. Request the relevant product and decoration evidence for those conditions. A graphic mockup confirms neither food-contact suitability nor oven or microwave performance.",
+        ],
+        evidence: [
+          { label: "Container formats", value: "Compare smoothwall, wrinkle-wall and other listed ranges", href: "/products/takeaway-boxes-containers/" },
+          { label: "Retail brief", value: "Define pack, presentation and labelling components", href: "/solutions/prepared-food-retail-packaging/" },
+          { label: "Sample record", value: "Keep model, artwork version, conditions and result together", href: "/guides/takeaway-container-samples-prototyping/" },
+        ],
+      },
       {
         heading: "What should be confirmed before artwork starts?",
         paragraphs: [
@@ -455,6 +515,7 @@ export const buyingGuides: BuyingGuide[] = [
       },
     ],
     questions: [
+      { question: "Can ready-meal packaging be printed directly?", answer: "That must be confirmed for the exact container material and construction. A separate sleeve, exterior label or decorated closure can also be reviewed. Identify each component, printable area and intended service conditions in the enquiry." },
       { question: "Can final artwork be prepared before the packaging model is selected?", answer: "Concept work can begin, but final artwork should use the print area or dieline for the exact selected model and construction." },
       { question: "Does a screen proof guarantee the printed colour?", answer: "No. Screen appearance varies, and the material and print process also matter. Agree the appropriate colour reference and approval route for the project." },
       { question: "What should a final print approval identify?", answer: "It should identify the product model, artwork file and version, colours, print position, required text, approver and approval date." },
@@ -546,3 +607,12 @@ export const buyingGuides: BuyingGuide[] = [
 ];
 
 export const getBuyingGuide = (slug: string) => buyingGuides.find((guide) => guide.slug === slug);
+
+export const priorityBuyingGuides = [
+  "food-packaging-rfq-checklist",
+  "aluminium-foil-food-wrap-sourcing-guide",
+  "takeaway-container-sourcing-guide",
+].flatMap(slug => {
+  const guide = getBuyingGuide(slug);
+  return guide ? [guide] : [];
+});

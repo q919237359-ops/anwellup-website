@@ -1,9 +1,29 @@
 import type { BuyingGuide } from "./guides";
+import { productFamilies } from "./catalog";
 
 const published = "2026-09-11";
 const updated = "2026-09-11";
 const imageWidth = 1448;
 const imageHeight = 1086;
+
+const foilCatalogueComparison = {
+  caption: "Selected ANWELLUP catalogue references · sheet totals calculated from listed packing",
+  columns: ["AW model", "Listed format / dimensions", "Listed gauge / basis weight", "Catalogue pack / calculated sheet total"],
+  rows: [
+    "AW-AF-C300", "AW-AF-H300", "AW-BP-SHEET",
+    "AW-FOL-POP-12200", "AW-FOL-POP-12500", "AW-FOL-POP-910RD",
+    "AW-FOL-CUS-CF1013RD", "AW-FOL-BAG-BBQ-PINT",
+  ].map(sku => {
+    const family = productFamilies.find(item => item.variants.some(variant => variant.sku === sku));
+    const variant = family?.variants.find(item => item.sku === sku);
+    if (!family || !variant) throw new Error(`Missing foil comparison model: ${sku}`);
+    const format = [variant.label, variant.dimensions].filter((value, index, values) => value && values.indexOf(value) === index).join(" · ");
+    const pack = variant.pack || "Not listed";
+    const sheetPack = family.id === "popup-foil" ? /^(\d+)\s*×\s*(\d+)\/ctn$/.exec(pack) : null;
+    const packing = sheetPack ? `${pack} = ${(Number(sheetPack[1]) * Number(sheetPack[2])).toLocaleString("en-US")} sheets/ctn (calculated)` : pack;
+    return [sku, format, variant.weight || "Not listed", packing];
+  }),
+};
 
 export const categoryProcurementGuides: BuyingGuide[] = [
   {
@@ -94,12 +114,15 @@ export const categoryProcurementGuides: BuyingGuide[] = [
     shortTitle: "Source foil and food wraps",
     description: "Source aluminium foil rolls, pop-up and cushion sheets, laminated food bags and baking paper by format, dimensions, gauge, construction, packing and use.",
     lede: "A useful foil or food-wrap quotation identifies the working task and dispensing format before price. Width, length or sheet count, thickness or laminate layers, pack configuration and artwork must remain attached to the exact model.",
-    image: "/assets/catalog/2026-09-r1/foil-wraps-baking-v1.webp",
-    imageAlt: "Aluminium foil rolls, sheets, food wraps and baking paper arranged for wholesale sourcing",
-    imageWidth,
-    imageHeight,
+    image: "/images/seo/foil-roll-sheets-parchment-1440.webp",
+    imageAlt: "AI illustration of an aluminium foil roll, cut foil sheets and baking parchment at a preparation workstation",
+    imageWidth: 1440,
+    imageHeight: 960,
+    imageCaption: "AI-generated illustration comparing foil rolls, loose foil sheets and baking parchment. It does not show an identified SKU or establish gauge, coating, food-contact suitability or temperature limits.",
+    imageSrcSet: "/images/seo/foil-roll-sheets-parchment-640.webp 640w, /images/seo/foil-roll-sheets-parchment-960.webp 960w, /images/seo/foil-roll-sheets-parchment-1440.webp 1440w",
     published,
-    updated,
+    updated: "2026-10-08",
+    comparison: foilCatalogueComparison,
     sections: [
       {
         heading: "Begin with the working task and format.",
@@ -115,6 +138,7 @@ export const categoryProcurementGuides: BuyingGuide[] = [
         paragraphs: [
           "The current range includes catering and household foil-roll programs, silicone baking paper, four cushion-sheet references, six pop-up sheet references and six foil-paper food-bag references. Use the AW SKU with every measured value.",
           "Examples include plain 12 μm pop-up sheets and red, green or blue 14 μm references, while the cushion family combines 28 or 48 gsm paper with 6 μm foil. Do not transfer one construction to another format.",
+          "The comparison table reads the published model fields from the ANWELLUP catalogue, reviewed on 8 October 2026. The family links below identify the source model tables. Entries describe catalogue references; current availability, final tolerances and destination versions require written confirmation.",
         ],
         evidence: [
           { label: "Rolls and baking paper", value: "4 distinct sourcing programs", href: "/products/foil-wraps-baking/foil-rolls-sheets-paper/" },
@@ -122,13 +146,14 @@ export const categoryProcurementGuides: BuyingGuide[] = [
           { label: "Pop-up foil sheets", value: "6 models · plain and colour-coded", href: "/products/foil-wraps-baking/popup-foil/" },
           { label: "Foil paper bags", value: "6 models · pint, quart and half", href: "/products/foil-wraps-baking/foil-paper-bags/" },
         ],
-        links: [{ label: "Review food-packaging materials", href: "/guides/food-packaging-materials-comparison/" }],
+        links: [{ label: "Plan a distributor buying brief", href: "/distributors/" }],
       },
       {
         heading: "Write the full dimensional and layer specification.",
         paragraphs: [
           "For rolls, record width, length, aluminium thickness, core and cutter or dispenser. For sheets, record length, width, gauge, colour, sheet count and pack format. For laminated items, identify each paper and foil layer.",
           "Baking paper requires its own dimensions, basis weight, coating construction and sheet or roll packing. A category label such as food wrap does not replace these measurable fields.",
+          "AW-AF-C300 lists catering widths of 300 or 450 mm and 60–300 m roll options; AW-AF-H300 lists 250, 300 or 450 mm and 10–50 m retail options. These are programme ranges, not a list of confirmed width-and-length combinations. Neither entry publishes aluminium thickness. AW-BP-SHEET lists silicone baking paper at 39–41 gsm; gsm is basis weight, not a sheet dimension or a temperature rating.",
         ],
         links: [{ label: "Use the food-packaging RFQ checklist", href: "/guides/food-packaging-rfq-checklist/" }],
       },
@@ -151,9 +176,10 @@ export const categoryProcurementGuides: BuyingGuide[] = [
         heading: "Normalize quantities, packing and timing.",
         paragraphs: [
           "Clarify whether demand is stated in rolls, metres, sheets, dispensers, bags, inner packs or cartons. Request MOQ, price and available quantity breaks on the same unit and specification basis.",
+          "For the pop-up references, 12 × 200 sheets gives a calculated 2,400 sheets per carton, while 6 × 500 gives 3,000. Compare the number of dispenser units as well as total sheets. Those totals are catalogue arithmetic, not a measured pack count or MOQ. Roll and baking-paper entries marked Custom program do not provide a final carton quantity.",
           "Add final inner and outer quantities, carton dimensions, gross weight, approval stages, production trigger and shipment-ready date. Freeze those fields with artwork, samples and evidence before order release.",
         ],
-        links: [{ label: "Compare MOQ on a controlled basis", href: "/guides/food-packaging-moq-guide/" }],
+        links: [{ label: "Check the exact pop-up pack entries", href: "/products/foil-wraps-baking/popup-foil/" }, { label: "Download the editable RFQ workbook", href: "/resources/food-packaging-rfq-template/" }],
       },
     ],
     questions: [
@@ -164,23 +190,34 @@ export const categoryProcurementGuides: BuyingGuide[] = [
     ],
     related: [
       { label: "Compare foil, wraps and baking paper", href: "/products/foil-wraps-baking/" },
+      { label: "Build a foodservice range for distribution", href: "/distributors/" },
       { label: "Prepare custom packaging artwork", href: "/guides/custom-food-packaging-printing-guide/" },
       { label: "Build a complete packaging RFQ", href: "/guides/food-packaging-rfq-checklist/" },
     ],
   },
   {
     slug: "custom-shopping-bags-sourcing-guide",
-    title: "Custom shopping bags: a wholesale sourcing guide",
-    seoTitle: "Custom Shopping Bags Wholesale Sourcing Guide",
-    shortTitle: "Source custom shopping bags",
-    description: "Source custom PE T-shirt and non-woven shopping bags by packed load, finished dimensions, film or fabric specification, handles, artwork, samples and packing.",
-    lede: "A custom shopping bag is a load-bearing package and a brand surface. Define what it carries and how it is handled before fixing dimensions, PE film or non-woven construction, handles, print coverage and case packing.",
+    title: "PE shopping bags and sacks: a wholesale sourcing guide",
+    seoTitle: "PE Shopping Bags & Sacks Sourcing Guide",
+    shortTitle: "Source PE shopping bags",
+    description: "Source PE T-shirt shopping bags and carry sacks using the listed AW-BAG-PE-16 and AW-BAG-PE-18 references. Confirm finished dimensions, film, handles, printing, samples and case packing.",
+    lede: "For buyers sourcing PE shopping bags or carry sacks, the current catalogue lists T-shirt carry bags for grocery, retail and takeaway. Heavy-duty industrial sacks are not identified in this range. Start with the exact reference and packed load, then confirm finished dimensions, film specification, handles, artwork and packing; non-woven bags are a separate construction.",
     image: "/assets/catalog/2026-09-r1/carry-shopping-bags-sage-composite-v2.webp",
     imageAlt: "Supplied PE T-shirt shopping bags shown for custom carry-bag sourcing",
     imageWidth: 640,
     imageHeight: 480,
     published,
-    updated,
+    updated: "2026-10-08",
+    comparison: {
+      caption: "PE T-shirt carry-bag catalogue references · format labels are not measured sizes",
+      columns: ["AW model", "Material", "Listed format label", "Dimensions / film specification", "Catalogue case entry"],
+      rows: ["AW-BAG-PE-16", "AW-BAG-PE-18"].map(sku => {
+        const family = productFamilies.find(item => item.id === "pe-shopping-bags");
+        const variant = family?.variants.find(item => item.sku === sku);
+        if (!family || !variant) throw new Error(`Missing PE carry-bag comparison model: ${sku}`);
+        return [sku, variant.material || family.materials.join(", "), variant.label, `${variant.dimensions || "Finished dimensions not listed"}; ${variant.weight || "film gauge not listed"}`, variant.pack || "Not listed"];
+      }),
+    },
     sections: [
       {
         heading: "Describe the packed load and carry journey.",
@@ -194,11 +231,12 @@ export const categoryProcurementGuides: BuyingGuide[] = [
       {
         heading: "Choose PE or non-woven as a defined construction.",
         paragraphs: [
-          "The current public range includes 1/6 and 1/8 PE T-shirt bag references plus one non-woven sourcing program. The 1/6 and 1/8 labels are format names, not complete dimensional specifications.",
+          "The comparison reads the current ANWELLUP catalogue entries: AW-BAG-PE-16 is labelled 1/6 format and AW-BAG-PE-18 is labelled 1/8 format. These are T-shirt carry-bag references. The labels do not establish width, gusset, length, capacity or load rating and should not be converted into dimensions.",
           "For PE, request measurable film construction and tolerance. For non-woven bags, request the fabric type and weight, seams, edge finish and handle attachment. Do not compare film thickness directly with fabric weight.",
         ],
         evidence: [
-          { label: "PE T-shirt bags", value: "1/6 and 1/8 program references", href: "/products/carry-shopping-bags/pe-shopping-bags/" },
+          { label: "AW-BAG-PE-16", value: "Open the listed 1/6 format and case options", href: "/products/carry-shopping-bags/pe-shopping-bags/#model-AW-BAG-PE-16" },
+          { label: "AW-BAG-PE-18", value: "Open the listed 1/8 format and case options", href: "/products/carry-shopping-bags/pe-shopping-bags/#model-AW-BAG-PE-18" },
           { label: "Non-woven bags", value: "Specification-led standard program", href: "/products/carry-shopping-bags/nonwoven-shopping-bags/" },
           { label: "Image scope", value: "Supplied category image shows PE bags only" },
         ],
@@ -231,12 +269,14 @@ export const categoryProcurementGuides: BuyingGuide[] = [
         heading: "Quote MOQ and logistics by bag version.",
         paragraphs: [
           "Separate demand by size, construction, colour and artwork. Clarify whether quantities mean pieces, inner packs or cases and request MOQ and price on the same version basis.",
+          "The table preserves the case entries as listed: 200–300 pcs/case options for AW-BAG-PE-16 and 200 pcs/case options for AW-BAG-PE-18. These are packing options, not MOQ, stock or a confirmed carton configuration. Inner quantities, carton dimensions and gross weight are not published for these references and need confirmation with the selected packing option.",
           "Confirm fold, pieces per inner pack and carton, carton dimensions, gross weight, labels, approval sequence and shipment-ready date. Freeze the drawing, artwork, sample and commercial scope before production.",
         ],
         links: [{ label: "Understand custom-packaging MOQ", href: "/guides/food-packaging-moq-guide/" }],
       },
     ],
     questions: [
+      { question: "Does this PE sack sourcing guide cover industrial sacks?", answer: "The listed PE references are T-shirt shopping and carry bags for grocery, retail and takeaway. Heavy-duty industrial sacks are not identified in the current catalogue. Describe the required construction, closure, contents and load before requesting a different sack format." },
       { question: "What is needed for a custom shopping-bag quotation?", answer: "Provide the packed product and load, finished dimensions, PE film or non-woven specification, colour, handle, artwork, quantity, packing and destination." },
       { question: "Do 1/6 and 1/8 labels define finished bag size?", answer: "No. They are listed PE format labels. Request or provide full width, gusset, length and handle dimensions for the exact AW SKU." },
       { question: "Does the category photograph show non-woven bags?", answer: "No. It is a supplied image of PE carry bags. Request identified non-woven images, drawings and samples for that program." },
@@ -244,6 +284,8 @@ export const categoryProcurementGuides: BuyingGuide[] = [
     ],
     related: [
       { label: "Compare carry and shopping bags", href: "/products/carry-shopping-bags/" },
+      { label: "AW-BAG-PE-16: 1/6 format reference", href: "/products/carry-shopping-bags/pe-shopping-bags/#model-AW-BAG-PE-16" },
+      { label: "AW-BAG-PE-18: 1/8 format reference", href: "/products/carry-shopping-bags/pe-shopping-bags/#model-AW-BAG-PE-18" },
       { label: "Prepare custom printing requirements", href: "/guides/custom-food-packaging-printing-guide/" },
       { label: "Build a complete packaging RFQ", href: "/guides/food-packaging-rfq-checklist/" },
     ],
