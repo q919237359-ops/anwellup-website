@@ -36,12 +36,12 @@ export function ScrollMotion({ children, variant }: { children: React.ReactNode;
             }
             if (variant !== "home") return;
             gsap.from(".cinema-copy > p, .cinema-copy > a", { y: 24, opacity: 0, duration: .9, stagger: .15, delay: .45, ease: "power3.out" });
-            gsap.to(".cinema-photo", { scale: 1.08, yPercent: 5, ease: "none", scrollTrigger: { trigger: ".cinema-hero", start: "top top", end: "bottom top", scrub: .65 } });
-            gsap.fromTo(".texture-photo", { scale: 1.02 }, { scale: 1.14, yPercent: 4, ease: "none", scrollTrigger: { trigger: ".texture-story", start: "top bottom", end: "bottom top", scrub: .65 } });
-            gsap.fromTo(".texture-words > span", { opacity: .25 }, { opacity: 1, stagger: .06, ease: "none", scrollTrigger: { trigger: ".texture-copy", start: "top 70%", end: "bottom 45%", scrub: .8 } });
+            if (root.querySelector(".cinema-photo")) {
+              gsap.to(".cinema-photo", { scale: 1.08, yPercent: 5, ease: "none", scrollTrigger: { trigger: ".cinema-hero", start: "top top", end: "bottom top", scrub: .65 } });
+            }
             gsap.fromTo(".studio-image img", { yPercent: -4, scale: 1.1 }, { yPercent: 4, scale: 1.1, ease: "none", scrollTrigger: { trigger: ".brand-studio", start: "top bottom", end: "bottom top", scrub: .65 } });
           });
-          media.add("(min-width: 1081px) and (min-height: 700px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
+          media.add("(min-width: 1081px) and (min-height: 760px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
             if (variant !== "home") return;
             const section = root.querySelector<HTMLElement>(".collection-showcase");
             const track = root.querySelector<HTMLElement>(".collection-track");

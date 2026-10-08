@@ -298,10 +298,10 @@ for (const file of htmlFiles) {
 const home = readPage("");
 const robots = fs.readFileSync(path.join(out, "robots.txt"), "utf8");
 const imageSitemap = fs.readFileSync(path.join(out, "image-sitemap.xml"), "utf8");
-assert(home.includes("hero-regenerative-cinema.webp"));
+assert(home.includes("foil-roll-sheets-parchment-1440.webp"), "Homepage must show the focused foil and baking-paper range");
 assert(home.includes("anwellup-logo-primary-orange-transparent.webp"));
 assert(home.includes("carry-shopping-bags-sage-composite-v2.webp"));
-assert(home.includes("Wholesale Food Packaging Supplier | ANWELLUP"), "Homepage must expose the search-led title");
+assert(home.includes("Wholesale Food Packaging for Distributors | ANWELLUP"), "Homepage must expose the search-led buyer title");
 assert(home.includes('href="/guides/"'), "Homepage must link to the buying-guide hub");
 const distributorPage = readPage("distributors");
 assert(home.includes('id="priority-range"'), "Focused starting range must be reachable from the hero");
